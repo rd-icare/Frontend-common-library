@@ -1,6 +1,10 @@
 <template>
   <transition name="fade" @after-leave="afterLeave">
-    <div v-if="modalShow" :key="modal.id" class="modal-box" :style="{ zIndex: modal.props.zIndex || 'var(--z-index-centerModal)' }">
+    <div
+      v-if="modalShow"
+      :key="modal.id"
+      class="modal-box"
+      :style="{ zIndex: modal.props.zIndex || 'var(--z-index-centerModal)' }">
       <div class="backdrop" @click="modalShow = false"></div>
       <div class="content">
         <div class="top">
@@ -8,7 +12,7 @@
           <button class="close-button" @click="modalShow = false">×</button>
         </div>
         <div class="center">
-          <component :is="modal.component" v-bind="modal.props" @close="modal.close" />
+          <component :is="modal.component" :="modal.props" @close="modal.close" />
         </div>
         <div class="bottom">
           <button class="close-button" @click="modalShow = false">關閉</button>
@@ -19,8 +23,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-
 // 定義 modal 的 props 型別
 interface ModalProps {
   id: string | number;
@@ -33,20 +35,21 @@ interface ModalProps {
   };
   close: () => void;
 }
-
-const modalShow = ref<boolean>(false);
-
 const { modal } = defineProps<{
   modal: ModalProps;
 }>();
 
-const afterLeave = (): void => {
+// 定義 modal 的顯示狀態
+const modalShow = ref<boolean>(false);
+
+// modal 關閉後的後續動作
+function afterLeave() {
   // 如果有 onClose 回調，則執行
   if (modal.props.onClose && typeof modal.props.onClose === 'function') {
     modal.props.onClose();
   }
   modal.close();
-};
+}
 
 onMounted(() => {
   modalShow.value = true;

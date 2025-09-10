@@ -8,7 +8,7 @@
 <script setup lang="ts">
 defineProps<{ msg: string }>();
 
-const count = ref(0);
+const count = ref<number>(0);
 </script>
 
 <style lang="scss" scoped></style>

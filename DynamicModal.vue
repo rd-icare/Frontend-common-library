@@ -1,6 +1,6 @@
 <template>
   <transition name="fade" @after-leave="afterLeave">
-    <div v-if="modalShow" :key="modal.id" class="modal-box" :style="{ zIndex: modal.props.zIndex || 9999 }">
+    <div v-if="modalShow" :key="modal.id" class="modal-box" :style="{ zIndex: modal.props.zIndex || 'var(--z-index-centerModal)' }">
       <div class="backdrop" @click="modalShow = false"></div>
       <div class="content">
         <div class="top">
@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, defineProps } from 'vue';
+import { ref, onMounted } from 'vue';
 
 // 定義 modal 的 props 型別
 interface ModalProps {

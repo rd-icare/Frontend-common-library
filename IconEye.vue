@@ -44,12 +44,12 @@ const openFn = (event: MouseEvent, bool: boolean) => {
 <style lang="scss" scoped>
 .icon-eye {
   position: absolute;
-  top: 0px;
+  bottom: 0px;
   right: 0px;
   > .icon {
     cursor: pointer;
-    width: 52px;
-    height: 52px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;

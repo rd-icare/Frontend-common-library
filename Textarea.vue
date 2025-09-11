@@ -14,10 +14,10 @@
       :placeholder="item.placeholder"
       :value="item.value ?? (value as string | number | readonly string[] | null | undefined)"
       @input="
-        eventName === 'input' ? (handleChange($event, !!errorMessage), fn.inputFn($event, value, validate, item)) : ''
+        eventName === 'input' ? (handleChange($event, !!errorMessage), fn.inputFn($event, value, item)) : ''
       "
       @change="
-        eventName === 'change' ? (handleChange($event, !!errorMessage), fn.changeFn($event, value, validate, item)) : ''
+        eventName === 'change' ? (handleChange($event, !!errorMessage), fn.changeFn($event, value, item)) : ''
       "
       @blur="handleBlur($event, true)"
       :disabled="item.disabled"></textarea>
@@ -52,9 +52,9 @@ interface Props {
   item: ItemConfig;
   eventName?: 'input' | 'change' | 'click';
   fn: {
-    inputFn: (e: Event, value: any, validate: any, item: ItemConfig) => void;
-    changeFn: (e: Event, value: any, validate: any, item: ItemConfig) => void;
-    clickFn: (e: Event, value: any, validate: any, item: ItemConfig, type?: string) => void;
+    inputFn: (e: Event, value: any, item: ItemConfig) => void;
+    changeFn: (e: Event, value: any, item: ItemConfig) => void;
+    clickFn: (e: Event, value: any, item: ItemConfig, type?: string) => void;
   };
 }
 
@@ -69,7 +69,7 @@ const props = withDefaults(defineProps<Props>(), {
   }),
 });
 
-// vee-validate
+// @ts-ignore
 const { value, errorMessage, handleChange, handleBlur, meta, validate } = useField(() => props.item.name, undefined, {
   // 這裡若要雙向綁定可以加上 syncVModel: true
 });

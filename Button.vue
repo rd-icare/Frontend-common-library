@@ -1,5 +1,5 @@
-<template>  
-  <button ref="buttonRef" :type="type" :class="['btn-style gicons', customClass]" v-debounce-click:1500>
+<template>
+  <button ref="buttonRef" :type="type" :class="['btn-style gicons', customClass]" v-debounce-click:[timeout]>
     <span v-if="icon">{{ icon }}</span>
     <div v-if="text">{{ text }}</div>
   </button>
@@ -13,6 +13,7 @@ interface Props {
   customClass?: string;
   icon?: string;
   text?: string;
+  timeout?: number; // 防止連點時間，單位毫秒，預設 1500
 }
 
 const { text } = withDefaults(defineProps<Props>(), {
@@ -20,6 +21,7 @@ const { text } = withDefaults(defineProps<Props>(), {
   customClass: 'font-body-3 font-normal',
   icon: '',
   text: '',
+  timeout: 1500,
 });
 
 // 定義事件

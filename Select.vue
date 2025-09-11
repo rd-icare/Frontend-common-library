@@ -17,10 +17,10 @@
       :class="{ invalid: errorMessage }"
       :value="item.value ?? (value as string | number | readonly string[] | null | undefined)"
       @input="
-        eventName === 'input' ? (handleChange($event, !!errorMessage), fn.inputFn($event, value, validate, item)) : ''
+        eventName === 'input' ? (handleChange($event, !!errorMessage), fn.inputFn($event, value, item)) : ''
       "
       @change="
-        eventName === 'change' ? (handleChange($event, !!errorMessage), fn.changeFn($event, value, validate, item)) : ''
+        eventName === 'change' ? (handleChange($event, !!errorMessage), fn.changeFn($event, value, item)) : ''
       "
       @blur="handleBlur($event, true)"
       :disabled="item.disabled"
@@ -36,7 +36,7 @@
         v-for="(opt, index) in option"
         :key="index"
         :value="typeof opt === 'object' && opt !== null && 'value' in opt ? opt.value : opt">
-        {{ typeof opt === 'object' && opt !== null && 'text' in opt ? opt.text : opt }}
+        {{ typeof opt === 'object' && opt !== null && 'label' in opt ? opt.label : opt }}
       </option>
     </select>
 
@@ -53,7 +53,7 @@ import { useField } from 'vee-validate';
 /** 下拉選項型別 */
 interface SelectOption {
   value?: string | number | boolean;
-  text?: string;
+  label?: string;
 }
 
 /** Item 配置型別 */
@@ -81,9 +81,9 @@ interface Props {
   option: (SelectOption | string | number)[];
   eventName?: 'input' | 'change' | 'click';
   fn: {
-    inputFn: (e: Event, value: any, validate: any, item: ItemConfig) => void;
-    changeFn: (e: Event, value: any, validate: any, item: ItemConfig) => void;
-    clickFn: (e: Event, value: any, validate: any, item: ItemConfig, type?: string) => void;
+    inputFn: (e: Event, value: any, item: ItemConfig) => void;
+    changeFn: (e: Event, value: any, item: ItemConfig) => void;
+    clickFn: (e: Event, value: any, item: ItemConfig, type?: string) => void;
   };
 }
 
@@ -108,6 +108,7 @@ if (props.item.controlled !== undefined) {
   obj.controlled = false;
 }
 
+// @ts-ignore
 const { value, errorMessage, handleChange, handleBlur, validate, resetField } = useField(
   () => props.item.name,
   undefined,

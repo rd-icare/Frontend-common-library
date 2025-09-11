@@ -6,6 +6,7 @@
       {
         password: item.type === 'password' || item.class === 'font-password',
         file: item.type === 'file',
+        checkbox: item.type === 'checkbox',
         hidden: item.type === 'hidden',
         checked,
       },
@@ -37,13 +38,9 @@
         :class="{ 'custom-date': item.type == 'date', invalid: errorMessage, isValue: value }"
         :placeholder="!item.disabled ? item.placeholder || '輸入內容' : ''"
         :value="item.type !== 'file' ? props.modelValue ?? value ?? item.value : ''"
-        @input="
-          eventName === 'input' ? (handleChange($event, !!errorMessage), fn.inputFn($event, value, validate, item)) : ''
-        "
+        @input="eventName === 'input' ? (handleChange($event, !!errorMessage), fn.inputFn($event, value, item)) : ''"
         @change="
-          eventName === 'change'
-            ? (handleChange($event, !!errorMessage), fn.changeFn($event, value, validate, item))
-            : '',
+          eventName === 'change' ? (handleChange($event, !!errorMessage), fn.changeFn($event, value, item)) : '',
             change($event, item.type)
         "
         @blur="handleBlur($event, true)"
@@ -65,7 +62,7 @@
         @update:value="(val: string | null) => (value = val)"
         @change="
           handleChange($event, !!errorMessage);
-          fn.changeFn($event, value, validate, item);
+          fn.changeFn($event, value, item);
           change($event, item.type);
         "
         :="item.attr"
@@ -94,7 +91,7 @@
             <div class="text2 font-body-4 font-normal">{{ item.formatText || '檔案格式：JPG/PNG/PDF' }}</div>
             <Button v-if="item.showResetBtn && value" class="white" text="重新上傳" />
             <div v-if="item.showBtn && value" class="btn-box">
-              <button type="button" @click.stop="fn.clickFn($event, value, validate, item, 'btn-box')">
+              <button type="button" @click.stop="fn.clickFn($event, value, item, 'btn-box')">
                 <span v-if="item.showBtnIcon">{{ item.showBtnIcon }}</span>
               </button>
             </div>
@@ -171,9 +168,9 @@ interface ItemConfig {
 }
 
 interface FnType {
-  inputFn: (e: Event, value: any, validate: any, item: ItemConfig) => void;
-  changeFn: (e: Event, value: any, validate: any, item: ItemConfig) => void;
-  clickFn: (e: Event, value: any, validate: any, item: ItemConfig, type?: string) => void;
+  inputFn: (e: Event, value: any, item: ItemConfig) => void;
+  changeFn: (e: Event, value: any, item: ItemConfig) => void;
+  clickFn: (e: Event, value: any, item: ItemConfig, type?: string) => void;
 }
 
 interface Props {
@@ -185,12 +182,11 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  item: () => ({}) as ItemConfig,
+  item: () => ({} as ItemConfig),
   eventName: 'change',
   fn: () => ({
     inputFn: () => {},
     changeFn: () => {},
-    blurFn: () => {},
     clickFn: () => {},
   }),
   modelValue: undefined,

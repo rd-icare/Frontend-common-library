@@ -32,6 +32,7 @@ const imgRef = ref<HTMLImageElement | null>(null);
 // 取得圖片 URL
 const getUrlFn = (): string => {
   if (props.src instanceof File) {
+    console.log('getUrlFn File');
     nextTick(() => {
       if (!imgRef.value) return;
       const srcStr = imgRef.value.src;
@@ -44,6 +45,7 @@ const getUrlFn = (): string => {
     });
     return ''; // 預設先回空字串，因為 File 要 async 處理
   } else if (typeof props.src === 'string' && props.src.includes('.pdf')) {
+    console.log('getUrlFn .pdf');
     nextTick(() => {
       if (!imgRef.value) return;
       imgRef.value.src = '/img/space.gif';
@@ -66,13 +68,19 @@ const getUrlFn = (): string => {
 
 // 錯誤事件
 const imgErrorFn = (event: Event) => {
+  // console.log('imgErrorFn', props.src);
   const target = event.target as HTMLImageElement;
   target.parentElement?.classList.add('error');
-  target.src = new URL(props.errorImg, import.meta.url).href;
+  if (props.src !== null && String(props.src).includes('blob')) {
+    target.src = new URL('/img/loading.gif', import.meta.url).href;
+  } else {
+    target.src = new URL(props.errorImg, import.meta.url).href;
+  }
 };
 
 // 載入完成事件
 const imgLoadFn = (event: Event) => {
+  // console.log('imgLoadFn');
   emit('imgLoad', event);
 };
 </script>

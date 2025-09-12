@@ -9,7 +9,7 @@ interface Props {
 }
 
 // 使用 defineProps 並帶入型別
-const { text } = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   text: '未有資料',
 });
 </script>

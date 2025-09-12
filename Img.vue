@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { ref, nextTick } from 'vue';
-import { fileToBase64 } from '@/assets/ts/util';
+import { fileToBase64 } from '@/utils/common';
 import { loadFile } from '@/composables/toPDFView';
 
 // 定義 props 型別

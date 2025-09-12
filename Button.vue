@@ -16,7 +16,7 @@ interface Props {
   timeout?: number; // 防止連點時間，單位毫秒，預設 1500
 }
 
-const { text } = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   type: 'button',
   customClass: 'font-body-3 font-normal',
   icon: '',

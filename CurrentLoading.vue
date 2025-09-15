@@ -40,6 +40,7 @@ withDefaults(defineProps<Props>(), {
 
 <style lang="scss" scoped>
 .current-loading {
+  pointer-events: auto;
   user-select: none;
   // position: absolute;
   top: 0;
@@ -50,12 +51,11 @@ withDefaults(defineProps<Props>(), {
   display: flex;
   align-items: center;
   justify-content: center;
-  pointer-events: auto;
 }
 .lds-spinner {
+  position: relative;
   width: 80px;
   height: 80px;
-  position: relative;
   display: inline-block;
   // transform: scale(0.6);
   zoom: 0.6;

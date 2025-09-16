@@ -1,9 +1,9 @@
 <template>
   <div class="icon-eye gicons">
-    <div class="icon" @click="openFn($event, false)" v-if="isShow">
+    <div class="icon" @click="open($event, false)" v-if="isShow">
       <span>visibility</span>
     </div>
-    <div class="icon" @click="openFn($event, true)" v-else>
+    <div class="icon" @click="open($event, true)" v-else>
       <span>visibility_off</span>
     </div>
   </div>
@@ -21,7 +21,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const isShow = ref(false);
 
-const openFn = (event: MouseEvent, bool: boolean) => {
+const open = (event: MouseEvent, bool: boolean) => {
   isShow.value = bool;
 
   // 找到最近的 .password 容器，再找裡面的 input

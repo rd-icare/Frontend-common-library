@@ -45,15 +45,15 @@ interface FormItem {
 
 /* 父層透過 props 傳進來的函式集合 */
 interface FnType {
-  inputFn: (e: Event, value: any, item: object) => void;
-  changeFn: (e: Event, value: any, item: object) => void;
-  clickFn: (e: Event, value: any, item: object, type?: string) => void;
+  input?: (e: Event, value: any, item: object) => void;
+  change?: (e: Event, value: any, item: object) => void;
+  click?: (e: Event, value: any, item: object, type?: string) => void;
 }
 /* 父層透過 props 傳進來的參數 */
 interface Props {
   formContent: FormItem[];
   optionContent: Record<string, any>;
-  fn: FnType;
+  fn?: FnType;
   styleVerson?: string;
   noPlaceholder?: boolean;
 }

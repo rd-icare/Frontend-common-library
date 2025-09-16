@@ -3,7 +3,7 @@
     <!-- Label -->
     <label v-if="item.type !== 'hidden' && item.hideLabel !== true" :for="item.id || item.name">
       {{ item.label }}
-      <span class="formStar" :class="{ active: item.need }"></span>
+      <span class="form-star" :class="{ active: item.need }"></span>
     </label>
 
     <!-- Textarea -->
@@ -14,10 +14,10 @@
       :placeholder="item.placeholder"
       :value="item.value ?? (value as string | number | readonly string[] | null | undefined)"
       @input="
-        eventName === 'input' ? (handleChange($event, !!errorMessage), fn.inputFn($event, value, item)) : ''
+        eventName === 'input' ? (handleChange($event, !!errorMessage), fn.input($event, value, item)) : ''
       "
       @change="
-        eventName === 'change' ? (handleChange($event, !!errorMessage), fn.changeFn($event, value, item)) : ''
+        eventName === 'change' ? (handleChange($event, !!errorMessage), fn.change($event, value, item)) : ''
       "
       @blur="handleBlur($event, true)"
       :disabled="item.disabled"></textarea>
@@ -52,9 +52,9 @@ interface Props {
   item: ItemConfig;
   eventName?: 'input' | 'change' | 'click';
   fn: {
-    inputFn: (e: Event, value: any, item: ItemConfig) => void;
-    changeFn: (e: Event, value: any, item: ItemConfig) => void;
-    clickFn: (e: Event, value: any, item: ItemConfig, type?: string) => void;
+    input: (e: Event, value: any, item: ItemConfig) => void;
+    change: (e: Event, value: any, item: ItemConfig) => void;
+    click: (e: Event, value: any, item: ItemConfig, type?: string) => void;
   };
 }
 
@@ -62,10 +62,9 @@ const props = withDefaults(defineProps<Props>(), {
   item: () => ({}) as ItemConfig,
   eventName: 'change',
   fn: () => ({
-    inputFn: () => {},
-    changeFn: () => {},
-    blurFn: () => {},
-    clickFn: () => {},
+    input: () => {},
+    change: () => {},
+    click: () => {},
   }),
 });
 

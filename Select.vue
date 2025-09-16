@@ -6,7 +6,7 @@
       :for="item.id || item.name"
       :class="{ noValue: value === '_' }">
       {{ item.label }}
-      <span v-if="item.need" class="formStar" :class="{ active: item.need }"></span>
+      <span v-if="item.need" class="form-star" :class="{ active: item.need }"></span>
     </label>
 
     <!-- Select -->
@@ -17,10 +17,10 @@
       :class="{ invalid: errorMessage }"
       :value="item.value ?? (value as string | number | readonly string[] | null | undefined)"
       @input="
-        eventName === 'input' ? (handleChange($event, !!errorMessage), fn.inputFn($event, value, item)) : ''
+        eventName === 'input' ? (handleChange($event, !!errorMessage), fn.input($event, value, item)) : ''
       "
       @change="
-        eventName === 'change' ? (handleChange($event, !!errorMessage), fn.changeFn($event, value, item)) : ''
+        eventName === 'change' ? (handleChange($event, !!errorMessage), fn.change($event, value, item)) : ''
       "
       @blur="handleBlur($event, true)"
       :disabled="item.disabled"
@@ -81,9 +81,9 @@ interface Props {
   option: (SelectOption | string | number)[];
   eventName?: 'input' | 'change' | 'click';
   fn: {
-    inputFn: (e: Event, value: any, item: ItemConfig) => void;
-    changeFn: (e: Event, value: any, item: ItemConfig) => void;
-    clickFn: (e: Event, value: any, item: ItemConfig, type?: string) => void;
+    input: (e: Event, value: any, item: ItemConfig) => void;
+    change: (e: Event, value: any, item: ItemConfig) => void;
+    click: (e: Event, value: any, item: ItemConfig, type?: string) => void;
   };
 }
 
@@ -93,10 +93,9 @@ const props = withDefaults(defineProps<Props>(), {
   option: () => [],
   eventName: 'change',
   fn: () => ({
-    inputFn: () => {},
-    changeFn: () => {},
-    blurFn: () => {},
-    clickFn: () => {},
+    input: () => {},
+    change: () => {},
+    click: () => {},
   }),
 });
 

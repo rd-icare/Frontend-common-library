@@ -1,5 +1,5 @@
 <template>
-  <img ref="imgRef" :src="getUrlFn()" :alt="alt" @error="imgErrorFn" @load="imgLoadFn" />
+  <img ref="imgRef" :src="getUrl()" :alt="alt" @error="imgError" @load="imgLoad" />
 </template>
 
 <script setup lang="ts">
@@ -30,9 +30,9 @@ const emit = defineEmits<{
 const imgRef = ref<HTMLImageElement | null>(null);
 
 // 取得圖片 URL
-const getUrlFn = (): string => {
+const getUrl = (): string => {
   if (props.src instanceof File) {
-    console.log('getUrlFn File');
+    console.log('getUrl File');
     nextTick(() => {
       if (!imgRef.value) return;
       const srcStr = imgRef.value.src;
@@ -45,13 +45,13 @@ const getUrlFn = (): string => {
     });
     return ''; // 預設先回空字串，因為 File 要 async 處理
   } else if (typeof props.src === 'string' && props.src.includes('.pdf')) {
-    console.log('getUrlFn .pdf');
+    console.log('getUrl .pdf');
     nextTick(() => {
       if (!imgRef.value) return;
       imgRef.value.src = '/img/space.gif';
       loadFile(props.src).then((res) => {
         if (imgRef.value) {
-          imgRef.value.parentElement?.classList.remove('error');
+          imgRef.value.parentElement?.classList.remove('error-img');
           imgRef.value.src = res ?? '';
         }
       });
@@ -67,10 +67,10 @@ const getUrlFn = (): string => {
 };
 
 // 錯誤事件
-const imgErrorFn = (event: Event) => {
-  // console.log('imgErrorFn', props.src);
+const imgError = (event: Event) => {
+  // console.log('imgError', props.src);
   const target = event.target as HTMLImageElement;
-  target.parentElement?.classList.add('error');
+  target.parentElement?.classList.add('error-img');
   if (props.src !== null && String(props.src).includes('blob')) {
     target.src = new URL('/img/loading.gif', import.meta.url).href;
   } else {
@@ -79,8 +79,8 @@ const imgErrorFn = (event: Event) => {
 };
 
 // 載入完成事件
-const imgLoadFn = (event: Event) => {
-  // console.log('imgLoadFn');
+const imgLoad = (event: Event) => {
+  // console.log('imgLoad');
   emit('imgLoad', event);
 };
 </script>

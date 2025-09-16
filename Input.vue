@@ -26,7 +26,7 @@
       <!-- Label -->
       <label v-if="item.type !== 'hidden' && item.hideLabel !== true" :for="item.id || item.name">
         {{ item.label }}
-        <span v-if="item.need" class="formStar" :class="{ active: item.need }"></span>
+        <span v-if="item.need" class="form-star" :class="{ active: item.need }"></span>
       </label>
 
       <!-- Input -->
@@ -38,9 +38,13 @@
         :class="{ 'custom-date': item.type == 'date', invalid: errorMessage, isValue: value }"
         :placeholder="!item.disabled ? item.placeholder || '輸入內容' : ''"
         :value="item.type !== 'file' ? props.modelValue ?? value ?? item.value : ''"
-        @input="eventName === 'input' ? (handleChange($event, !!errorMessage), fn.inputFn($event, value, item)) : ''"
+        @input="
+          eventName === 'input' ? (handleChange($event, !!errorMessage), fn.input && fn.input($event, value, item)) : ''
+        "
         @change="
-          eventName === 'change' ? (handleChange($event, !!errorMessage), fn.changeFn($event, value, item)) : '',
+          eventName === 'change'
+            ? (handleChange($event, !!errorMessage), fn.change && fn.change($event, value, item))
+            : '',
             change($event, item.type)
         "
         @blur="handleBlur($event, true)"
@@ -62,7 +66,7 @@
         @update:value="(val: string | null) => (value = val)"
         @change="
           handleChange($event, !!errorMessage);
-          fn.changeFn($event, value, item);
+          fn.change && fn.change($event, value, item);
           change($event, item.type);
         "
         :="item.attr"
@@ -91,7 +95,7 @@
             <div class="text2 font-body-4 font-normal">{{ item.formatText || '檔案格式：JPG/PNG/PDF' }}</div>
             <Button v-if="item.showResetBtn && value" class="white" text="重新上傳" />
             <div v-if="item.showBtn && value" class="btn-box">
-              <button type="button" @click.stop="fn.clickFn($event, value, item, 'btn-box')">
+              <button type="button" @click.stop="fn.click && fn.click($event, value, item, 'btn-box')">
                 <span v-if="item.showBtnIcon">{{ item.showBtnIcon }}</span>
               </button>
             </div>
@@ -168,9 +172,9 @@ interface ItemConfig {
 }
 
 interface FnType {
-  inputFn: (e: Event, value: any, item: ItemConfig) => void;
-  changeFn: (e: Event, value: any, item: ItemConfig) => void;
-  clickFn: (e: Event, value: any, item: ItemConfig, type?: string) => void;
+  input?: (e: Event, value: any, item: ItemConfig) => void;
+  change?: (e: Event, value: any, item: ItemConfig) => void;
+  click?: (e: Event, value: any, item: ItemConfig, type?: string) => void;
 }
 
 interface Props {
@@ -185,9 +189,10 @@ const props = withDefaults(defineProps<Props>(), {
   item: () => ({} as ItemConfig),
   eventName: 'change',
   fn: () => ({
-    inputFn: () => {},
-    changeFn: () => {},
-    clickFn: () => {},
+    input: () => {},
+    // @ts-ignore
+    change: (e: Event, value: any, item: ItemConfig) => {},
+    click: () => {},
   }),
   modelValue: undefined,
   component: null,

@@ -20,6 +20,7 @@
         :fn="fn"
         v-model:modelValue="item.modelValue" />
     </template>
+    <slot />
   </div>
 </template>
 
@@ -52,7 +53,7 @@ interface FnType {
 /* 父層透過 props 傳進來的參數 */
 interface Props {
   formContent: FormItem[];
-  optionContent: Record<string, any>;
+  optionContent?: Record<string, any>;
   fn?: FnType;
   styleVerson?: string;
   noPlaceholder?: boolean;

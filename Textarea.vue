@@ -68,7 +68,6 @@ const props = withDefaults(defineProps<Props>(), {
   }),
 });
 
-// @ts-ignore
 const { value, errorMessage, handleChange, handleBlur, meta, validate } = useField(() => props.item.name, undefined, {
   // 這裡若要雙向綁定可以加上 syncVModel: true
 });

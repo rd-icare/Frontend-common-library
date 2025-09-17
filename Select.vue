@@ -107,7 +107,6 @@ if (props.item.controlled !== undefined) {
   obj.controlled = false;
 }
 
-// @ts-ignore
 const { value, errorMessage, handleChange, handleBlur, validate, resetField } = useField(
   () => props.item.name,
   undefined,

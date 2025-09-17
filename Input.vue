@@ -190,7 +190,6 @@ const props = withDefaults(defineProps<Props>(), {
   eventName: 'change',
   fn: () => ({
     input: () => {},
-    // @ts-ignore
     change: (e: Event, value: any, item: ItemConfig) => {},
     click: () => {},
   }),
@@ -221,7 +220,6 @@ if (props.item.modelValue !== undefined) {
   obj.checkedValue = props.item.modelValue;
 }
 
-// @ts-ignore
 const { value, errorMessage, handleChange, handleBlur, meta, validate, checked, setErrors } = useField(
   () => props.item.name,
   undefined,

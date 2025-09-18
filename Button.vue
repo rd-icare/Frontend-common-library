@@ -91,6 +91,7 @@ button {
       background-color: transparent;
     }
     &.icon-style {
+      flex: 0 0 36px;
       width: 36px;
       height: 36px;      
       justify-content: center;

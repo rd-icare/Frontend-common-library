@@ -53,9 +53,9 @@ button {
     justify-content: center;
     gap: 4px;
     padding: 0px 16px;
-    border: 1px solid var(--secondary-text);
+    border: var(--border-1);
     border-radius: var(--border-radius-2);
-    color: var(--secondary-text);
+    color: var(--main-text);
     background-color: var(--white);
     transition: var(--transition-fast);
     &:hover {
@@ -63,7 +63,7 @@ button {
       // filter: contrast(1.3);
     }
     > span {
-      color: var(--secondary-text);
+      color: var(--icons);
     }
     &:focus {
       outline: none;
@@ -93,7 +93,7 @@ button {
     &.icon-style {
       flex: 0 0 36px;
       width: 36px;
-      height: 36px;      
+      height: 36px;
       justify-content: center;
       > span {
         font-size: 24px;

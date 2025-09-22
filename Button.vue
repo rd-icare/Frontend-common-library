@@ -7,6 +7,7 @@
     v-debounce-click:[timeout]>
     <span v-if="icon">{{ icon }}</span>
     <div v-if="text">{{ text }}</div>
+    <span v-if="iconR">{{ iconR }}</span>
   </button>
 </template>
 
@@ -19,6 +20,7 @@ interface Props {
   title?: string;
   icon?: string;
   text?: string;
+  iconR?: string;
   timeout?: number; // 防止連點時間，單位毫秒，預設 1500
 }
 
@@ -28,7 +30,8 @@ withDefaults(defineProps<Props>(), {
   title: '',
   icon: '',
   text: '',
-  timeout: 1500,
+  iconR: '',
+  timeout: 1000,
 });
 
 // 定義事件
@@ -46,6 +49,7 @@ const buttonRef = ref<HTMLButtonElement | null>(null);
 
 <style lang="scss" scoped>
 button {
+  /* 預設 */
   &.btn-style {
     height: 36px;
     display: flex;
@@ -59,8 +63,7 @@ button {
     background-color: var(--white);
     transition: var(--transition-fast);
     &:hover {
-      filter: brightness(1.1);
-      // filter: contrast(1.3);
+      opacity: 0.8;
     }
     > span {
       color: var(--icons);
@@ -68,7 +71,7 @@ button {
     &:focus {
       outline: none;
     }
-    // 主色
+    /* 主色 */
     &.c-primary {
       border: 1px solid var(--color-primary);
       color: var(--white);
@@ -76,8 +79,12 @@ button {
       > span {
         color: var(--white);
       }
+      &:hover {
+        opacity: 1;
+        filter: brightness(1.1);
+      }
     }
-    // 次要色
+    /* 副色 */
     &.c-sub {
       border: 1px solid var(--color-sub);
       color: var(--white);
@@ -85,11 +92,17 @@ button {
       > span {
         color: var(--white);
       }
+      &:hover {
+        opacity: 1;
+        filter: brightness(1.1);
+      }
     }
+    /* 無邊框 */
     &.no-border {
       border: 1px solid transparent;
       background-color: transparent;
     }
+    /* 圖標 */
     &.icon-style {
       flex: 0 0 36px;
       width: 36px;
@@ -111,6 +124,21 @@ button {
         margin-right: 4px;
         padding: 0;
         height: 100%;
+      }
+      &.active {
+        /* pointer-events: none; */
+        border: 1px solid var(--color-primary);        
+        background-color: var(--color-primary-back);
+        > span {
+          color: var(--color-primary);
+        }
+      }
+    }
+    /* 圖標 hover */
+    &.icon-style-hover {
+      &:hover {
+        opacity: 1;
+        background-color: var(--surface);
       }
     }
   }

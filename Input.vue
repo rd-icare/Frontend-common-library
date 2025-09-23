@@ -137,38 +137,38 @@ import { useField } from 'vee-validate';
 import { getUrl, downloadFile } from '@/utils/common';
 
 interface ItemConfig {
-  id?: string;
-  name: string;
-  type?: string;
-  class?: string | string[];
-  label?: string;
-  value?: string | number | boolean | File;
-  modelValue?: any;
-  need?: boolean;
-  disabled?: boolean;
-  placeholder?: string;
-  hideLabel?: boolean;
-  hideError?: boolean;
-  checked?: boolean;
-  trueValue?: any;
-  falseValue?: any;
-  yearType?: string;
-  attr?: Record<string, any>;
-  component?: any;
-  isIconType?: boolean;
-  showBtn?: boolean;
-  showBtnIcon?: string;
-  showResetBtn?: boolean;
-  fileShapeClass?: string;
-  formatText?: string;
-  hideEye?: boolean;
-  controlled?: boolean;
-  hideShape?: boolean;
-  minlength?: number;
-  maxlength?: number;
-  autocomplete?: string;
-  accept?: string;
-  [key: string]: any;
+  id?: string; // ID
+  name: string; // 名稱
+  type?: string; // 類型
+  class?: string | string[]; // 樣式
+  label?: string; // 標籤
+  value?: string | number | boolean | File; // 值
+  modelValue?: any; // v-model
+  need?: boolean; // 是否為必填
+  disabled?: boolean; // 是否為禁用
+  placeholder?: string; // 佔位符
+  hideLabel?: boolean; // 是否隱藏標籤
+  hideError?: boolean; // 是否隱藏錯誤訊息
+  checked?: boolean; // 是否為勾選
+  trueValue?: any; // 勾選值
+  falseValue?: any; // 取消勾選值
+  yearType?: string; // 年份類型
+  attr?: Record<string, any>; // 其他屬性
+  component?: any; // 其他元件
+  isIconType?: boolean; // 是否為圖標類型
+  showBtn?: boolean; // 是否顯示按鈕
+  showBtnIcon?: string; // 是否顯示按鈕圖標
+  showResetBtn?: boolean; // 是否顯示清除按鈕
+  fileShapeClass?: string; // 檔案上傳樣式
+  formatText?: string; // 檔案格式
+  hideEye?: boolean; // 是否隱藏眼睛
+  controlled?: boolean; // 是否為受控元件
+  hideShape?: boolean; // 是否隱藏圖形
+  minlength?: number; // 最小長度
+  maxlength?: number; // 最大長度
+  autocomplete?: string; // 自動完成
+  accept?: string; // 接受的檔案類型
+  [key: string]: any; // 其他屬性
 }
 
 interface FnType {

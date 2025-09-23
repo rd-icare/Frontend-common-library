@@ -8,7 +8,7 @@
     <div
       v-if="modalOpen"
       :key="id"
-      class="modal-box gicons"
+      :class="['modal-box gicons', { draggable }]"
       :style="{
         zIndex: zIndex || 'var(--z-index-centerModal)',
       }">
@@ -17,6 +17,7 @@
         class="content"
         :style="{
           maxWidth: `${maxWidth}px`,
+          inset: inset,
         }">
         <div v-if="showTop" class="top">
           <div v-if="subTitle || subTitleType[type]" class="sub-title font-small-2">
@@ -29,12 +30,7 @@
             :title="$t('Util.close')"
             @click="modalOpen = false" />
         </div>
-        <div
-          class="center"
-          :style="{
-            height: height ? `${height}px` : 'auto',
-            maxHeight: maxHeight ? `${maxHeight}px` : '80vh',
-          }">
+        <div class="center">
           <component :is="component" :="{ item: props }" v-model:modalOpen="modalOpen">
             <template #bottom>
               <div class="bottom">
@@ -74,6 +70,8 @@ const props = withDefaults(defineProps<ModalProps>(), {
   backdrop: true,
   backdropDisabled: false,
   modalLoading: false,
+  draggable: false,
+  inset: '0 0 0 0',
   onOpen: () => {},
   onClose: () => {},
   close,
@@ -94,14 +92,13 @@ function beforeEnter() {
     // 隱藏 body 滾動條
     document.body.classList.add('overflow-hidden');
   }
-}
-
-// modal 開啟後的後續動作
-function afterEnter() {
   if (props.onOpen && typeof props.onOpen === 'function') {
     props.onOpen();
   }
 }
+
+// modal 開啟後的後續動作
+function afterEnter() {}
 
 // modal 關閉前的前置動作
 function beforeLeave() {
@@ -109,13 +106,13 @@ function beforeLeave() {
     // 顯示 body 滾動條
     document.body.classList.remove('overflow-hidden');
   }
+  if (props.onClose && typeof props.onClose === 'function') {
+    props.onClose && props.onClose();
+  }
 }
 
 // modal 關閉後的後續動作
 function afterLeave() {
-  if (props.onClose && typeof props.onClose === 'function') {
-    props.onClose && props.onClose();
-  }
   props.close();
 }
 
@@ -136,6 +133,10 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   padding: 16px;
+  &.draggable {
+    align-items: start;
+    justify-content: flex-end;
+  }
   > .backdrop {
     pointer-events: auto;
     position: absolute;
@@ -177,7 +178,6 @@ onMounted(() => {
       }
     }
     > .center {
-      overflow-y: auto;
       > :deep(.center-box) {
         padding: 0px;
         display: flex;
@@ -188,6 +188,7 @@ onMounted(() => {
           flex-direction: column;
           > .main {
             flex-grow: 1;
+            overflow: auto;
             padding: 12px;
           }
         }

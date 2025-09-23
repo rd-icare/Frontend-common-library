@@ -28,7 +28,6 @@
           class="content"
           :style="{
             maxWidth: maxWidth ? `${maxWidth}px` : `initial`,
-            inset: inset,
           }">
           <div v-if="showTop" class="top" v-drag-move="draggable ? '.content' : false">
             <div v-if="subTitle || subTitleType[type]" class="sub-title font-small-2">
@@ -62,11 +61,52 @@
 </template>
 
 <script setup lang="ts">
-import Button from './Button.vue';
-import type { ModalProps } from '@/composables/useModalManager';
 const { locale, t, ct } = useI18nGlobal();
 
-// 定義 Props
+interface ModalProps {
+  /** 彈出視窗的內容組件 */
+  component?: Component;
+  /** ID */
+  id?: string;
+  /** 迴圈的索引編號 */
+  index?: number;
+  /** 類型，影響副標題狀態顯示 */
+  type?: 'add' | 'edit' | 'delete' | '';
+  /** 是否顯示頂部 */
+  showTop?: boolean;
+  /** 是否顯示底部 */
+  showBottom?: boolean;
+  /** 頂部標題文字 */
+  title?: string;
+  /** 頂部左方的副標題文字 */
+  subTitle?: string;
+  /** 彈出視窗的 .content 最大寬度 */
+  maxWidth?: number; // 最大寬度
+  /** 彈出視窗的內容 .main 高度 */
+  height?: number;
+  /** 彈出視窗的內容 .main 最大高度 */
+  maxHeight?: number;
+  /** z-index */
+  zIndex?: number;
+  /** 是否顯示背景 */
+  backdrop?: boolean;
+  /** 是否禁用背景觸發事件 */
+  backdropDisabled?: boolean;
+  /** 是否顯示加載圖標 */
+  modalLoading?: boolean;
+  /** 是否在頂部進行拖曳 */
+  draggable?: boolean;
+  /** 彈出視窗的 DOM 是否傳送到指定的 DOM */
+  useTeleport?: boolean;
+  /** 彈出視窗顯示於哪個方向 */
+  direction?: 'top' | 'right' | 'bottom' | 'left';
+  /** 開啟前的前置動作 */
+  onOpen?: () => void;
+  /** 關閉前的前置動作 */
+  onClose?: () => void;
+  /** 關閉彈出視窗 */
+  close?: () => void;
+}
 const props = withDefaults(defineProps<ModalProps>(), {
   component: () => {},
   id: () => `modal-${Date.now()}`,
@@ -84,7 +124,6 @@ const props = withDefaults(defineProps<ModalProps>(), {
   backdropDisabled: false,
   modalLoading: false,
   draggable: false,
-  inset: '0 0 0 0',
   useTeleport: false,
   direction: 'bottom',
   onOpen: () => {},

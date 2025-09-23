@@ -44,7 +44,7 @@ const open = (event: MouseEvent, bool: boolean) => {
 .icon-eye {
   position: absolute;
   bottom: 0px;
-  right: 0px;
+  right: 6px;
   > .icon {
     cursor: pointer;
     width: 32px;

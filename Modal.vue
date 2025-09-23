@@ -1,52 +1,64 @@
 <template>
-  <transition
+  <Transition
     name="fade"
     @before-enter="beforeEnter"
     @after-enter="afterEnter"
     @before-leave="beforeLeave"
     @after-leave="afterLeave">
-    <div
-      v-if="modalOpen"
-      :key="id"
-      :class="['modal-box gicons', { draggable }]"
-      :style="{
-        zIndex: zIndex || 'var(--z-index-centerModal)',
-      }">
-      <div v-if="backdrop" class="backdrop" @click="modalOpen = backdropDisabled"></div>
+    <Teleport defer :to="`#${id}`" :disabled="!useTeleport">
       <div
-        class="content"
+        v-if="modalOpen"
+        :key="id"
+        :class="[
+          'modal-box gicons',
+          {
+            draggable,
+            useTeleport,
+            top: direction === 'top',
+            right: direction === 'right',
+            bottom: direction === 'bottom',
+            left: direction === 'left',
+          },
+        ]"
         :style="{
-          maxWidth: `${maxWidth}px`,
-          inset: inset,
+          zIndex: zIndex || 'var(--z-index-centerModal)',
         }">
-        <div v-if="showTop" class="top">
-          <div v-if="subTitle || subTitleType[type]" class="sub-title font-small-2">
-            {{ subTitle || subTitleType[type] }}
+        <div v-if="backdrop" class="backdrop" @click="modalOpen = backdropDisabled"></div>
+        <div
+          class="content"
+          :style="{
+            maxWidth: maxWidth ? `${maxWidth}px` : `initial`,
+            inset: inset,
+          }">
+          <div v-if="showTop" class="top" v-drag-move="draggable ? '.content' : false">
+            <div v-if="subTitle || subTitleType[type]" class="sub-title font-small-2">
+              {{ subTitle || subTitleType[type] }}
+            </div>
+            <div v-if="title" class="title font-small-1 font-bold">{{ title }}</div>
+            <Button
+              class="close-btn icon-style no-border"
+              icon="close"
+              :title="$t('Util.close')"
+              @click="modalOpen = false" />
           </div>
-          <div v-if="title" class="title font-small-1 font-bold">{{ title }}</div>
-          <Button
-            class="close-btn icon-style no-border"
-            icon="close"
-            :title="$t('Util.close')"
-            @click="modalOpen = false" />
+          <div class="center">
+            <component :is="component" :="{ item: props }" v-model:modalOpen="modalOpen">
+              <template #bottom>
+                <div class="bottom">
+                  <Button :text="$t('Util.cancel')" @click="modalOpen = false" />
+                  <Button class="c-primary" type="submit" :text="$t('Util.submit')" />
+                </div>
+              </template>
+            </component>
+          </div>
+          <div v-if="showBottom" class="bottom">
+            <Button :text="$t('Util.close')" @click="modalOpen = false" />
+          </div>
+          <CurrentLoading :show="modalLoading" />
         </div>
-        <div class="center">
-          <component :is="component" :="{ item: props }" v-model:modalOpen="modalOpen">
-            <template #bottom>
-              <div class="bottom">
-                <Button :text="$t('Util.cancel')" @click="modalOpen = false" />
-                <Button class="c-primary" type="submit" :text="$t('Util.submit')" />
-              </div>
-            </template>
-          </component>
-        </div>
-        <div v-if="showBottom" class="bottom">
-          <Button :text="$t('Util.close')" @click="modalOpen = false" />
-        </div>
-        <CurrentLoading :show="modalLoading" />
       </div>
-    </div>
-  </transition>
+    </Teleport>
+  </Transition>
 </template>
 
 <script setup lang="ts">
@@ -58,20 +70,23 @@ const { locale, t, ct } = useI18nGlobal();
 const props = withDefaults(defineProps<ModalProps>(), {
   component: () => {},
   id: () => `modal-${Date.now()}`,
+  index: 0,
   type: '',
   showTop: true,
   showBottom: false,
   title: '',
   subTitle: '',
-  maxWidth: 480,
+  maxWidth: 0,
   height: 0,
   maxHeight: 0,
   zIndex: 0,
-  backdrop: true,
+  backdrop: false,
   backdropDisabled: false,
   modalLoading: false,
   draggable: false,
   inset: '0 0 0 0',
+  useTeleport: false,
+  direction: 'bottom',
   onOpen: () => {},
   onClose: () => {},
   close,
@@ -80,11 +95,18 @@ const props = withDefaults(defineProps<ModalProps>(), {
 // 定義 modal 的顯示狀態
 const modalOpen = ref<boolean>(false);
 
+// 定義子標題
 const subTitleType = ref<Record<string, string>>({
   add: t('Util.add'),
   edit: t('Util.edit'),
   delete: t('Util.delete'),
 });
+
+// 定義 modal main 的高度
+const mainHeight = ref(props.height ? `${props.height}px` : 'auto');
+const mainMaxHeight = ref(
+  props.maxHeight ? `${props.maxHeight}px` : props.useTeleport ? 'initial' : 'calc(100vh - 116px)'
+);
 
 // modal 開啟前的前置動作
 function beforeEnter() {
@@ -118,6 +140,16 @@ function afterLeave() {
 
 onMounted(() => {
   modalOpen.value = true;
+  nextTick(() => {
+    // 如果能拖動，則設置彈出視窗位置
+    if (!props.draggable) return;
+    const el = document.querySelector(`#${props.id} .content`) as HTMLElement;
+    if (el) {
+      const rect = el.getBoundingClientRect();
+      const left = window.innerWidth - rect.width - 16;
+      el.style.inset = `${48 + props.index * 16}px auto auto ${left}px`;
+    }
+  });
 });
 </script>
 
@@ -132,10 +164,20 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 16px;
+  padding: 12px;
   &.draggable {
-    align-items: start;
-    justify-content: flex-end;
+    display: block;
+    padding: 0px;
+  }
+  &.useTeleport {
+    position: absolute;
+    padding: 0px;
+    &.bottom {
+      top: 32px;
+      left: initial;
+      right: 6px;
+      width: 240px;
+    }
   }
   > .backdrop {
     pointer-events: auto;
@@ -190,6 +232,8 @@ onMounted(() => {
             flex-grow: 1;
             overflow: auto;
             padding: 12px;
+            height: v-bind(mainHeight);
+            max-height: v-bind(mainMaxHeight);
           }
         }
       }

@@ -31,7 +31,7 @@ withDefaults(defineProps<Props>(), {
   icon: '',
   text: '',
   iconR: '',
-  timeout: 1000,
+  timeout: 300,
 });
 
 // 定義事件
@@ -56,7 +56,7 @@ button {
     align-items: center;
     justify-content: center;
     gap: 4px;
-    padding: 0px 16px;
+    padding: 0px 12px;
     border: var(--border-1);
     border-radius: var(--border-radius-1);
     color: var(--main-text);

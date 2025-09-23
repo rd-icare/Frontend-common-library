@@ -88,11 +88,11 @@
             <Img :src="getUrl(value as string | File | null | undefined)" />
           </div>
           <div class="icon gicons">
-            <div class="text1 font-body-1 font-normal">
+            <div class="text1 font-small-1 font-normal">
               <span>add</span>
               <div v-html="item.placeholder || '上傳檔案'"></div>
             </div>
-            <div class="text2 font-body-4 font-normal">{{ item.formatText || '檔案格式：JPG/PNG/PDF' }}</div>
+            <div class="text2 font-small-4 font-normal">{{ item.formatText || '檔案格式：JPG/PNG/PDF' }}</div>
             <Button v-if="item.showResetBtn && value" class="white" text="重新上傳" />
             <div v-if="item.showBtn && value" class="btn-box">
               <button type="button" @click.stop="fn.click && fn.click($event, value, item, 'btn-box')">
@@ -100,7 +100,7 @@
               </button>
             </div>
           </div>
-          <div v-if="!value && item.fileShapeClass" class="text font-body-1 font-normal">{{ item.placeholder }}</div>
+          <div v-if="!value && item.fileShapeClass" class="text font-small-1 font-normal">{{ item.placeholder }}</div>
         </label>
         <template v-else>
           <div v-show="false" class="image-box">

@@ -1,21 +1,33 @@
 <template>
-  <transition name="fade" @after-enter="afterEnter" @after-leave="afterLeave">
+  <transition
+    name="fade"
+    @before-enter="beforeEnter"
+    @after-enter="afterEnter"
+    @before-leave="beforeLeave"
+    @after-leave="afterLeave">
     <div
-      v-if="modalShow"
+      v-if="modalOpen"
       :key="id"
-      class="modal-box"
+      class="modal-box gicons"
       :style="{
         zIndex: zIndex || 'var(--z-index-centerModal)',
       }">
-      <div v-if="backdrop" class="backdrop" @click="modalShow = false"></div>
+      <div v-if="backdrop" class="backdrop" @click="modalOpen = backdropDisabled"></div>
       <div
         class="content"
         :style="{
           maxWidth: `${maxWidth}px`,
         }">
-        <div class="top">
-          <h2>{{ title }}</h2>
-          <button class="close-button" @click="modalShow = false">×</button>
+        <div v-if="showTop" class="top">
+          <div v-if="subTitle || subTitleType[type]" class="sub-title font-small-2">
+            {{ subTitle || subTitleType[type] }}
+          </div>
+          <div v-if="title" class="title font-small-1 font-bold">{{ title }}</div>
+          <Button
+            class="close-btn icon-style no-border"
+            icon="close"
+            :title="$t('Util.close')"
+            @click="modalOpen = false" />
         </div>
         <div
           class="center"
@@ -23,27 +35,44 @@
             height: height ? `${height}px` : 'auto',
             maxHeight: maxHeight ? `${maxHeight}px` : '80vh',
           }">
-          <component :is="component" :="props" @close="close" />
+          <component :is="component" :="{ item: props }" v-model:modalOpen="modalOpen">
+            <template #bottom>
+              <div class="bottom">
+                <Button :text="$t('Util.cancel')" @click="modalOpen = false" />
+                <Button class="c-primary" type="submit" :text="$t('Util.submit')" />
+              </div>
+            </template>
+          </component>
         </div>
-        <div class="bottom">
-          <button class="close-button" @click="modalShow = false">關閉</button>
+        <div v-if="showBottom" class="bottom">
+          <Button :text="$t('Util.close')" @click="modalOpen = false" />
         </div>
+        <CurrentLoading :show="modalLoading" />
       </div>
     </div>
   </transition>
 </template>
 
 <script setup lang="ts">
+import Button from './Button.vue';
+const { locale, t, ct } = useI18nGlobal();
+
 // 定義 Props
 interface ModalProps {
   component?: any;
   id?: string;
+  type?: string;
+  showTop?: boolean;
+  showBottom?: boolean;
   title?: string;
+  subTitle?: string;
   maxWidth?: number;
   height?: number;
   maxHeight?: number;
   zIndex?: number;
   backdrop?: boolean;
+  backdropDisabled?: boolean;
+  modalLoading?: boolean;
   onOpen?: () => void;
   onClose?: () => void;
   close: () => void;
@@ -51,30 +80,56 @@ interface ModalProps {
 const props = withDefaults(defineProps<ModalProps>(), {
   component: null,
   id: () => `modal-${Date.now()}`,
-  title: '',
-  maxWidth: 480,
-  height: 0,
-  maxHeight: 0,
-  zIndex: 0,
-  backdrop: true,
-  onOpen: () => {},
-  onClose: () => {},
+  type: '', // 新增、編輯、刪除
+  showTop: true, // 是否顯示頂部
+  showBottom: false, // 是否顯示底部
+  title: '', // 標題
+  subTitle: '', // 副標題
+  maxWidth: 480, // 最大寬度
+  height: 0, // 高度
+  maxHeight: 0, // 最大高度
+  zIndex: 0, // z-index
+  backdrop: true, // 是否顯示背景
+  backdropDisabled: false, // 是否禁用背景事件行為
+  modalLoading: false, // 是否顯示載入中
+  onOpen: () => {}, // 開啟後的後續動作
+  onClose: () => {}, // 關閉後的後續動作
 });
 
 // 定義 modal 的顯示狀態
-const modalShow = ref<boolean>(false);
+const modalOpen = ref<boolean>(false);
+
+const subTitleType = ref<Record<string, string>>({
+  add: t('Util.add'),
+  edit: t('Util.edit'),
+  delete: t('Util.delete'),
+});
+
+// modal 開啟前的前置動作
+function beforeEnter() {
+  if (props.backdrop) {
+    // 隱藏 body 滾動條
+    document.body.classList.add('overflow-hidden');
+  }
+}
 
 // modal 開啟後的後續動作
 function afterEnter() {
-  // 如果有 onOpen 回調，則執行
   if (props.onOpen && typeof props.onOpen === 'function') {
     props.onOpen();
   }
 }
 
+// modal 關閉前的前置動作
+function beforeLeave() {
+  if (props.backdrop) {
+    // 顯示 body 滾動條
+    document.body.classList.remove('overflow-hidden');
+  }
+}
+
 // modal 關閉後的後續動作
 function afterLeave() {
-  // 如果有 onClose 回調，則執行
   if (props.onClose && typeof props.onClose === 'function') {
     props.onClose && props.onClose();
   }
@@ -82,7 +137,7 @@ function afterLeave() {
 }
 
 onMounted(() => {
-  modalShow.value = true;
+  modalOpen.value = true;
 });
 </script>
 
@@ -98,7 +153,7 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   padding: 16px;
-  .backdrop {
+  > .backdrop {
     pointer-events: auto;
     position: absolute;
     top: 0;
@@ -107,41 +162,63 @@ onMounted(() => {
     height: 100%;
     background-color: var(--background-mask);
   }
-  .content {
+  > .content {
     pointer-events: auto;
     position: relative;
     width: 100%;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  .top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-  }
-  .center {
-    overflow-y: auto;
-    padding: 16px;
-    > .center-content {
+    background-color: var(--white);
+    border: var(--border-1);
+    border-radius: var(--border-radius-1);
+    box-shadow: var(--box-shadow-2);
+    > .top {
+      position: relative;
+      height: 36px;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
+      padding: 0 60px;
+      border-radius: var(--border-radius-1) var(--border-radius-1) 0 0;
+      border-bottom: var(--border-2);
+      background: var(--surface);
+      > :is(.sub-title, .close-btn) {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      > .sub-title {
+        left: 12px;
+      }
+      > .close-btn {
+        right: 2px;
+        z-index: 1;
+      }
     }
-  }
-  .bottom {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 16px;
-  }
-  .close-button {
-    background: none;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-    color: #333;
+    > .center {
+      overflow-y: auto;
+      > :deep(.center-box) {
+        padding: 0px;
+        display: flex;
+        flex-direction: column;
+        > .box {
+          flex-grow: 1;
+          display: flex;
+          flex-direction: column;
+          > .main {
+            flex-grow: 1;
+            padding: 12px;
+          }
+        }
+      }
+    }
+    :is(.bottom) {
+      flex: 0 0 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      padding: 0 12px;
+    }
   }
 }
 </style>

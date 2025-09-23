@@ -16,7 +16,7 @@ interface Props {
 }
 
 withDefaults(defineProps<Props>(), {
-  customClass: 'font-body-3 font-normal',
+  customClass: 'font-small-3 font-normal',
   title: '',
   icon: '',
   text: '',
@@ -26,14 +26,14 @@ withDefaults(defineProps<Props>(), {
 
 <style lang="scss" scoped>
 .text-style {
-  height: 36px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 4px;
   padding: 0px;
   border: 1px solid var(--white);
-  border-radius: var(--border-radius-2);
+  border-radius: var(--border-radius-1);
   color: var(--main-text);
   background-color: var(--white);
   > span {

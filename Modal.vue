@@ -55,45 +55,28 @@
 
 <script setup lang="ts">
 import Button from './Button.vue';
+import type { ModalProps } from '@/composables/useModalManager';
 const { locale, t, ct } = useI18nGlobal();
 
 // 定義 Props
-interface ModalProps {
-  component?: any;
-  id?: string;
-  type?: string;
-  showTop?: boolean;
-  showBottom?: boolean;
-  title?: string;
-  subTitle?: string;
-  maxWidth?: number;
-  height?: number;
-  maxHeight?: number;
-  zIndex?: number;
-  backdrop?: boolean;
-  backdropDisabled?: boolean;
-  modalLoading?: boolean;
-  onOpen?: () => void;
-  onClose?: () => void;
-  close: () => void;
-}
 const props = withDefaults(defineProps<ModalProps>(), {
-  component: null,
+  component: () => {},
   id: () => `modal-${Date.now()}`,
-  type: '', // 新增、編輯、刪除
-  showTop: true, // 是否顯示頂部
-  showBottom: false, // 是否顯示底部
-  title: '', // 標題
-  subTitle: '', // 副標題
-  maxWidth: 480, // 最大寬度
-  height: 0, // 高度
-  maxHeight: 0, // 最大高度
-  zIndex: 0, // z-index
-  backdrop: true, // 是否顯示背景
-  backdropDisabled: false, // 是否禁用背景事件行為
-  modalLoading: false, // 是否顯示載入中
-  onOpen: () => {}, // 開啟後的後續動作
-  onClose: () => {}, // 關閉後的後續動作
+  type: '',
+  showTop: true,
+  showBottom: false,
+  title: '',
+  subTitle: '',
+  maxWidth: 480,
+  height: 0,
+  maxHeight: 0,
+  zIndex: 0,
+  backdrop: true,
+  backdropDisabled: false,
+  modalLoading: false,
+  onOpen: () => {},
+  onClose: () => {},
+  close,
 });
 
 // 定義 modal 的顯示狀態

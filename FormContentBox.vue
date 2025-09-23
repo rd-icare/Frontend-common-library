@@ -34,14 +34,14 @@ import Input from './Input.vue';
  * 單一表單欄位的型別
  */
 interface FormItem {
-  name: string;
-  type?: string;
-  modelValue?: unknown;
-  eventName?: string;
-  selectedText?: string;
-  inputName?: string;
-  disabled?: boolean;
-  [key: string]: any;
+  name: string; // 表單欄位名稱
+  type?: string; // 表單欄位類型
+  modelValue?: unknown; // v-model
+  eventName?: string; // 事件名稱
+  selectedText?: string; // 選擇顯示文字
+  inputName?: string; // input 欄位名稱
+  disabled?: boolean; // 是否禁用
+  [key: string]: any; // 其他屬性
 }
 
 /* 父層透過 props 傳進來的函式集合 */

@@ -11,7 +11,7 @@
         checked,
       },
     ]">
-    <!-- 動態組件 -->
+    <!-- 組件 -->
     <Component v-if="item.component" :is="item.component" :item />
 
     <template v-else>

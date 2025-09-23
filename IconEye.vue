@@ -11,8 +11,7 @@
 
 <script setup lang="ts">
 interface Props {
-  /** 是否用字型隱藏文字 (true=使用字型隱藏, false=用 input type 控制) */
-  typeText?: boolean;
+  typeText?: boolean; // 是否用字型隱藏文字 (true=使用字型隱藏, false=用 input type 控制)
 }
 
 const props = withDefaults(defineProps<Props>(), {

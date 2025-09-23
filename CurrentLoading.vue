@@ -24,10 +24,10 @@
 
 <script setup lang="ts">
 interface Props {
-  show?: boolean;
-  position?: 'absolute' | 'fixed' | 'relative';
-  colorCode?: string;
-  text?: string | null;
+  show?: boolean; // 是否顯示
+  position?: 'absolute' | 'fixed' | 'relative'; // 位置
+  colorCode?: string; // 背景顏色
+  text?: string | null; // 文字
 }
 
 withDefaults(defineProps<Props>(), {

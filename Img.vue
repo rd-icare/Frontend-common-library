@@ -8,11 +8,10 @@ import { fileToBase64 } from '@/utils/common';
 import { loadFile } from '@/composables/toPDFView';
 
 // 定義 props 型別
-type SrcType = string | File | null | undefined; // 你原本有 Array，但程式沒有處理 Array，這裡我暫時拿掉
 interface Props {
-  src: SrcType;
-  alt?: string;
-  errorImg?: string;
+  src: string | File | null | undefined; // 圖片 URL
+  alt?: string; // 替代文字
+  errorImg?: string; // 錯誤圖
 }
 
 const props = withDefaults(defineProps<Props>(), {

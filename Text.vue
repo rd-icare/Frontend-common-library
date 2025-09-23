@@ -8,11 +8,11 @@
 
 <script setup lang="ts">
 interface Props {
-  customClass?: string;
-  title?: string;
-  icon?: string;
-  text?: string;
-  iconR?: string;
+  customClass?: string; // 自訂樣式
+  title?: string; // 標題
+  icon?: string; // 圖標
+  text?: string; // 文字
+  iconR?: string; // 右側圖標
 }
 
 withDefaults(defineProps<Props>(), {

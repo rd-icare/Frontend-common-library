@@ -34,17 +34,17 @@ import { useField } from 'vee-validate';
 
 /** Textarea item 配置型別 */
 interface ItemConfig {
-  id?: string;
-  name: string;
-  type?: string;
-  class?: string | string[];
-  label?: string;
-  value?: string | number;
-  need?: boolean;
-  disabled?: boolean;
-  placeholder?: string;
-  hideLabel?: boolean;
-  hideError?: boolean;
+  id?: string; // ID
+  name: string; // 名稱
+  type?: string; // 類型
+  class?: string | string[]; // 樣式
+  label?: string; // 標籤
+  value?: string | number; // 值
+  need?: boolean; // 是否必填
+  disabled?: boolean; // 是否禁用
+  placeholder?: string; // 佔位符
+  hideLabel?: boolean; // 是否隱藏標籤
+  hideError?: boolean; // 是否隱藏錯誤
 }
 
 /** Props 型別 */

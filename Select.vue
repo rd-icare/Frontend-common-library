@@ -16,12 +16,8 @@
       class="customSelect"
       :class="{ invalid: errorMessage }"
       :value="item.value ?? (value as string | number | readonly string[] | null | undefined)"
-      @input="
-        eventName === 'input' ? (handleChange($event, !!errorMessage), fn.input($event, value, item)) : ''
-      "
-      @change="
-        eventName === 'change' ? (handleChange($event, !!errorMessage), fn.change($event, value, item)) : ''
-      "
+      @input="eventName === 'input' ? (handleChange($event, !!errorMessage), fn.input($event, value, item)) : ''"
+      @change="eventName === 'change' ? (handleChange($event, !!errorMessage), fn.change($event, value, item)) : ''"
       @blur="handleBlur($event, true)"
       :disabled="item.disabled"
       :autocomplete="item.autocomplete || undefined">
@@ -52,26 +48,26 @@ import { useField } from 'vee-validate';
 
 /** 下拉選項型別 */
 interface SelectOption {
-  value?: string | number | boolean;
-  label?: string;
+  value?: string | number | boolean; // 值
+  label?: string; // 標籤
 }
 
 /** Item 配置型別 */
 interface ItemConfig {
-  id?: string;
-  name: string;
-  type?: string;
-  class?: string | string[];
-  label?: string;
-  value?: string | number | boolean;
-  need?: boolean;
-  noValue?: boolean;
-  select?: boolean;
-  disabled?: boolean;
-  hideLabel?: boolean;
-  hideError?: boolean;
-  autocomplete?: string;
-  controlled?: boolean;
+  id?: string; // ID
+  name: string; // 名稱
+  type?: string; // 項目類型
+  class?: string | string[]; // 樣式
+  label?: string; // 標籤
+  value?: string | number | boolean; // 值
+  need?: boolean; // 是否為必填
+  noValue?: boolean; // 是否顯示空值
+  select?: boolean; // 是否顯示請選擇
+  disabled?: boolean; // 是否禁用
+  hideLabel?: boolean; // 是否隱藏標籤
+  hideError?: boolean; // 是否隱藏錯誤
+  autocomplete?: string; // 自動完成
+  controlled?: boolean; // 是否為控制項
 }
 
 /** Props 型別 */
@@ -89,7 +85,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   selectedText: '',
-  item: () => ({}) as ItemConfig,
+  item: () => ({} as ItemConfig),
   option: () => [],
   eventName: 'change',
   fn: () => ({

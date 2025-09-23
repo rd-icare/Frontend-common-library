@@ -15,12 +15,12 @@
 
 <script setup lang="ts">
 interface Props {
-  type?: 'button' | 'submit' | 'reset';
-  customClass?: string;
-  title?: string;
-  icon?: string;
-  text?: string;
-  iconR?: string;
+  type?: 'button' | 'submit' | 'reset'; // 類型
+  customClass?: string; // 自訂樣式
+  title?: string; // 標題
+  icon?: string; // 圖標
+  text?: string; // 文字
+  iconR?: string; // 右邊圖標
   timeout?: number; // 防止連點時間，單位毫秒，預設 1500
 }
 
@@ -99,7 +99,7 @@ button {
     }
     // 無邊框
     &.no-border {
-      border: 0px solid transparent;
+      border: 1px solid transparent;
       background-color: transparent;
     }
     // 圖標
@@ -108,6 +108,7 @@ button {
       width: 32px;
       height: 32px;
       justify-content: center;
+      padding: 0px;
       > span {
         font-size: 24px;
       }

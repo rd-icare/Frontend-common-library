@@ -5,7 +5,7 @@
 <script setup lang="ts">
 // 定義 Props 型別
 interface Props {
-  text?: string;
+  text?: string; // 文字
 }
 
 // 使用 defineProps 並帶入型別

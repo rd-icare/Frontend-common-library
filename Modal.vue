@@ -280,7 +280,6 @@ onMounted(() => {
           > .main {
             flex-grow: 1;
             overflow: auto;
-            padding: 12px;
             height: v-bind(mainHeight);
             max-height: v-bind(mainMaxHeight);
           }

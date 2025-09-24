@@ -129,7 +129,7 @@ function beforeLeave() {
     document.body.classList.remove('overflow-hidden');
   }
   if (props.onClose && typeof props.onClose === 'function') {
-    props.onClose && props.onClose();
+    props.onClose();
   }
 }
 
@@ -138,13 +138,22 @@ function afterLeave() {
   props.close();
 }
 
-/** 模糊失焦 */
+/** 聚焦 */
+function focus(e: FocusEvent) {
+  console.log(`${props.id} focus`, e);
+}
+
+/** 失焦 */
 function blur(e: FocusEvent) {
   console.log(`${props.id} blur`, e);
   // if (props.optionsMode) {
   //   modalOpen.value = false;
   // }
 }
+
+defineExpose({
+  modalOpen,
+});
 
 onMounted(() => {
   modalOpen.value = true;
@@ -252,7 +261,7 @@ onMounted(() => {
       padding: 0 64px;
       border-radius: var(--border-radius-1) var(--border-radius-1) 0 0;
       border-bottom: var(--border-2);
-      background: var(--surface);
+      background-color: var(--surface);
       > :is(.sub-title, .close-btn) {
         position: absolute;
         top: 50%;
@@ -267,19 +276,13 @@ onMounted(() => {
       }
     }
     > :deep(.center) {
-      padding: 0px;
       display: flex;
       flex-direction: column;
-      > :is(form, .box) {
+      > .main {
         flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-        > .main {
-          flex-grow: 1;
-          overflow: auto;
-          height: v-bind(mainHeight);
-          max-height: v-bind(mainMaxHeight);
-        }
+        overflow: auto;
+        height: v-bind(mainHeight);
+        max-height: v-bind(mainMaxHeight);
       }
     }
     :is(.bottom) {
@@ -290,6 +293,9 @@ onMounted(() => {
       justify-content: flex-end;
       gap: 8px;
       padding: 0 12px;
+      border-radius: 0 0 var(--border-radius-1) var(--border-radius-1);
+      border-top: var(--border-2);
+      background-color: transparent;
     }
   }
 }

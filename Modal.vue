@@ -45,16 +45,14 @@
               :title="$t('Util.close')"
               @click="modalOpen = false" />
           </div>
-          <div class="center">
-            <component :is="component" :="{ item: props }" v-model:modalOpen="modalOpen">
-              <template #bottom>
-                <div class="bottom">
-                  <Button :text="$t('Util.cancel')" @click="modalOpen = false" />
-                  <Button class="c-primary" type="submit" :text="$t('Util.submit')" />
-                </div>
-              </template>
-            </component>
-          </div>
+          <component :is="component" :="{ item: props }" v-model:modalOpen="modalOpen">
+            <template #bottom>
+              <div class="bottom">
+                <Button :text="$t('Util.cancel')" @click="modalOpen = false" />
+                <Button class="c-primary" type="submit" :text="$t('Util.submit')" />
+              </div>
+            </template>
+          </component>
           <div v-if="showBottom" class="bottom">
             <Button :text="$t('Util.close')" @click="modalOpen = false" />
           </div>
@@ -268,21 +266,19 @@ onMounted(() => {
         z-index: 1;
       }
     }
-    > .center {
-      > :deep(.center-box) {
-        padding: 0px;
+    > :deep(.center) {
+      padding: 0px;
+      display: flex;
+      flex-direction: column;
+      > :is(form, .box) {
+        flex-grow: 1;
         display: flex;
         flex-direction: column;
-        > .box {
+        > .main {
           flex-grow: 1;
-          display: flex;
-          flex-direction: column;
-          > .main {
-            flex-grow: 1;
-            overflow: auto;
-            height: v-bind(mainHeight);
-            max-height: v-bind(mainMaxHeight);
-          }
+          overflow: auto;
+          height: v-bind(mainHeight);
+          max-height: v-bind(mainMaxHeight);
         }
       }
     }

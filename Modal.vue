@@ -5,31 +5,36 @@
     @after-enter="afterEnter"
     @before-leave="beforeLeave"
     @after-leave="afterLeave">
-    <Teleport defer :to="`#${id}`" :disabled="!useTeleport">
+    <Teleport defer :to="`#${id}`" :disabled="!optionsMode">
       <div
         v-if="modalOpen"
+        tabindex="-1"
         :key="id"
         :class="[
           'modal-box gicons',
           {
             draggable,
-            useTeleport,
-            top: direction === 'top',
-            right: direction === 'right',
-            bottom: direction === 'bottom',
-            left: direction === 'left',
+            optionsMode,
+            topLeft: direction === 'topLeft',
+            topRight: direction === 'topRight',
+            rightTop: direction === 'rightTop',
+            bottomLeft: direction === 'bottomLeft',
+            bottomRight: direction === 'bottomRight',
+            leftTop: direction === 'leftTop',
           },
         ]"
         :style="{
           zIndex: zIndex || 'var(--z-index-centerModal)',
-        }">
-        <div v-if="backdrop" class="backdrop" @click="modalOpen = backdropDisabled"></div>
+        }"
+        @blur="optionsMode ? blur($event) : ''">
+        <div v-if="backdrop && !draggable && !optionsMode" class="backdrop" @click="modalOpen = backdropDisabled"></div>
         <div
           class="content"
           :style="{
-            maxWidth: maxWidth ? `${maxWidth}px` : `initial`,
+            width: maxWidth && draggable ? `${maxWidth}px` : '',
+            maxWidth: maxWidth && !draggable ? `${maxWidth}px` : '',
           }">
-          <div v-if="showTop" class="top" v-drag-move="draggable ? '.content' : false">
+          <div v-if="showTop && !optionsMode" class="top" v-drag-move="draggable ? '.content' : false">
             <div v-if="subTitle || subTitleType[type]" class="sub-title font-small-2">
               {{ subTitle || subTitleType[type] }}
             </div>
@@ -61,7 +66,7 @@
 </template>
 
 <script setup lang="ts">
-// import type { ModalProps } from '@/types/modal';
+// import type { ModalProps } from '@/types/index';
 const { locale, t, ct } = useI18nGlobal();
 
 const props = withDefaults(defineProps<ModalProps>(), {
@@ -77,36 +82,37 @@ const props = withDefaults(defineProps<ModalProps>(), {
   height: 0,
   maxHeight: 0,
   zIndex: 0,
-  backdrop: false,
+  backdrop: true,
   backdropDisabled: false,
   modalLoading: false,
   draggable: false,
-  useTeleport: false,
-  direction: 'bottom',
+  optionsMode: false,
+  direction: 'bottomRight',
   onOpen: () => {},
   onClose: () => {},
   close,
 });
 
-// 定義 modal 的顯示狀態
+/** 是否開啟彈出視窗 */
 const modalOpen = ref<boolean>(false);
 
-// 定義子標題
+/** 副標題類型文字顯示 */
 const subTitleType = ref<Record<string, string>>({
   add: t('Util.add'),
   edit: t('Util.edit'),
   delete: t('Util.delete'),
 });
 
-// 定義 modal main 的高度
-const mainHeight = ref(props.height ? `${props.height}px` : 'auto');
-const mainMaxHeight = ref(
-  props.maxHeight ? `${props.maxHeight}px` : props.useTeleport ? 'initial' : 'calc(100vh - 116px)'
-);
+/** 彈出視窗 main 的高度 */
+const mainHeight = ref(props.height ? `${props.height}px` : '');
+const mainMaxHeight = ref(props.maxHeight ? `${props.maxHeight}px` : props.optionsMode ? '' : 'calc(100vh - 116px)');
 
-// modal 開啟前的前置動作
+/** 是否為中間彈出視窗 */
+const isCenterModal = props.backdrop && !props.draggable && !props.optionsMode;
+
+/** 開啟前的前置動作 */
 function beforeEnter() {
-  if (props.backdrop) {
+  if (isCenterModal) {
     // 隱藏 body 滾動條
     document.body.classList.add('overflow-hidden');
   }
@@ -115,12 +121,12 @@ function beforeEnter() {
   }
 }
 
-// modal 開啟後的後續動作
+/** 開啟後的後續動作 */
 function afterEnter() {}
 
-// modal 關閉前的前置動作
+/** 關閉前的前置動作 */
 function beforeLeave() {
-  if (props.backdrop) {
+  if (isCenterModal) {
     // 顯示 body 滾動條
     document.body.classList.remove('overflow-hidden');
   }
@@ -129,21 +135,37 @@ function beforeLeave() {
   }
 }
 
-// modal 關閉後的後續動作
+/** 關閉後的後續動作 */
 function afterLeave() {
   props.close();
+}
+
+/** 模糊失焦 */
+function blur(e: FocusEvent) {
+  console.log(`${props.id} blur`, e);
+  // if (props.optionsMode) {
+  //   modalOpen.value = false;
+  // }
 }
 
 onMounted(() => {
   modalOpen.value = true;
   nextTick(() => {
-    // 如果能拖動，則設置彈出視窗位置
-    if (!props.draggable) return;
-    const el = document.querySelector(`#${props.id} .content`) as HTMLElement;
-    if (el) {
-      const rect = el.getBoundingClientRect();
-      const left = window.innerWidth - rect.width - 16;
-      el.style.inset = `${48 + props.index * 16}px auto auto ${left}px`;
+    // 如果是拖曳模式
+    if (props.draggable) {
+      const el = document.querySelector(`#${props.id} .content`) as HTMLElement;
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        const left = window.innerWidth - rect.width - 16;
+        el.style.inset = `${48 + props.index * 16}px auto auto ${left}px`;
+      }
+      return;
+    }
+    // 如果是選項模式
+    if (props.optionsMode) {
+      const el = document.querySelector(`#${props.id} .modal-box`) as HTMLElement;
+      if (el) el.focus();
+      return;
     }
   });
 });
@@ -161,23 +183,54 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   padding: 12px;
+  /* 在頂部進行拖曳 */
   &.draggable {
+    /* position: absolute;
+    width: auto;
+    height: auto; */
     display: block;
+    /* align-items: flex-start;
+    justify-content: flex-start; */
     padding: 0px;
   }
-  &.useTeleport {
+  /* 使用傳送到指定的 DOM */
+  &.optionsMode {
     position: absolute;
+    inset: auto;
+    width: max-content;
     padding: 0px;
-    &.bottom {
-      top: 32px;
-      left: initial;
+    &:is(.topLeft, .topRight) {
+      bottom: 100%;
+      align-items: flex-end;
+      padding-bottom: 4px;
+    }
+    &:is(.bottomLeft, .bottomRight) {
+      top: 100%;
+      align-items: flex-start;
+      padding-top: 4px;
+    }
+    &:is(.topLeft, .bottomLeft) {
+      left: 6px;
+    }
+    &:is(.topRight, .bottomRight) {
       right: 6px;
-      width: 240px;
+    }
+    &:is(.leftTop, .rightTop) {
+      top: 0px;
+      align-items: flex-start;
+    }
+    &.leftTop {
+      left: calc(100% - 6px);
+      padding-left: 4px;
+    }
+    &.rightTop {
+      right: calc(100% - 6px);
+      padding-right: 4px;
     }
   }
   > .backdrop {
     pointer-events: auto;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;

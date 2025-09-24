@@ -7,11 +7,13 @@ import { ref, nextTick } from 'vue';
 import { fileToBase64 } from '@/utils/common';
 import { loadFile } from '@/composables/toPDFView';
 
-// 定義 props 型別
 interface Props {
-  src: string | File | null | undefined; // 圖片 URL
-  alt?: string; // 替代文字
-  errorImg?: string; // 錯誤圖
+  /** 圖片 URL */
+  src: string | File | null | undefined;
+  /** 替代文字 */
+  alt?: string;
+  /** 錯誤圖 */
+  errorImg?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -20,7 +22,6 @@ const props = withDefaults(defineProps<Props>(), {
   errorImg: '/img/errorImg.svg',
 });
 
-// 定義 emit 型別
 const emit = defineEmits<{
   (e: 'imgLoad', event: Event): void;
 }>();
@@ -28,7 +29,7 @@ const emit = defineEmits<{
 // ref 型別：指向 <img>
 const imgRef = ref<HTMLImageElement | null>(null);
 
-// 取得圖片 URL
+/** 取得圖片 URL */
 const getUrl = (): string => {
   if (props.src instanceof File) {
     console.log('getUrl File');
@@ -65,7 +66,7 @@ const getUrl = (): string => {
   return '';
 };
 
-// 錯誤事件
+/** 錯誤事件 */
 const imgError = (event: Event) => {
   // console.log('imgError', props.src);
   const target = event.target as HTMLImageElement;
@@ -77,7 +78,7 @@ const imgError = (event: Event) => {
   }
 };
 
-// 載入完成事件
+/** 載入完成事件 */
 const imgLoad = (event: Event) => {
   // console.log('imgLoad');
   emit('imgLoad', event);

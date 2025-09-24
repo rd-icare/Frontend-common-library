@@ -15,13 +15,20 @@
 
 <script setup lang="ts">
 interface Props {
-  type?: 'button' | 'submit' | 'reset'; // 類型
-  customClass?: string; // 自訂樣式
-  title?: string; // 標題
-  icon?: string; // 圖標
-  text?: string; // 文字
-  iconR?: string; // 右邊圖標
-  timeout?: number; // 防止連點時間，單位毫秒，預設 1500
+  /** 類型 */
+  type?: 'button' | 'submit' | 'reset';
+  /** 自定義樣式 */
+  customClass?: string;
+  /** 標題提示文字 */
+  title?: string;
+  /** 左圖標 */
+  icon?: string;
+  /** 文字 */
+  text?: string;
+  /** 右圖標 */
+  iconR?: string;
+  /** 防止連點時間，單位毫秒 */
+  timeout?: number;
 }
 
 withDefaults(defineProps<Props>(), {

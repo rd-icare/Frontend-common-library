@@ -13,12 +13,8 @@
       :name="item.name"
       :placeholder="item.placeholder"
       :value="item.value ?? (value as string | number | readonly string[] | null | undefined)"
-      @input="
-        eventName === 'input' ? (handleChange($event, !!errorMessage), fn.input($event, value, item)) : ''
-      "
-      @change="
-        eventName === 'change' ? (handleChange($event, !!errorMessage), fn.change($event, value, item)) : ''
-      "
+      @input="eventName === 'input' ? (handleChange($event, !!errorMessage), fn.input($event, value, item)) : ''"
+      @change="eventName === 'change' ? (handleChange($event, !!errorMessage), fn.change($event, value, item)) : ''"
       @blur="handleBlur($event, true)"
       :disabled="item.disabled"></textarea>
 
@@ -32,26 +28,40 @@
 <script setup lang="ts">
 import { useField } from 'vee-validate';
 
-/** Textarea item 配置型別 */
+/** 傳入參數 */
 interface ItemConfig {
-  id?: string; // ID
-  name: string; // 名稱
-  type?: string; // 類型
-  class?: string | string[]; // 樣式
-  label?: string; // 標籤
-  value?: string | number; // 值
-  need?: boolean; // 是否必填
-  disabled?: boolean; // 是否禁用
-  placeholder?: string; // 佔位符
-  hideLabel?: boolean; // 是否隱藏標籤
-  hideError?: boolean; // 是否隱藏錯誤
+  /** ID */
+  id?: string;
+  /** 名稱 */
+  name: string;
+  /** 類型 */
+  type?: string;
+  /** 樣式 */
+  class?: string | string[];
+  /** 標籤 */
+  label?: string;
+  /** 值 */
+  value?: string | number;
+  /** 是否必填 */
+  need?: boolean;
+  /** 是否禁用 */
+  disabled?: boolean;
+  /** 佔位符 */
+  placeholder?: string;
+  /** 是否隱藏標籤 */
+  hideLabel?: boolean;
+  /** 是否隱藏錯誤 */
+  hideError?: boolean;
 }
 
 /** Props 型別 */
 interface Props {
+  /** 傳入參數 */
   item: ItemConfig;
+  /** 事件名稱 */
   eventName?: 'input' | 'change' | 'click';
-  fn: {
+  /** 函式 */
+  fn?: {
     input: (e: Event, value: any, item: ItemConfig) => void;
     change: (e: Event, value: any, item: ItemConfig) => void;
     click: (e: Event, value: any, item: ItemConfig, type?: string) => void;
@@ -59,7 +69,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  item: () => ({}) as ItemConfig,
+  item: () => ({} as ItemConfig),
   eventName: 'change',
   fn: () => ({
     input: () => {},

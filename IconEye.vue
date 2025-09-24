@@ -11,11 +11,12 @@
 
 <script setup lang="ts">
 interface Props {
-  typeText?: boolean; // 是否用字型隱藏文字 (true=使用字型隱藏, false=用 input type 控制)
+  /** 是否用字型顯示 */
+  useFont?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  typeText: false,
+  useFont: false,
 });
 
 const isShow = ref(false);
@@ -30,7 +31,7 @@ const open = (event: MouseEvent, bool: boolean) => {
 
   if (!node) return;
 
-  if (!props.typeText) {
+  if (!props.useFont) {
     // 切換 input type
     node.setAttribute('type', isShow.value ? 'text' : 'password');
   } else {

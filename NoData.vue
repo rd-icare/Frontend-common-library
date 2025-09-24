@@ -3,12 +3,11 @@
 </template>
 
 <script setup lang="ts">
-// 定義 Props 型別
 interface Props {
-  text?: string; // 文字
+  /** 文字 */
+  text?: string;
 }
 
-// 使用 defineProps 並帶入型別
 withDefaults(defineProps<Props>(), {
   text: '未有資料',
 });

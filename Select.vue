@@ -52,31 +52,50 @@ interface SelectOption {
   label?: string; // 標籤
 }
 
-/** Item 配置型別 */
+/** 傳入參數 */
 interface ItemConfig {
-  id?: string; // ID
-  name: string; // 名稱
-  type?: string; // 項目類型
-  class?: string | string[]; // 樣式
-  label?: string; // 標籤
-  value?: string | number | boolean; // 值
-  need?: boolean; // 是否為必填
-  noValue?: boolean; // 是否顯示空值
-  select?: boolean; // 是否顯示請選擇
-  disabled?: boolean; // 是否禁用
-  hideLabel?: boolean; // 是否隱藏標籤
-  hideError?: boolean; // 是否隱藏錯誤
-  autocomplete?: string; // 自動完成
-  controlled?: boolean; // 是否為控制項
+  /** ID */
+  id?: string;
+  /** 名稱 */
+  name: string;
+  /** 類型 */
+  type?: string;
+  /** 樣式 */
+  class?: string | string[];
+  /** 標籤 */
+  label?: string;
+  /** 值 */
+  value?: string | number | boolean;
+  /** 是否為必填 */
+  need?: boolean;
+  /** 是否顯示空值 */
+  noValue?: boolean;
+  /** 是否顯示請選擇 */
+  select?: boolean;
+  /** 是否禁用 */
+  disabled?: boolean;
+  /** 是否隱藏標籤 */
+  hideLabel?: boolean;
+  /** 是否隱藏錯誤 */
+  hideError?: boolean;
+  /** 自動完成 */
+  autocomplete?: string;
+  /** 是否為受控 */
+  controlled?: boolean;
 }
 
 /** Props 型別 */
 interface Props {
+  /** 選擇的文字 */
   selectedText?: string;
+  /** 傳入參數 */
   item: ItemConfig;
+  /** 選項 */
   option: (SelectOption | string | number)[];
+  /** 事件名稱 */
   eventName?: 'input' | 'change' | 'click';
-  fn: {
+  /** 函數 */
+  fn?: {
     input: (e: Event, value: any, item: ItemConfig) => void;
     change: (e: Event, value: any, item: ItemConfig) => void;
     click: (e: Event, value: any, item: ItemConfig, type?: string) => void;

@@ -34,14 +34,22 @@ import Input from './Input.vue';
  * 單一表單欄位的型別
  */
 interface FormItem {
-  name: string; // 表單欄位名稱
-  type?: string; // 表單欄位類型
-  modelValue?: unknown; // v-model
-  eventName?: string; // 事件名稱
-  selectedText?: string; // 選擇顯示文字
-  inputName?: string; // input 欄位名稱
-  disabled?: boolean; // 是否禁用
-  [key: string]: any; // 其他屬性
+  /** 表單欄位名稱 */
+  name: string;
+  /** 表單欄位類型 */
+  type?: string;
+  /** v-model */
+  modelValue?: unknown;
+  /** 事件名稱 */
+  eventName?: string;
+  /** 選擇的文字 */
+  selectedText?: string;
+  /** input 欄位名稱 */
+  inputName?: string;
+  /** 是否禁用 */
+  disabled?: boolean;
+  /** 其它屬性 */
+  [key: string]: any;
 }
 
 /* 父層透過 props 傳進來的函式集合 */
@@ -52,10 +60,15 @@ interface FnType {
 }
 /* 父層透過 props 傳進來的參數 */
 interface Props {
+  /** 表單內容 */
   formContent: FormItem[];
+  /** 選項內容 */
   optionContent?: Record<string, any>;
+  /** 函式集合 */
   fn?: FnType;
+  /** 樣式版本 */
   styleVerson?: string;
+  /** 不顯示 placeholder */
   noPlaceholder?: boolean;
 }
 withDefaults(defineProps<Props>(), {

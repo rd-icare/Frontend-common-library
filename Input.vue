@@ -136,39 +136,72 @@ import DatePicker from 'vue-datepicker-next';
 import { useField } from 'vee-validate';
 import { getUrl, downloadFile } from '@/utils/common';
 
+/** 傳入參數 */
 interface ItemConfig {
-  id?: string; // ID
-  name: string; // 名稱
-  type?: string; // 類型
-  class?: string | string[]; // 樣式
-  label?: string; // 標籤
-  value?: string | number | boolean | File; // 值
-  modelValue?: any; // v-model
-  need?: boolean; // 是否為必填
-  disabled?: boolean; // 是否為禁用
-  placeholder?: string; // 佔位符
-  hideLabel?: boolean; // 是否隱藏標籤
-  hideError?: boolean; // 是否隱藏錯誤訊息
-  checked?: boolean; // 是否為勾選
-  trueValue?: any; // 勾選值
-  falseValue?: any; // 取消勾選值
-  yearType?: string; // 年份類型
-  attr?: Record<string, any>; // 其他屬性
-  component?: any; // 其他元件
-  isIconType?: boolean; // 是否為圖標類型
-  showBtn?: boolean; // 是否顯示按鈕
-  showBtnIcon?: string; // 是否顯示按鈕圖標
-  showResetBtn?: boolean; // 是否顯示清除按鈕
-  fileShapeClass?: string; // 檔案上傳樣式
-  formatText?: string; // 檔案格式
-  hideEye?: boolean; // 是否隱藏眼睛
-  controlled?: boolean; // 是否為受控元件
-  hideShape?: boolean; // 是否隱藏圖形
-  minlength?: number; // 最小長度
-  maxlength?: number; // 最大長度
-  autocomplete?: string; // 自動完成
-  accept?: string; // 接受的檔案類型
-  [key: string]: any; // 其他屬性
+  /** ID */
+  id?: string;
+  /** 名稱 */
+  name: string;
+  /** 類型 */
+  type?: string;
+  /** 樣式 */
+  class?: string | string[];
+  /** 標籤 */
+  label?: string;
+  /** 值 */
+  value?: string | number | boolean | File;
+  /** v-model */
+  modelValue?: any;
+  /** 是否為必填 */
+  need?: boolean;
+  /** 是否為禁用 */
+  disabled?: boolean;
+  /** 佔位符 */
+  placeholder?: string;
+  /** 是否隱藏標籤 */
+  hideLabel?: boolean;
+  /** 是否隱藏錯誤訊息 */
+  hideError?: boolean;
+  /** 已勾選 */
+  checked?: boolean;
+  /** 勾選值 */
+  trueValue?: any;
+  /** 取消勾選值 */
+  falseValue?: any;
+  /** 年份類型 */
+  yearType?: string;
+  /** 其它屬性 */
+  attr?: Record<string, any>;
+  /** 插入組件 */
+  component?: any;
+  /** 是否為圖標類型 */
+  isIconType?: boolean;
+  /** 是否顯示按鈕 */
+  showBtn?: boolean;
+  /** 是否顯示按鈕圖標 */
+  showBtnIcon?: string;
+  /** 是否顯示清除按鈕 */
+  showResetBtn?: boolean;
+  /** 檔案上傳樣式 */
+  fileShapeClass?: string;
+  /** 檔案格式 */
+  formatText?: string;
+  /** 是否隱藏眼睛 */
+  hideEye?: boolean;
+  /** 是否為受控 */
+  controlled?: boolean;
+  /** 是否隱藏圖形 */
+  hideShape?: boolean;
+  /** 最小長度 */
+  minlength?: number;
+  /** 最大長度 */
+  maxlength?: number;
+  /** 自動完成 */
+  autocomplete?: string;
+  /** 接受的檔案類型 */
+  accept?: string;
+  /** 其它屬性 */
+  [key: string]: any;
 }
 
 interface FnType {
@@ -178,10 +211,15 @@ interface FnType {
 }
 
 interface Props {
+  /** 傳入參數 */
   item: ItemConfig;
+  /** 事件名稱 */
   eventName?: 'input' | 'change' | 'click';
+  /** 函式 */
   fn?: FnType;
+  /** v-model */
   modelValue?: any;
+  /** 插入組件 */
   component?: any;
 }
 

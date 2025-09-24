@@ -16,12 +16,18 @@
 import { useForm, type SubmissionContext } from 'vee-validate';
 
 interface Props {
-  initialValues?: Record<string, any>; // 初始值
-  schema?: Record<string, any>; // 有效性驗證
-  onInvalidSubmit?: (values: Record<string, any>, errors: Record<string, any>, results: Record<string, any>) => void; // 無效提交
-  keepValues?: boolean; // 保持值
-  useKeypressEnter?: boolean; // 使用 enter 鍵提交
-  showFormValues?: boolean; // 顯示表單值
+  /** 初始值 */
+  initialValues?: Record<string, any>;
+  /** 有效性驗證 */
+  schema?: Record<string, any>;
+  /** 無效提交 */
+  onInvalidSubmit?: (values: Record<string, any>, errors: Record<string, any>, results: Record<string, any>) => void;
+  /** 保持值 */
+  keepValues?: boolean;
+  /** 使用 enter 鍵提交 */
+  useKeypressEnter?: boolean;
+  /** 顯示表單值 */
+  showFormValues?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {

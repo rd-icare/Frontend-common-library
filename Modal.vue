@@ -92,7 +92,7 @@ const props = withDefaults(defineProps<ModalProps>(), {
   maxHeight: 0,
   zIndex: 0,
   backdrop: true,
-  backdropDisabled: false,
+  backdropDisabled: true,
   modalLoading: false,
   draggable: false,
   optionsMode: false,

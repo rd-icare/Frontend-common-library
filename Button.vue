@@ -134,7 +134,6 @@ button {
         height: 100%;
       }
       &.active {
-        // pointer-events: none;
         border: 1px solid var(--color-primary);
         background-color: var(--color-primary-back);
         > span {

@@ -13,15 +13,15 @@
         'modal-box gicons',
         {
           draggable,
-          optionsMode,
-          topLeft: direction === 'topLeft',
-          topRight: direction === 'topRight',
-          rightTop: direction === 'rightTop',
-          bottomLeft: direction === 'bottomLeft',
-          bottomRight: direction === 'bottomRight',
-          leftTop: direction === 'leftTop',
+          'options-mode': optionsMode,
+          'top-left': direction === 'topLeft',
+          'top-right': direction === 'topRight',
+          'right-top': direction === 'rightTop',
+          'bottom-left': direction === 'bottomLeft',
+          'bottom-right': direction === 'bottomRight',
+          'left-top': direction === 'leftTop',
         },
-        optionsMode ? `optionsMode-${id}` : '',
+        optionsMode ? `options-mode-${id}` : '',
       ]"
       :style="{
         zIndex: zIndex || 'var(--z-index-centerModal)',
@@ -166,7 +166,8 @@ function blur(e: any) {
   if (document.hidden || !document.hasFocus()) {
     return;
   }
-  if (!e.relatedTarget?.className.includes('optionsMode')) {
+  // 如果關閉的不是選項模式
+  if (!e.relatedTarget?.className.includes('options-mode')) {
     // modalOpen.value = false;
     Object.keys(modals.value).forEach((key, index) => {
       if (modals.value[key].optionsMode) {
@@ -185,7 +186,7 @@ defineExpose({
 onMounted(() => {
   modalOpen.value = true;
   nextTick(() => {
-    console.log(`id: ${props.id} index: ${props.index} itemHeight: ${props.itemHeight} mounted`);
+    // console.log(`id: ${props.id} index: ${props.index} itemHeight: ${props.itemHeight} mounted`);
     // 如果是拖曳模式
     if (props.draggable) {
       const el = document.querySelector(`#${props.id} .content`) as HTMLElement;
@@ -233,37 +234,37 @@ onMounted(() => {
     padding: 0px;
   }
   /* 使用傳送到指定的 DOM */
-  &.optionsMode {
+  &.options-mode {
     position: absolute;
     inset: auto;
     width: max-content;
     height: max-content;
     padding: 0px;
-    &:is(.topLeft, .topRight) {
+    &:is(.top-left, .top-right) {
       bottom: 100%;
       align-items: flex-end;
       margin-bottom: 4px;
     }
-    &:is(.bottomLeft, .bottomRight) {
+    &:is(.bottom-left, .bottom-right) {
       top: 100%;
       align-items: flex-start;
       margin-top: 4px;
     }
-    &:is(.topLeft, .bottomLeft) {
+    &:is(.top-left, .bottom-left) {
       left: 0px;
     }
-    &:is(.topRight, .bottomRight) {
+    &:is(.top-right, .bottom-right) {
       right: 0px;
     }
-    &:is(.leftTop, .rightTop) {
+    &:is(.left-top, .right-top) {
       top: v-bind(itemHeight);
       align-items: flex-start;
     }
-    &.rightTop {
+    &.right-top {
       left: calc(100% - 0px);
       margin-left: 4px;
     }
-    &.leftTop {
+    &.left-top {
       right: calc(100% - 0px);
       margin-right: 4px;
     }

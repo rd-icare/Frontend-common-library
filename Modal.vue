@@ -74,6 +74,8 @@
 
 <script setup lang="ts">
 // import type { ModalProps } from '@/types/index';
+const storeIndex = useIndexStore();
+const { modals } = storeToRefs(storeIndex);
 const { locale, t, ct } = useI18nGlobal();
 
 const props = withDefaults(defineProps<ModalProps>(), {
@@ -96,6 +98,7 @@ const props = withDefaults(defineProps<ModalProps>(), {
   optionsMode: false,
   direction: '',
   optionsModeId: '',
+  itemHeight: 0,
   onOpen: () => {},
   onClose: () => {},
   close,
@@ -114,6 +117,9 @@ const subTitleType = ref<Record<string, string>>({
 /** 彈出視窗 main 的高度 */
 const mainHeight = ref(props.height ? `${props.height}px` : '');
 const mainMaxHeight = ref(props.maxHeight ? `${props.maxHeight}px` : props.optionsMode ? '' : 'calc(100vh - 116px)');
+
+/** 開啟彈出視窗 */
+const itemHeight = ref(`${props.itemHeight * props.index}px` || '0px');
 
 /** 是否為中間彈出視窗 */
 const isCenterModal = props.backdrop && !props.draggable && !props.optionsMode;
@@ -149,25 +155,37 @@ function afterLeave() {
 }
 
 /** 聚焦 */
-function focus(e: FocusEvent) {
-  console.log(`${props.id} focus`, e);
+function focus(e: any) {
+  // console.log(`${props.id} focus`, e);
 }
 
 /** 失焦 */
-function blur(e: FocusEvent) {
-  console.log(`${props.id} blur`, e);
-  // if (props.optionsMode) {
-  //   modalOpen.value = false;
-  // }
+function blur(e: any) {
+  // console.log(`${props.id} blur`, e);
+  // 如果分頁不在前景 → 不處理
+  if (document.hidden || !document.hasFocus()) {
+    return;
+  }
+  if (!e.relatedTarget?.className.includes('optionsMode')) {
+    // modalOpen.value = false;
+    Object.keys(modals.value).forEach((key, index) => {
+      if (modals.value[key].optionsMode) {
+        modals.value[key].modalOpen = false;
+      }
+    });
+  }
 }
 
+/** 分享變量與方法，在 useModalManager.ts 內 return 也要同步  */
 defineExpose({
+  optionsMode: props.optionsMode,
   modalOpen,
 });
 
 onMounted(() => {
   modalOpen.value = true;
   nextTick(() => {
+    console.log(`id: ${props.id} index: ${props.index} itemHeight: ${props.itemHeight} mounted`);
     // 如果是拖曳模式
     if (props.draggable) {
       const el = document.querySelector(`#${props.id} .content`) as HTMLElement;
@@ -181,6 +199,7 @@ onMounted(() => {
     // 如果是選項模式
     if (props.optionsMode) {
       const el = document.querySelector(`#${props.id} .modal-box`) as HTMLElement;
+      // 聚焦最後啟用的彈出視窗
       if (el) el.focus();
       return;
     }
@@ -200,6 +219,9 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   padding: 12px;
+  &:focus {
+    outline: 0;
+  }
   /* 在頂部進行拖曳 */
   &.draggable {
     /* position: absolute;
@@ -234,7 +256,7 @@ onMounted(() => {
       right: 0px;
     }
     &:is(.leftTop, .rightTop) {
-      top: 0px;
+      top: v-bind(itemHeight);
       align-items: flex-start;
     }
     &.rightTop {

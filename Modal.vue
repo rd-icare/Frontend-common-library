@@ -5,61 +5,70 @@
     @after-enter="afterEnter"
     @before-leave="beforeLeave"
     @after-leave="afterLeave">
-    <Teleport defer :to="`#${id}`" :disabled="!optionsMode">
+    <div
+      v-if="modalOpen"
+      tabindex="-1"
+      :key="id"
+      :class="[
+        'modal-box gicons',
+        {
+          draggable,
+          optionsMode,
+          topLeft: direction === 'topLeft',
+          topRight: direction === 'topRight',
+          rightTop: direction === 'rightTop',
+          bottomLeft: direction === 'bottomLeft',
+          bottomRight: direction === 'bottomRight',
+          leftTop: direction === 'leftTop',
+        },
+        optionsMode ? `optionsMode-${id}` : '',
+      ]"
+      :style="{
+        zIndex: zIndex || 'var(--z-index-centerModal)',
+      }"
+      @blur="optionsMode ? blur($event) : ''">
+      <div v-if="backdrop && !draggable && !optionsMode" class="backdrop" @click="modalOpen = backdropDisabled"></div>
       <div
-        v-if="modalOpen"
-        tabindex="-1"
-        :key="id"
-        :class="[
-          'modal-box gicons',
-          {
-            draggable,
-            optionsMode,
-            topLeft: direction === 'topLeft',
-            topRight: direction === 'topRight',
-            rightTop: direction === 'rightTop',
-            bottomLeft: direction === 'bottomLeft',
-            bottomRight: direction === 'bottomRight',
-            leftTop: direction === 'leftTop',
-          },
-        ]"
+        class="content"
         :style="{
-          zIndex: zIndex || 'var(--z-index-centerModal)',
-        }"
-        @blur="optionsMode ? blur($event) : ''">
-        <div v-if="backdrop && !draggable && !optionsMode" class="backdrop" @click="modalOpen = backdropDisabled"></div>
-        <div
-          class="content"
-          :style="{
-            width: maxWidth && draggable ? `${maxWidth}px` : '',
-            maxWidth: maxWidth && !draggable ? `${maxWidth}px` : '',
-          }">
-          <div v-if="showTop && !optionsMode" class="top" v-drag-move="draggable ? '.content' : false">
-            <div v-if="subTitle || subTitleType[type]" class="sub-title font-small-2">
-              {{ subTitle || subTitleType[type] }}
-            </div>
-            <div v-if="title" class="title text-ellipsis font-small-1 font-bold" title="">{{ title }}</div>
-            <Button
-              class="close-btn icon-style no-border"
-              icon="close"
-              :title="$t('Util.close')"
-              @click="modalOpen = false" />
+          width: maxWidth && draggable ? `${maxWidth}px` : '',
+          maxWidth: maxWidth && !draggable ? `${maxWidth}px` : '',
+        }">
+        <div v-if="showTop && !optionsMode" class="top" v-drag-move="draggable ? '.content' : false">
+          <div v-if="subTitle || subTitleType[type]" class="sub-title font-small-2">
+            {{ subTitle || subTitleType[type] }}
           </div>
-          <component :is="component" :="{ item: props }" v-model:modalOpen="modalOpen">
-            <template #bottom>
-              <div class="bottom">
-                <Button :text="$t('Util.cancel')" @click="modalOpen = false" />
-                <Button class="c-primary" type="submit" :text="$t('Util.submit')" />
-              </div>
-            </template>
-          </component>
-          <div v-if="showBottom" class="bottom">
-            <Button :text="$t('Util.close')" @click="modalOpen = false" />
-          </div>
-          <CurrentLoading :show="modalLoading" />
+          <div v-if="title" class="title text-ellipsis font-small-1 font-bold" title="">{{ title }}</div>
+          <Button
+            class="close-btn icon-style no-border"
+            icon="close"
+            :title="$t('Util.close')"
+            @click="modalOpen = false" />
         </div>
+        <!-- 插槽 -->
+        <template v-if="!component">
+          <slot>
+            <div class="center">
+              <div class="main">Demo</div>
+            </div>
+          </slot>
+        </template>
+        <slot :modalOpen="modalOpen"> </slot>
+        <!-- 插入組件 -->
+        <component :is="component" :="{ item: props }" v-model:modalOpen="modalOpen">
+          <template #bottom>
+            <div class="bottom">
+              <Button :text="$t('Util.cancel')" @click="modalOpen = false" />
+              <Button class="c-primary" type="submit" :text="$t('Util.submit')" />
+            </div>
+          </template>
+        </component>
+        <div v-if="showBottom" class="bottom">
+          <Button :text="$t('Util.close')" @click="modalOpen = false" />
+        </div>
+        <CurrentLoading :show="modalLoading" />
       </div>
-    </Teleport>
+    </div>
   </Transition>
 </template>
 
@@ -85,7 +94,8 @@ const props = withDefaults(defineProps<ModalProps>(), {
   modalLoading: false,
   draggable: false,
   optionsMode: false,
-  direction: 'bottomRight',
+  direction: '',
+  optionsModeId: '',
   onOpen: () => {},
   onClose: () => {},
   close,
@@ -205,34 +215,35 @@ onMounted(() => {
     position: absolute;
     inset: auto;
     width: max-content;
+    height: max-content;
     padding: 0px;
     &:is(.topLeft, .topRight) {
       bottom: 100%;
       align-items: flex-end;
-      padding-bottom: 4px;
+      margin-bottom: 4px;
     }
     &:is(.bottomLeft, .bottomRight) {
       top: 100%;
       align-items: flex-start;
-      padding-top: 4px;
+      margin-top: 4px;
     }
     &:is(.topLeft, .bottomLeft) {
-      left: 6px;
+      left: 0px;
     }
     &:is(.topRight, .bottomRight) {
-      right: 6px;
+      right: 0px;
     }
     &:is(.leftTop, .rightTop) {
       top: 0px;
       align-items: flex-start;
     }
-    &.leftTop {
-      left: calc(100% - 6px);
-      padding-left: 4px;
-    }
     &.rightTop {
-      right: calc(100% - 6px);
-      padding-right: 4px;
+      left: calc(100% - 0px);
+      margin-left: 4px;
+    }
+    &.leftTop {
+      right: calc(100% - 0px);
+      margin-right: 4px;
     }
   }
   > .backdrop {

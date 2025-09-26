@@ -72,9 +72,6 @@ button {
     &:hover {
       opacity: 0.8;
     }
-    > span {
-      color: var(--icons);
-    }
     &:focus {
       outline: none;
     }
@@ -83,9 +80,6 @@ button {
       border: 1px solid var(--color-primary);
       color: var(--white);
       background-color: var(--color-primary);
-      > span {
-        color: var(--white);
-      }
       &:hover {
         opacity: 1;
         filter: brightness(1.1);
@@ -96,9 +90,6 @@ button {
       border: 1px solid var(--color-sub);
       color: var(--white);
       background-color: var(--color-sub);
-      > span {
-        color: var(--white);
-      }
       &:hover {
         opacity: 1;
         filter: brightness(1.1);
@@ -116,9 +107,6 @@ button {
       height: 32px;
       justify-content: center;
       padding: 0px;
-      > span {
-        font-size: 24px;
-      }
       &.left {
         position: absolute;
         left: 0;
@@ -133,13 +121,6 @@ button {
         padding: 0;
         height: 100%;
       }
-      &.active {
-        border: 1px solid var(--color-primary);
-        background-color: var(--color-primary-back);
-        > span {
-          color: var(--color-primary);
-        }
-      }
     }
     // 圖標 hover
     &.icon-style-hover {
@@ -147,6 +128,11 @@ button {
         opacity: 1;
         background-color: var(--surface);
       }
+    }
+    &.active {
+      border: 1px solid var(--color-primary);
+      color: var(--color-primary);
+      background-color: var(--color-primary-back);
     }
   }
 }

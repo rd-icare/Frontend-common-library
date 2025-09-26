@@ -37,10 +37,7 @@ withDefaults(defineProps<Props>(), {
   justify-content: center;
   gap: 4px;
   padding: 0px;
-  border: 1px solid var(--white);
-  border-radius: var(--border-radius-1);
   color: var(--main-text);
-  background-color: var(--white);
   > span {
     color: var(--icons);
   }

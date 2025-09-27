@@ -52,12 +52,6 @@
 <script setup lang="ts">
 import { useField } from 'vee-validate';
 
-/** 下拉選項型別 */
-interface SelectOption {
-  label?: string; // 標籤
-  value?: string | number | boolean; // 值
-}
-
 const props = withDefaults(defineProps<FormElementProps>(), {
   item: () => ({}),
   eventName: 'change',

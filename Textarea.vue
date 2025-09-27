@@ -12,9 +12,15 @@
       :type="item.type || 'text'"
       :name="item.name"
       :placeholder="item.placeholder"
-      :value="item.value ?? (value as string | number | readonly string[] | null | undefined)"
-      @input="eventName === 'input' ? (handleChange($event, !!errorMessage), fn.input($event, value, item)) : ''"
-      @change="eventName === 'change' ? (handleChange($event, !!errorMessage), fn.change($event, value, item)) : ''"
+      :value="item.value ?? value"
+      @input="
+        eventName === 'input' ? (handleChange($event, !!errorMessage), fn.input && fn.input($event, value, item)) : ''
+      "
+      @change="
+        eventName === 'change'
+          ? (handleChange($event, !!errorMessage), fn.change && fn.change($event, value, item))
+          : ''
+      "
       @blur="handleBlur($event, true)"
       :disabled="item.disabled"></textarea>
 
@@ -28,48 +34,13 @@
 <script setup lang="ts">
 import { useField } from 'vee-validate';
 
-/** 傳入參數 */
-interface ItemConfig {
-  /** ID */
-  id?: string;
-  /** 名稱 */
-  name: string;
-  /** 類型 */
-  type?: string;
-  /** 樣式 */
-  class?: string | string[];
-  /** 標籤 */
-  label?: string;
-  /** 值 */
-  value?: string | number;
-  /** 是否必填 */
-  need?: boolean;
-  /** 是否禁用 */
-  disabled?: boolean;
-  /** 佔位符 */
-  placeholder?: string;
-  /** 是否隱藏標籤 */
-  hideLabel?: boolean;
-  /** 是否隱藏錯誤 */
-  hideError?: boolean;
-}
-
-/** Props 型別 */
 interface Props {
-  /** 傳入參數 */
-  item: ItemConfig;
-  /** 事件名稱 */
-  eventName?: 'input' | 'change' | 'click';
-  /** 函式 */
-  fn?: {
-    input: (e: Event, value: any, item: ItemConfig) => void;
-    change: (e: Event, value: any, item: ItemConfig) => void;
-    click: (e: Event, value: any, item: ItemConfig, type?: string) => void;
-  };
+  item?: FormElements;
+  eventName?: FormElements['eventName'];
+  fn?: FormFnType;
 }
-
 const props = withDefaults(defineProps<Props>(), {
-  item: () => ({} as ItemConfig),
+  item: () => ({}),
   eventName: 'change',
   fn: () => ({
     input: () => {},

@@ -35,11 +35,13 @@
         :id="item.id || item.name"
         :type="item.type || 'text'"
         :name="item.name"
-        :class="{ 'custom-date': item.type == 'date', invalid: errorMessage, isValue: value }"
+        :class="{ 'custom-date': item.type === 'date', invalid: errorMessage, isValue: value }"
         :placeholder="!item.disabled ? item.placeholder || '輸入內容' : ''"
         :value="item.type !== 'file' ? props.modelValue ?? value ?? item.value : ''"
         @input="
-          eventName === 'input' ? (handleChange($event, !!errorMessage), fn.input && fn.input($event, value, item)) : ''
+          eventName === 'input'
+            ? (handleChange($event, !!errorMessage), fn.input && fn.input($event, value, item))
+            : ''
         "
         @change="
           eventName === 'change'
@@ -136,103 +138,25 @@ import DatePicker from 'vue-datepicker-next';
 import { useField } from 'vee-validate';
 import { getUrl, downloadFile } from '@/utils/common';
 
-/** 傳入參數 */
-interface ItemConfig {
-  /** ID */
-  id?: string;
-  /** 名稱 */
-  name: string;
-  /** 類型 */
-  type?: string;
-  /** 樣式 */
-  class?: string | string[];
-  /** 標籤 */
-  label?: string;
-  /** 值 */
-  value?: string | number | boolean | File;
-  /** v-model */
-  modelValue?: any;
-  /** 是否為必填 */
-  need?: boolean;
-  /** 是否為禁用 */
-  disabled?: boolean;
-  /** 佔位符 */
-  placeholder?: string;
-  /** 是否隱藏標籤 */
-  hideLabel?: boolean;
-  /** 是否隱藏錯誤訊息 */
-  hideError?: boolean;
-  /** 已勾選 */
-  checked?: boolean;
-  /** 勾選值 */
-  trueValue?: any;
-  /** 取消勾選值 */
-  falseValue?: any;
-  /** 年份類型 */
-  yearType?: string;
-  /** 其它屬性 */
-  attr?: Record<string, any>;
-  /** 插入組件 */
-  component?: any;
-  /** 是否為圖標類型 */
-  isIconType?: boolean;
-  /** 是否顯示按鈕 */
-  showBtn?: boolean;
-  /** 是否顯示按鈕圖標 */
-  showBtnIcon?: string;
-  /** 是否顯示清除按鈕 */
-  showResetBtn?: boolean;
-  /** 檔案上傳樣式 */
-  fileShapeClass?: string;
-  /** 檔案格式 */
-  formatText?: string;
-  /** 是否隱藏眼睛 */
-  hideEye?: boolean;
-  /** 是否為受控 */
-  controlled?: boolean;
-  /** 是否隱藏圖形 */
-  hideShape?: boolean;
-  /** 最小長度 */
-  minlength?: number;
-  /** 最大長度 */
-  maxlength?: number;
-  /** 自動完成 */
-  autocomplete?: string;
-  /** 接受的檔案類型 */
-  accept?: string;
-  /** 其它屬性 */
-  [key: string]: any;
-}
-
-interface FnType {
-  input?: (e: Event, value: any, item: ItemConfig) => void;
-  change?: (e: Event, value: any, item: ItemConfig) => void;
-  click?: (e: Event, value: any, item: ItemConfig, type?: string) => void;
-}
-
 interface Props {
   /** 傳入參數 */
-  item: ItemConfig;
+  item?: FormElements;
   /** 事件名稱 */
-  eventName?: 'input' | 'change' | 'click';
+  eventName?: FormElements['eventName'];
   /** 函式 */
-  fn?: FnType;
+  fn?: FormFnType;
   /** v-model */
   modelValue?: any;
-  /** 插入組件 */
-  component?: any;
 }
-
 const props = withDefaults(defineProps<Props>(), {
-  item: () => ({} as ItemConfig),
+  item: () => ({}),
   eventName: 'change',
   fn: () => ({
     input: () => {},
-    change: (e: Event, value: any, item: ItemConfig) => {},
+    change: () => {},
     click: () => {},
   }),
   modelValue: undefined,
-  component: null,
 });
 
 const obj: any = {

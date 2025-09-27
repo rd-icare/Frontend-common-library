@@ -34,12 +34,7 @@
 <script setup lang="ts">
 import { useField } from 'vee-validate';
 
-interface Props {
-  item?: FormElements;
-  eventName?: FormElements['eventName'];
-  fn?: FormFnType;
-}
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<FormElementProps>(), {
   item: () => ({}),
   eventName: 'change',
   fn: () => ({

@@ -58,13 +58,7 @@ interface SelectOption {
   value?: string | number | boolean; // 值
 }
 
-interface Props {
-  item?: FormElements;
-  option?: (SelectOption | string | number)[];
-  eventName?: FormElements['eventName'];
-  fn?: FormFnType;
-}
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<FormElementProps>(), {
   item: () => ({}),
   eventName: 'change',
   option: () => [],

@@ -138,17 +138,7 @@ import DatePicker from 'vue-datepicker-next';
 import { useField } from 'vee-validate';
 import { getUrl, downloadFile } from '@/utils/common';
 
-interface Props {
-  /** 傳入參數 */
-  item?: FormElements;
-  /** 事件名稱 */
-  eventName?: FormElements['eventName'];
-  /** 函式 */
-  fn?: FormFnType;
-  /** v-model */
-  modelValue?: any;
-}
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<FormElementProps>(), {
   item: () => ({}),
   eventName: 'change',
   fn: () => ({

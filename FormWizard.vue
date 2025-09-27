@@ -74,7 +74,21 @@ const onSubmit = handleSubmit(
   }
 );
 
-defineExpose({
+ /** 定義 vee-validate 表單暴露型別 */
+export interface _VeeFormExpose {
+  values: typeof values;
+  errors: typeof errors;
+  meta: typeof meta;
+  handleReset: typeof handleReset;
+  resetField: typeof resetField;
+  resetForm: typeof resetForm;
+  setValues: typeof setValues;
+  setFieldValue: typeof setFieldValue;
+  setErrors: typeof setErrors;
+  setFieldError: typeof setFieldError;
+  defineField: typeof defineField;
+}
+defineExpose<VeeFormExpose>({
   values,
   errors,
   meta,

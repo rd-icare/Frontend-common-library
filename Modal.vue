@@ -55,7 +55,7 @@
         </template>
         <slot :modalOpen="modalOpen"> </slot>
         <!-- 插入組件 -->
-        <component :is="component" :="{ item: props }" v-model:modalOpen="modalOpen">
+        <component class="center" :is="component" :="{ item: props }" v-model:modalOpen="modalOpen">
           <template #bottom>
             <div class="bottom">
               <Button :text="$t('Util.cancel')" @click="modalOpen = false" />

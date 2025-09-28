@@ -11,7 +11,7 @@
       :id="item.id || item.name"
       :name="item.name"
       class="custom-select"
-      :class="{ invalid: errorMessage }"
+      :class="{ invalid: errorMessage, 'is-value': value }"
       :value="item.value ?? value"
       @input="
         eventName === 'input' ? (handleChange($event, !!errorMessage), fn.input && fn.input($event, value, item)) : ''

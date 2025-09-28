@@ -1,12 +1,9 @@
 <template>
   <div class="textarea" :class="item.class">
-    <!-- Label -->
     <label v-if="item.type !== 'hidden' && item.hideLabel !== true" :for="item.id || item.name">
       {{ item.label }}
       <span class="form-star" :class="{ active: item.need }"></span>
     </label>
-
-    <!-- Textarea -->
     <textarea
       :id="item.id || item.name"
       :type="item.type || 'text'"
@@ -23,8 +20,6 @@
       "
       @blur="handleBlur($event, true)"
       :disabled="item.disabled"></textarea>
-
-    <!-- Error -->
     <div v-if="item.hideError !== true && errorMessage && meta.touched" class="error">
       {{ errorMessage }}
     </div>

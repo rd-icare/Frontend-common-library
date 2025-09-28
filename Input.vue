@@ -11,19 +11,16 @@
         checked,
       },
     ]">
-    <!-- Checkbox -->
     <div v-if="item.type === 'checkbox' && item.hideShape !== true" class="inputShape">
       <div class="shape"></div>
     </div>
     <label v-if="item.type === 'checkbox' && item.hideShape" class="checkboxIcon gicons" :for="item.id || item.name">
       <span>{{ item.disabled ? 'indeterminate_check_box' : checked ? 'check_box' : 'check_box_outline_blank' }}</span>
     </label>
-    <!-- Label -->
     <label v-if="item.type !== 'hidden' && item.hideLabel !== true" :for="item.id || item.name">
       {{ item.label }}
       <span v-if="item.need" class="form-star" :class="{ active: item.need }"></span>
     </label>
-    <!-- Input -->
     <input
       v-if="item.type !== 'date'"
       :id="item.id || item.name"
@@ -50,7 +47,6 @@
       :maxlength="item.maxlength || undefined"
       :autocomplete="item.autocomplete || undefined"
       :accept="item.accept || undefined" />
-    <!-- DatePicker -->
     <DatePicker
       v-else-if="item.type === 'date' && item.yearType === 'initial'"
       :input-attr="{ name: item.name, id: item.id || item.name }"
@@ -65,7 +61,6 @@
       :="item.attr"
       :disabled="item.disabled"
       :input-class="{ invalid: errorMessage }" />
-    <!-- File Input -->
     <div
       v-if="item.type === 'file'"
       v-drag-upload="{ item, setErrors }"
@@ -109,9 +104,7 @@
         >
       </template>
     </div>
-    <!-- Error -->
     <div v-if="!item.hideError && errorMessage" class="error">{{ errorMessage }}</div>
-    <!-- IconEye -->
     <IconEye
       v-if="item.type === 'password' || item.class === 'font-password'"
       v-show="!item.hideEye"

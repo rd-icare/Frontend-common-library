@@ -1,6 +1,5 @@
 <template>
   <div class="select" :class="[item.class]">
-    <!-- Label -->
     <label
       v-if="item.type !== 'hidden' && item.hideLabel !== true"
       :for="item.id || item.name"
@@ -8,8 +7,6 @@
       {{ item.label }}
       <span v-if="item.need" class="form-star" :class="{ active: item.need }"></span>
     </label>
-
-    <!-- Select -->
     <select
       :id="item.id || item.name"
       :name="item.name"
@@ -41,8 +38,6 @@
         {{ typeof opt === 'object' && opt !== null && 'label' in opt ? opt.label : opt }}
       </option>
     </select>
-
-    <!-- Error -->
     <div v-if="!item.hideError && errorMessage" class="error">
       {{ errorMessage }}
     </div>

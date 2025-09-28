@@ -137,8 +137,7 @@ withDefaults(defineProps<Props>(), {
 }
 .text {
   display: flex;
-  font-size: 22px;
-  font-weight: 500;
+  font-size: 24px;
   white-space: nowrap;
   color: var(--invert-text);
 }

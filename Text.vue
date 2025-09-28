@@ -1,5 +1,5 @@
 <template>
-  <div :class="['text-style gicons', customClass]" :title="title">
+  <div class="text-style gicons" :title="title">
     <span v-if="icon">{{ icon }}</span>
     <div v-if="text">{{ text }}</div>
     <span v-if="iconR">{{ iconR }}</span>
@@ -8,20 +8,17 @@
 
 <script setup lang="ts">
 interface Props {
-  /** 自定義樣式 */
-  customClass?: string;
   /** 標題提示文字 */
   title?: string;
   /** 左圖標 */
   icon?: string;
   /** 文字 */
-  text?: string;
+  text?: string | object;
   /** 右圖標 */
   iconR?: string;
 }
 
 withDefaults(defineProps<Props>(), {
-  customClass: 'font-small-3 font-normal',
   title: '',
   icon: '',
   text: '',
@@ -31,15 +28,14 @@ withDefaults(defineProps<Props>(), {
 
 <style lang="scss" scoped>
 .text-style {
+  overflow: hidden;
   height: 32px;
-  display: flex;
+  display: grid;
   align-items: center;
-  justify-content: center;
-  gap: 4px;
   padding: 0px;
-  color: var(--main-text);
-  > span {
-    color: var(--icons);
+  > div {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 </style>

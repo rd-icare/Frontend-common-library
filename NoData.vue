@@ -19,9 +19,6 @@ withDefaults(defineProps<Props>(), {
   display: flex;
   justify-content: center;
   font-size: 18px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  line-height: 1.5;
   margin-top: 50px;
   color: var(--placeholder-text);
 }

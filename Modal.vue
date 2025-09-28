@@ -35,9 +35,7 @@
           maxWidth: maxWidth && !draggable ? `${maxWidth}px` : '',
         }">
         <div v-if="showTop && !optionsMode" class="top" v-drag-move="draggable ? '.content' : false">
-          <div v-if="subTitle || subTitleType[type]" class="sub-title font-small-2">
-            {{ subTitle || subTitleType[type] }}
-          </div>
+          <Text v-if="subTitle || subTitleType[type]" class="sub-title" :text="subTitle || subTitleType[type]" />
           <div v-if="title" class="title text-ellipsis font-small-1 font-bold" title="">{{ title }}</div>
           <Button
             class="close-btn icon-style no-border"
@@ -287,6 +285,7 @@ onMounted(() => {
     border-radius: var(--border-radius-1);
     box-shadow: var(--box-shadow-2);
     > .top {
+      user-select: none;
       position: relative;
       height: 36px;
       display: flex;

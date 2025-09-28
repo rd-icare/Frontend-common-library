@@ -2,7 +2,7 @@
   <button
     ref="buttonRef"
     :type="type"
-    :class="['btn-style gicons', customClass]"
+    class="btn-style gicons"
     :title="icon === 'arrow_back' ? '返回上頁' : title"
     v-debounce-click:[timeout]>
     <span v-if="icon">{{ icon }}</span>
@@ -17,8 +17,6 @@
 interface Props {
   /** 類型 */
   type?: 'button' | 'submit' | 'reset';
-  /** 自定義樣式 */
-  customClass?: string;
   /** 標題提示文字 */
   title?: string;
   /** 左圖標 */
@@ -33,7 +31,6 @@ interface Props {
 
 withDefaults(defineProps<Props>(), {
   type: 'button',
-  customClass: 'font-small-3 font-normal',
   title: '',
   icon: '',
   text: '',
@@ -58,15 +55,14 @@ const buttonRef = ref<HTMLButtonElement | null>(null);
 button {
   // 預設
   &.btn-style {
+    overflow: hidden;
     height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
     padding: 0px 12px;
     border: var(--border-1);
     border-radius: var(--border-radius-1);
-    color: var(--main-text);
     background-color: var(--white);
     transition: var(--transition-fast);
     &:hover {

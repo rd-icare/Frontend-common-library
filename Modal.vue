@@ -77,7 +77,7 @@
 // import type { ModalProps } from '@/types/index';
 const storeIndex = indexStore();
 const { modals } = storeToRefs(storeIndex);
-const { axiosCancel, cancelAllRequests } = storeIndex;
+const { cancelRequest, cancelAllRequests } = storeIndex;
 const { locale, t, ct } = useI18nGlobal();
 
 const props = withDefaults(defineProps<ModalProps>(), {
@@ -144,7 +144,7 @@ function afterEnter() {}
 function beforeLeave() {
   // 如果關閉的不是選項模式
   if (!props.optionsMode) {
-    axiosCancel('err_canceled');
+    cancelAllRequests();
   }
   if (isCenterModal) {
     // 顯示 body 滾動條

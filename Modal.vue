@@ -35,7 +35,10 @@
           maxWidth: maxWidth && !draggable ? `${maxWidth}px` : '',
         }">
         <div v-if="showTop && !optionsMode" class="top" v-drag-move="draggable ? '.content' : false">
-          <Text v-if="subTitle || subTitleType[type]" class="sub-title whitespace-nowrap pr-32" :text="subTitle || subTitleType[type]" />
+          <Text
+            v-if="subTitle || subTitleType[type]"
+            class="sub-title whitespace-nowrap pr-32"
+            :text="subTitle || subTitleType[type]" />
           <Text v-if="title" class="title font-small-1 font-bold whitespace-nowrap" :text="title" />
           <Button
             class="close-btn icon-style no-border"
@@ -74,6 +77,7 @@
 // import type { ModalProps } from '@/types/index';
 const storeIndex = indexStore();
 const { modals } = storeToRefs(storeIndex);
+const { axiosCancel, cancelAllRequests } = storeIndex;
 const { locale, t, ct } = useI18nGlobal();
 
 const props = withDefaults(defineProps<ModalProps>(), {
@@ -138,6 +142,10 @@ function afterEnter() {}
 
 /** 關閉前的前置動作 */
 function beforeLeave() {
+  // 如果關閉的不是選項模式
+  if (!props.optionsMode) {
+    axiosCancel('err_canceled');
+  }
   if (isCenterModal) {
     // 顯示 body 滾動條
     document.body.classList.remove('overflow-hidden');

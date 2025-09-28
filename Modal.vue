@@ -72,7 +72,7 @@
 
 <script setup lang="ts">
 // import type { ModalProps } from '@/types/index';
-const storeIndex = useIndexStore();
+const storeIndex = indexStore();
 const { modals } = storeToRefs(storeIndex);
 const { locale, t, ct } = useI18nGlobal();
 

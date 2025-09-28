@@ -35,8 +35,8 @@
           maxWidth: maxWidth && !draggable ? `${maxWidth}px` : '',
         }">
         <div v-if="showTop && !optionsMode" class="top" v-drag-move="draggable ? '.content' : false">
-          <Text v-if="subTitle || subTitleType[type]" class="sub-title" :text="subTitle || subTitleType[type]" />
-          <div v-if="title" class="title text-ellipsis font-small-1 font-bold" title="">{{ title }}</div>
+          <Text v-if="subTitle || subTitleType[type]" class="sub-title whitespace-nowrap pr-32" :text="subTitle || subTitleType[type]" />
+          <Text v-if="title" class="title font-small-1 font-bold whitespace-nowrap" :text="title" />
           <Button
             class="close-btn icon-style no-border"
             icon="close"

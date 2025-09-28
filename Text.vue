@@ -32,10 +32,10 @@ withDefaults(defineProps<Props>(), {
   height: 32px;
   display: grid;
   align-items: center;
-  padding: 0px;
   > div {
     overflow: hidden;
     text-overflow: ellipsis;
+    word-break: break-all
   }
 }
 </style>

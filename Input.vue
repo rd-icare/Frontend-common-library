@@ -11,9 +11,6 @@
         checked,
       },
     ]">
-    <div v-if="item.type === 'checkbox' && item.hideShape !== true" class="input-shape">
-      <div class="shape"></div>
-    </div>
     <label v-if="item.type === 'checkbox' && item.hideShape" class="checkbox-icon gicons" :for="item.id || item.name">
       <span>{{ item.disabled ? 'indeterminate_check_box' : checked ? 'check_box' : 'check_box_outline_blank' }}</span>
     </label>
@@ -64,8 +61,8 @@
     <div
       v-if="item.type === 'file'"
       v-drag-upload="{ item, setErrors }"
-      class="file-box theme"
-      :class="[{ 'is-icon-type': item.isIconType, 'is-icon-type-active': item.isIconType && value }, item.fileShapeClass]">
+      class="file-box gicons"
+      :class="[{ 'is-icon-type': item.isIconType, 'is-icon-type-active': item.isIconType && value }]">
       <label
         v-if="!item.isIconType"
         class="file-shape"
@@ -74,31 +71,24 @@
         <div v-show="value" class="image-box">
           <Img :src="getUrl(value as string | File | null | undefined)" />
         </div>
-        <div class="icon gicons">
+        <div class="box">
           <div class="text1">
             <span>add</span>
             <div v-html="item.placeholder || '上傳檔案'"></div>
           </div>
           <div class="text2 font-small-4">{{ item.formatText || '檔案格式：JPG/PNG/PDF' }}</div>
-          <Button v-if="item.showResetBtn && value" class="white" text="重新上傳" />
-          <div v-if="item.showBtn && value" class="btn-box">
-            <button type="button" @click.stop="fn.click && fn.click($event, value, item, 'btn-box')">
-              <span v-if="item.showBtnIcon">{{ item.showBtnIcon }}</span>
-            </button>
-          </div>
         </div>
-        <div v-if="!value && item.fileShapeClass" class="text">{{ item.placeholder }}</div>
       </label>
       <template v-else>
         <div v-show="false" class="image-box">
           <Img :src="getUrl(value as string | File | null | undefined)" />
         </div>
         <label v-if="!value" class="file-shape" :for="item.id || item.name">
-          <span>upgrade</span>
+          <span class="icon">upgrade</span>
         </label>
         <span
           v-else
-          class="icon-image"
+          class="icon"
           @click="downloadFile($event, getUrl(value as string | File | null | undefined), item.label)"
           >image</span
         >

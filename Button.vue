@@ -65,9 +65,6 @@ button {
     border-radius: var(--border-radius-1);
     background-color: var(--white);
     transition: var(--transition-fast);
-    &:hover {
-      opacity: 0.8;
-    }
     &:focus {
       outline: none;
     }
@@ -77,7 +74,6 @@ button {
       color: var(--white);
       background-color: var(--color-primary);
       &:hover {
-        opacity: 1;
         filter: brightness(1.1);
       }
     }
@@ -87,7 +83,6 @@ button {
       color: var(--white);
       background-color: var(--color-sub);
       &:hover {
-        opacity: 1;
         filter: brightness(1.1);
       }
     }
@@ -121,14 +116,11 @@ button {
     // 圖標 hover
     &.icon-style-hover {
       &:hover {
-        opacity: 1;
-        background-color: var(--surface);
+        @include hover-style;
       }
     }
     &.active {
-      border: 1px solid var(--color-primary);
-      color: var(--color-primary);
-      background-color: var(--color-primary-bg);
+      @include active-style;
     }
   }
 }

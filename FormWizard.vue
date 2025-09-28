@@ -2,7 +2,7 @@
   <form @submit="onSubmit" @keypress.enter="(e) => (!useKeypressEnter ? e.preventDefault() : null)" novalidate>
     <slot name="content" :values="values" :errors="errors" :handleReset="handleReset" :resetForm="resetForm" />
     <div
-      class="formValuesBox"
+      class="form-values-box"
       :class="{ active }"
       :style="{ display: showFormValues ? 'block' : 'none' }"
       @click.self="active = !active">

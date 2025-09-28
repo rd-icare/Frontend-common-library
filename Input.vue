@@ -11,10 +11,10 @@
         checked,
       },
     ]">
-    <div v-if="item.type === 'checkbox' && item.hideShape !== true" class="inputShape">
+    <div v-if="item.type === 'checkbox' && item.hideShape !== true" class="input-shape">
       <div class="shape"></div>
     </div>
-    <label v-if="item.type === 'checkbox' && item.hideShape" class="checkboxIcon gicons" :for="item.id || item.name">
+    <label v-if="item.type === 'checkbox' && item.hideShape" class="checkbox-icon gicons" :for="item.id || item.name">
       <span>{{ item.disabled ? 'indeterminate_check_box' : checked ? 'check_box' : 'check_box_outline_blank' }}</span>
     </label>
     <label v-if="item.type !== 'hidden' && item.hideLabel !== true" :for="item.id || item.name">
@@ -64,14 +64,14 @@
     <div
       v-if="item.type === 'file'"
       v-drag-upload="{ item, setErrors }"
-      class="fileBox theme"
-      :class="[{ isIconType: item.isIconType, isIconTypeActive: item.isIconType && value }, item.fileShapeClass]">
+      class="file-box theme"
+      :class="[{ 'is-icon-type': item.isIconType, 'is-icon-type-active': item.isIconType && value }, item.fileShapeClass]">
       <label
         v-if="!item.isIconType"
-        class="fileShape"
+        class="file-shape"
         :class="[{ active: value, invalid: errorMessage, disabled: item.disabled }]"
         :for="item.id || item.name">
-        <div v-show="value" class="imageBox">
+        <div v-show="value" class="image-box">
           <Img :src="getUrl(value as string | File | null | undefined)" />
         </div>
         <div class="icon gicons">

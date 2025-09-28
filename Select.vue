@@ -3,14 +3,14 @@
     <label
       v-if="item.type !== 'hidden' && item.hideLabel !== true"
       :for="item.id || item.name"
-      :class="{ noValue: value === '_' }">
+      :class="{ 'no-value': value === '_' }">
       {{ item.label }}
       <span v-if="item.need" class="form-star" :class="{ active: item.need }"></span>
     </label>
     <select
       :id="item.id || item.name"
       :name="item.name"
-      class="customSelect"
+      class="custom-select"
       :class="{ invalid: errorMessage }"
       :value="item.value ?? value"
       @input="

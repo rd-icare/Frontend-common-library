@@ -1,5 +1,5 @@
 <template>
-  <div :class="[styleVerson, { noPlaceholder }]">
+  <div :class="[styleVerson, { 'no-placeholder': noPlaceholder }]">
     <template v-for="(item, index) in formContent" :key="item.name || index">
       <component
         v-if="componentMap[item.type as keyof typeof componentMap]"

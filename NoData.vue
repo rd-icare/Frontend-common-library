@@ -1,5 +1,5 @@
 <template>
-  <div class="noData">{{ text }}</div>
+  <div class="no-data">{{ text }}</div>
 </template>
 
 <script setup lang="ts">
@@ -14,7 +14,7 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <style lang="scss" scoped>
-.noData {
+.no-data {
   width: 100%;
   display: flex;
   justify-content: center;

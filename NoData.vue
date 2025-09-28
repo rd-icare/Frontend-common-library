@@ -18,7 +18,6 @@ withDefaults(defineProps<Props>(), {
   width: 100%;
   display: flex;
   justify-content: center;
-  font-size: 18px;
   color: var(--placeholder-text);
 }
 </style>

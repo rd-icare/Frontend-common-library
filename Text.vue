@@ -28,6 +28,7 @@ withDefaults(defineProps<Props>(), {
 
 <style lang="scss" scoped>
 .text-style {
+  user-select: text;
   overflow: hidden;
   height: 32px;
   display: grid;

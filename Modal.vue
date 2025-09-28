@@ -24,7 +24,7 @@
         optionsMode ? `options-mode-${id}` : '',
       ]"
       :style="{
-        zIndex: zIndex || 'var(--z-index-centerModal)',
+        zIndex: zIndex || 'var(--z-index-center-modal)',
       }"
       @blur="optionsMode ? blur($event) : ''">
       <div v-if="backdrop && !draggable && !optionsMode" class="backdrop" @click="modalOpen = backdropDisabled"></div>

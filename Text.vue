@@ -30,7 +30,6 @@ withDefaults(defineProps<Props>(), {
 .text-style {
   user-select: text;
   overflow: hidden;
-  height: 32px;
   display: grid;
   align-items: center;
   > div {

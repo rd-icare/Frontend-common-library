@@ -88,7 +88,7 @@ export interface _VeeFormExpose {
   setFieldError: typeof setFieldError;
   defineField: typeof defineField;
 }
-defineExpose<VeeFormExpose>({
+defineExpose<_VeeFormExpose>({
   values,
   errors,
   meta,

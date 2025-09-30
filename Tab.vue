@@ -66,7 +66,7 @@ const props = withDefaults(defineProps<Props>(), {
     display: flex;
     align-items: center;
     margin-top: 3px;
-    padding: 0 12px 1px 12px;
+    padding: 0 24px 1px 12px;
     border: var(--border-1);
     border-radius: var(--border-radius-2) var(--border-radius-2) 0 0;
     background-color: var(--surface);

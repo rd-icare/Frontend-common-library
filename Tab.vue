@@ -5,16 +5,16 @@
       :key="item.text"
       :class="[
         'item whitespace-nowrap',
-        { active: item.sub_path === routeSubPath || (item.userId && item.userId === routeParamsId) },
+        { active: item.id ? item.id === routeParamsId : item.sub_path === routeSubPath },
       ]"
-      @click="clickFn({ type: 'router', sub_path: item.sub_path, userId: item.userId, index })">
+      @click="clickFn({ type: 'router', sub_path: item.sub_path, id: item.id, index })">
       <Text class="text" :text="item.text" />
       <Button
-        v-if="item.userId"
+        v-if="item.id"
         class="close-btn icon-style no-border"
         icon="close"
         :title="$t('Util.close_index')"
-        @click.stop="clickFn({ type: 'close', userId: item.userId, index })" />
+        @click.stop="clickFn({ type: 'close', sub_path: item.sub_path, id: item.id, index })" />
     </div>
   </div>
 </template>

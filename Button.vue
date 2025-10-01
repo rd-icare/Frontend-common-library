@@ -125,6 +125,11 @@ button {
     &.active {
       @include active-style;
     }
+    &.disabled {
+      pointer-events: none;
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
   }
 }
 </style>

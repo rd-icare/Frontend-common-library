@@ -60,6 +60,7 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 2px;
     padding: 0px 12px;
     border: var(--border-1);
     border-radius: var(--border-radius-1);
@@ -88,6 +89,8 @@ button {
     }
     // 無邊框
     &.no-border {
+      height: auto;
+      padding: 0px;
       border: 1px solid transparent;
       background-color: transparent;
     }

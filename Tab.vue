@@ -5,7 +5,10 @@
       :key="item.text"
       :class="[
         'item whitespace-nowrap',
-        { active: item.id ? item.id === routeParamsId : item.sub_path === routeSubPath },
+        {
+          active: item.id ? item.id === routeParamsId : item.sub_path === routeSubPath,
+          '!pr-24': item.id,
+        },
       ]"
       @click="clickFn({ type: 'router', sub_path: item.sub_path, id: item.id, index })">
       <Text class="text" :text="item.text" />
@@ -66,7 +69,7 @@ const props = withDefaults(defineProps<Props>(), {
     display: flex;
     align-items: center;
     margin-top: 3px;
-    padding: 0 24px 1px 12px;
+    padding: 0 12px 1px 12px;
     border: var(--border-1);
     border-radius: var(--border-radius-2) var(--border-radius-2) 0 0;
     background-color: var(--surface);
@@ -95,6 +98,13 @@ const props = withDefaults(defineProps<Props>(), {
       :deep(span) {
         font-size: 16px;
       }
+    }
+  }
+  &.small-style {
+    flex: 0 0 32px;
+    > .item {
+      flex: 0 0 100px;
+      justify-content: center;
     }
   }
 }

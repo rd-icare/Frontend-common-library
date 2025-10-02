@@ -58,9 +58,9 @@
         <component class="center" :is="component" :="{ item: props }" v-model:modalOpen="modalOpen">
           <template #bottom>
             <div class="bottom">
-              <Button :text="$t('Util.cancel')" @click="modalOpen = false" />
+              <Button :text="$t('Util.cancel')" @click="(modalOpen = false), onConfirm(false)" />
               <Button v-if="id !== 'confirm-modal'" class="c-primary" type="submit" :text="$t('Util.submit')" />
-              <Button v-else class="c-primary" :text="$t('Util.leave')" />
+              <Button v-else class="c-primary" :text="$t('Util.leave')" @click="(modalOpen = false), onConfirm(true)" />
             </div>
           </template>
         </component>
@@ -106,6 +106,7 @@ const props = withDefaults(defineProps<ModalProps>(), {
   subComponentText: '',
   onOpen: () => {},
   onClose: () => {},
+  onConfirm: () => {},
   close,
 });
 

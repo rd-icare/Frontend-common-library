@@ -13,15 +13,13 @@
 </template>
 
 <script setup lang="ts">
-import { useForm, type SubmissionContext } from 'vee-validate';
+import { useForm, type SubmissionContext, type InvalidSubmissionContext } from 'vee-validate';
 
-interface Props {
+interface Props<T extends Record<string, any>> {
   /** 初始值 */
-  initialValues?: Record<string, any>;
+  initialValues?: T;
   /** 有效性驗證 */
-  schema?: Record<string, any>;
-  /** 無效提交 */
-  onInvalidSubmit?: (values: Record<string, any>, errors: Record<string, any>, results: Record<string, any>) => void;
+  schema?: T;
   /** 保持值 */
   keepValues?: boolean;
   /** 使用 enter 鍵提交 */
@@ -30,18 +28,17 @@ interface Props {
   showFormValues?: boolean;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props<any>>(), {
   initialValues: () => ({}),
   schema: () => ({}),
-  onInvalidSubmit: () => {},
   keepValues: true,
   useKeypressEnter: false,
   showFormValues: false,
 });
 
 const emit = defineEmits<{
-  (e: 'submit', values: Record<string, any>, actions: SubmissionContext<any>): void;
-  (e: 'invalidSubmit', values: Record<string, any>, errors: Record<string, any>, results: Record<string, any>): void;
+  <T extends Record<string, any>>(e: 'submit', values: T, actions: SubmissionContext<T>): void;
+  <T extends Record<string, any>>(e: 'invalidSubmit', values: T, errors: T, results: InvalidSubmissionContext<T>): void;
 }>();
 
 const active = ref(true);
@@ -70,11 +67,11 @@ const onSubmit = handleSubmit(
     emit('submit', values, actions);
   },
   (results) => {
-    emit('invalidSubmit', values, errors, results);
+    emit('invalidSubmit', values as any, errors, results);
   }
 );
 
- /** 定義 vee-validate 表單暴露型別 */
+/** 定義 vee-validate 表單暴露型別 */
 export interface _VeeFormExpose {
   values: typeof values;
   errors: typeof errors;

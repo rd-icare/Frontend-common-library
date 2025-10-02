@@ -1,6 +1,13 @@
 <template>
   <form @submit="onSubmit" @keypress.enter="(e) => (!useKeypressEnter ? e.preventDefault() : null)" novalidate>
-    <slot name="content" :values="values" :errors="errors" :handleReset="handleReset" :resetForm="resetForm" />
+    <!-- 用 fieldset 將整個 slot 包起來：HTML 會把所有子 input/textarea/select/button disabled -->
+    <fieldset :disabled="isReadOnly" class="form-fieldset">
+      <slot name="content" :values="values" :errors="errors" :handleReset="handleReset" />
+    </fieldset>
+
+    <slot name="buttons" :handleReset="handleReset" :resetForm="resetForm" />
+
+    <!-- debug -->
     <div
       class="form-values-box"
       :class="{ active }"
@@ -22,6 +29,8 @@ interface Props<T extends Record<string, any>> {
   schema?: T;
   /** 保持值 */
   keepValues?: boolean;
+  /** 控制只讀/編輯 */
+  readonly?: boolean | undefined;
   /** 使用 enter 鍵提交 */
   useKeypressEnter?: boolean;
   /** 顯示表單值 */
@@ -33,14 +42,20 @@ const props = withDefaults(defineProps<Props<any>>(), {
   schema: () => ({}),
   keepValues: true,
   useKeypressEnter: false,
+  readonly: undefined,
   showFormValues: false,
 });
 
 const emit = defineEmits<{
   <T extends Record<string, any>>(e: 'submit', values: T, actions: SubmissionContext<T>): void;
   <T extends Record<string, any>>(e: 'invalidSubmit', values: T, errors: T, results: InvalidSubmissionContext<T>): void;
+  (e: 'update:readonly', val: boolean): void;
 }>();
 
+const isReadOnly = defineModel<boolean | undefined>('readonly', {
+  type: Boolean || undefined,
+  default: undefined,
+});
 const active = ref(true);
 
 const {
@@ -68,6 +83,17 @@ const onSubmit = handleSubmit(
   },
   (results) => {
     emit('invalidSubmit', values as any, errors, results);
+  }
+);
+
+// optional: 當切回只讀時，自動還原到 initialValues（視需求可移除）
+watch(
+  () => isReadOnly.value,
+  (ro) => {
+    if (ro) {
+      // resetForm 會把 values 還原為 initialValues（也會重置 touched），避免未儲存的改動殘留
+      resetForm({ values: props.initialValues });
+    }
   }
 );
 
@@ -100,4 +126,10 @@ defineExpose<_VeeFormExpose>({
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.form-fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+</style>

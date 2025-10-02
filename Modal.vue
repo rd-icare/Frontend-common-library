@@ -179,7 +179,7 @@ function blur(e: any) {
   // 如果關閉的不是選項模式
   if (!e.relatedTarget?.className.includes('options-mode')) {
     // modalOpen.value = false;
-    Object.keys(modals.value).forEach((key, index) => {
+    Object.keys(modals.value || {}).forEach((key, index) => {
       if (modals.value[key].optionsMode) {
         modals.value[key].modalOpen = false;
       }

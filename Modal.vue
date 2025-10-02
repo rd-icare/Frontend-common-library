@@ -54,13 +54,13 @@
             </div>
           </slot>
         </template>
-        <slot :modalOpen="modalOpen"> </slot>
         <!-- 插入組件 -->
         <component class="center" :is="component" :="{ item: props }" v-model:modalOpen="modalOpen">
           <template #bottom>
             <div class="bottom">
               <Button :text="$t('Util.cancel')" @click="modalOpen = false" />
-              <Button class="c-primary" type="submit" :text="$t('Util.submit')" />
+              <Button v-if="id !== 'confirm-modal'" class="c-primary" type="submit" :text="$t('Util.submit')" />
+              <Button v-else class="c-primary" :text="$t('Util.leave')" />
             </div>
           </template>
         </component>
@@ -101,6 +101,9 @@ const props = withDefaults(defineProps<ModalProps>(), {
   direction: '',
   optionsModeId: '',
   itemHeight: 0,
+  subComponent: () => {},
+  subComponentIcon: '',
+  subComponentText: '',
   onOpen: () => {},
   onClose: () => {},
   close,

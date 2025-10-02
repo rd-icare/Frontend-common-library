@@ -31,11 +31,14 @@ withDefaults(defineProps<Props>(), {
   user-select: text;
   overflow: hidden;
   display: grid;
+  grid-auto-flow: column; /* 子元素強制橫向排 */
   align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
   > div {
     overflow: hidden;
     text-overflow: ellipsis;
-    word-break: break-all
+    word-break: break-all;
   }
 }
 </style>

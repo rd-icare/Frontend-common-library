@@ -29,7 +29,7 @@ interface Props<T extends Record<string, any>> {
   schema?: T;
   /** 保持值 */
   keepValues?: boolean;
-  /** 控制只讀/編輯 */
+  /** true 只讀 / false 編輯 */
   readonly?: boolean | undefined;
   /** 使用 enter 鍵提交 */
   useKeypressEnter?: boolean;
@@ -71,6 +71,7 @@ const {
   setErrors,
   setFieldError,
   defineField,
+  submitForm,
 } = useForm({
   initialValues: props.initialValues,
   validationSchema: computed(() => props.schema),
@@ -89,8 +90,8 @@ const onSubmit = handleSubmit(
 // optional: 當切回只讀時，自動還原到 initialValues（視需求可移除）
 watch(
   () => isReadOnly.value,
-  (ro) => {
-    if (ro) {
+  (bool) => {
+    if (bool) {    
       // resetForm 會把 values 還原為 initialValues（也會重置 touched），避免未儲存的改動殘留
       resetForm({ values: props.initialValues });
     }
@@ -110,6 +111,7 @@ export interface _VeeFormExpose {
   setErrors: typeof setErrors;
   setFieldError: typeof setFieldError;
   defineField: typeof defineField;
+  onSubmit: typeof onSubmit;
 }
 defineExpose<_VeeFormExpose>({
   values,
@@ -123,6 +125,7 @@ defineExpose<_VeeFormExpose>({
   setErrors,
   setFieldError,
   defineField,
+  onSubmit,
 });
 </script>
 

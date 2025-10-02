@@ -127,12 +127,12 @@ defineExpose<_VeeFormExpose>({
 </script>
 
 <style lang="scss" scoped>
-from {
+form {
+  flex-grow: 1;
   display: flex;
+  flex-direction: column;
   > .form-fieldset {
     border: none;
-    padding: 0;
-    margin: 0;
     display: flex;
     flex-direction: column;
   }

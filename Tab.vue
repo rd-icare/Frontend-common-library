@@ -1,5 +1,5 @@
 <template>
-  <div v-if="Object.keys(data || {}).length" class="tab-box">
+  <div class="tab-box">
     <div
       v-for="(item, index) in data"
       :key="item.text"
@@ -21,6 +21,8 @@
     </div>
   </div>
 </template>
+
+<!-- v-if="Object.keys(data || {}).length" -->
 
 <script setup lang="ts">
 const storeIndex = indexStore();

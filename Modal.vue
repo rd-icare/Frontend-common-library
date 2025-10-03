@@ -195,10 +195,10 @@ function blur(e: any) {
 }
 
 /** 分享變量與方法，在 useModalManager.ts 內 return 也要同步  */
-defineExpose({
-  optionsMode: props.optionsMode,
-  modalOpen,
-});
+// defineExpose({
+//   optionsMode: props.optionsMode,
+//   modalOpen,
+// });
 
 onMounted(() => {
   modalOpen.value = true;

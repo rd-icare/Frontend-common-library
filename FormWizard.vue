@@ -29,8 +29,6 @@ interface Props<T extends Record<string, any>> {
   schema?: T;
   /** 保持值 */
   keepValues?: boolean;
-  /** true 只讀 / false 編輯 */
-  readonly?: boolean | undefined;
   /** 使用 enter 鍵提交 */
   useKeypressEnter?: boolean;
   /** 顯示表單值 */
@@ -42,7 +40,6 @@ const props = withDefaults(defineProps<Props<any>>(), {
   schema: () => ({}),
   keepValues: true,
   useKeypressEnter: false,
-  readonly: undefined,
   showFormValues: false,
 });
 

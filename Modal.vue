@@ -77,7 +77,7 @@
 // import type { ModalProps } from '@/types/index';
 const storeIndex = indexStore();
 const { modals } = storeToRefs(storeIndex);
-const { cancelRequest, cancelAllRequests } = storeIndex;
+const {} = storeIndex;
 const { locale, t, ct } = useI18nGlobal();
 
 const props = withDefaults(defineProps<ModalProps>(), {
@@ -151,10 +151,6 @@ function afterEnter() {}
 
 /** 關閉前的前置動作 */
 function beforeLeave() {
-  // 如果關閉的不是選項模式
-  if (!props.optionsMode) {
-    cancelAllRequests();
-  }
   if (isCenterModal) {
     // 顯示 body 滾動條
     document.body.classList.remove('overflow-hidden');

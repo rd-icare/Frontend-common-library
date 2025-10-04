@@ -1,10 +1,9 @@
 <template>
-  <img ref="imgRef" :src="getUrl()" :alt="alt" @error="imgError" @load="imgLoad" />
+  <img ref="imgRef" :src="imgUrl()" :alt="alt" @error="imgError" @load="imgLoad" />
 </template>
 
 <script setup lang="ts">
 import { ref, nextTick } from 'vue';
-import { fileToBase64 } from '@/utils/common';
 import { loadFile } from '@/composables/toPDFView';
 
 interface Props {
@@ -30,9 +29,9 @@ const emit = defineEmits<{
 const imgRef = ref<HTMLImageElement | null>(null);
 
 /** 取得圖片 URL */
-const getUrl = (): string => {
+const imgUrl = (): string => {
   if (props.src instanceof File) {
-    console.log('getUrl File');
+    console.log('imgUrl File');
     nextTick(() => {
       if (!imgRef.value) return;
       const srcStr = imgRef.value.src;
@@ -45,7 +44,7 @@ const getUrl = (): string => {
     });
     return ''; // 預設先回空字串，因為 File 要 async 處理
   } else if (typeof props.src === 'string' && props.src.includes('.pdf')) {
-    console.log('getUrl .pdf');
+    console.log('imgUrl .pdf');
     nextTick(() => {
       if (!imgRef.value) return;
       imgRef.value.src = '/img/space.gif';

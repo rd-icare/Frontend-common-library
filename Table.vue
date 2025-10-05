@@ -48,7 +48,6 @@
           <div class="box" :class="{ disabled: storeParams.currentPage === 1 }" @click="clickFn('backward')">
             <span>chevron_backward</span>
           </div>
-          <!-- 動態頁碼按鈕 start -->
           <div
             v-for="page in visiblePages"
             :key="page"
@@ -57,7 +56,6 @@
             @click="clickFn(page)">
             {{ page }}
           </div>
-          <!-- 動態頁碼按鈕 end -->
           <div
             class="box"
             :class="{ disabled: storeParams.currentPage === storeParams.totalPage || storeParams.totalPage === 0 }"

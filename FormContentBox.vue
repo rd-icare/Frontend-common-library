@@ -1,5 +1,5 @@
 <template>
-  <div :class="[styleVerson, { 'no-placeholder': noPlaceholder }]">
+  <div class="input-box" :class="{ 'no-placeholder': noPlaceholder }">
     <template v-for="(item, index) in formContent" :key="item.name || index">
       <component
         v-if="componentMap[item.type as keyof typeof componentMap]"
@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import None from './None.vue';
+import InputNone from './InputNone.vue';
 import Select from './Select.vue';
 import Textarea from './Textarea.vue';
 import Input from './Input.vue';
@@ -31,15 +31,12 @@ interface Props {
   optionContent?: Record<string, any>;
   /** 函式集合 */
   fn?: FormFnType;
-  /** 樣式版本 */
-  styleVerson?: string;
   /** 不顯示 placeholder */
   noPlaceholder?: boolean;
 }
 withDefaults(defineProps<Props>(), {
   formContent: () => [],
   optionContent: () => ({}),
-  styleVerson: 'input-box',
   noPlaceholder: false,
 });
 
@@ -49,7 +46,7 @@ withDefaults(defineProps<Props>(), {
 const componentMap: Record<string, any> = {
   select: Select,
   textarea: Textarea,
-  none: None,
+  none: InputNone,
 };
 </script>
 

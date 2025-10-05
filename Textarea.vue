@@ -1,5 +1,5 @@
 <template>
-  <div class="textarea" :class="item.class">
+  <div class="textarea" :class="[item.class]">
     <label v-if="item.type !== 'hidden' && item.hideLabel !== true" :for="item.id || item.name">
       {{ item.label }}
       <span class="form-star" :class="{ active: item.need }"></span>

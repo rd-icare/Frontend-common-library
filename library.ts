@@ -8,7 +8,7 @@ import Img from './Img.vue';
 import Input from './Input.vue';
 import Modal from './Modal.vue';
 import NoData from './NoData.vue';
-import None from './None.vue';
+import InputNone from './InputNone.vue';
 import Select from './Select.vue';
 import Tab from './Tab.vue';
 import Text from './Text.vue';
@@ -25,7 +25,7 @@ export {
   Input,
   Modal,
   NoData,
-  None,
+  InputNone,
   Select,
   Tab,
   Text,

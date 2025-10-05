@@ -1,5 +1,5 @@
 <template>
-  <div class="table-style gicons">
+  <div class="table-box gicons">
   </div>
 </template>
 

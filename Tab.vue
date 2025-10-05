@@ -11,7 +11,7 @@
         },
       ]"
       @click="clickFn({ type: 'router', sub_path: item.sub_path, id: item.id, index })">
-      <Text class="text" :text="item.text" />
+      <Text :text="item.text" />
       <Button
         v-if="item.id"
         class="close-btn icon-style no-border"

@@ -1,5 +1,5 @@
 <template>
-  <div class="text-style gicons" :title="title">
+  <div class="text gicons" :title="title">
     <span v-if="icon">{{ icon }}</span>
     <div v-if="text">{{ text }}</div>
     <span v-if="iconR">{{ iconR }}</span>
@@ -27,7 +27,7 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <style lang="scss" scoped>
-.text-style {
+.text {
   user-select: text;
   overflow: hidden;
   display: grid;

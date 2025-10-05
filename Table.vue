@@ -162,7 +162,8 @@ const fn = ref<FormFnType>({
     console.log('change', value, item);
     // 前往頁數
     if (item?.name === `${storeParams.value.tableClass}_page_num`) {
-      storeParams.value.currentPage = value;
+      // storeParams.value.currentPage = Number(value);
+      storeParams.value.currentPage = +value;
       nextTick(async () => {
         await props.getDatas();
         setScroll();
@@ -170,9 +171,9 @@ const fn = ref<FormFnType>({
     }
     // 切換顯示筆數
     if (item?.name === `${storeParams.value.tableClass}_show_num`) {
-      storeParams.value.perPage = value;
+      storeParams.value.perPage = +value;
       // 當前頁數重新計算
-      storeParams.value.currentPage = Math.ceil(storeParams.value.totalCount / (storeParams.value.perPage ?? 20));
+      storeParams.value.currentPage = Math.ceil(storeParams.value.totalCount / storeParams.value.perPage);
       nextTick(async () => {
         await props.getDatas();
         setScroll();
@@ -184,8 +185,9 @@ const fn = ref<FormFnType>({
 const clickFn = (type: string | number) => {
   const sp = storeParams.value;
   if (!sp) return;
-  const current = sp.currentPage ?? 1;
-  const total = sp.totalPage ?? 1;
+  // const current = sp.currentPage ?? 1;
+  const current = sp.currentPage;
+  const total = sp.totalPage;
   switch (type) {
     case 'first':
       sp.currentPage = 1;

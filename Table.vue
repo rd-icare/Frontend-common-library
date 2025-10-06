@@ -7,13 +7,13 @@
         disabled: !storeParams.data?.length,
       },
     ]">
-    <div class="thead-box" :class="{ 'show-scroll': showScroll }">
-      <slot name="thead" :key="`thead-${storeParams.tableClass}`" class="item thead"></slot>
+    <div class="thead" :class="{ 'show-scroll': showScroll }">
+      <slot name="thead" class="tr"></slot>
     </div>
     <div class="tbody-main">
       <div
         ref="scrollRef"
-        class="tbody-box fade-loading"
+        class="tbody fade-loading"
         :class="[
           {
             loading: storeParams.loading,
@@ -25,7 +25,7 @@
             name="tbody"
             v-for="(item, index) in storeParams.data"
             :key="item.id || item"
-            class="item tbody"
+            class="tr"
             :="{ item, index }"></slot>
         </TransitionGroup>
       </div>

@@ -1,9 +1,12 @@
 <template>
-  <!-- <template
-    v-if="divType === 'thead' && showThead"
-    v-for="({ name, label, style, hide, showArrow, isSortArrow }, idx) in tableItem">
-    <div :class="[`column-${idx + 1}`]" :style="style" :title="label">
-      <div class="text">{{ label }}</div>
+  <template v-if="divType === 'thead' && showThead">
+    <div
+      v-for="({ name, label, style, hide, showArrow }, idx) in tableItem"
+      :key="idx"
+      v-show="!hide"
+      :class="[`th column-${idx + 1}`]"
+      :style="style">
+      <Text :title="label" :text="label" />
       <ArrowBox
         v-if="showArrow"
         :name
@@ -14,48 +17,17 @@
         @click="activeIndex = idx" />
     </div>
   </template>
-  <template
-    v-else-if="divType === 'tbody'"
-    v-for="(
-      { label, name, type, stateType, stateText, stateTextArr, icon, hide, style, toDate = undefined, component }, idx
-    ) in tableItem">
+  <template v-else-if="divType === 'tbody'">
     <div
-      v-if="type === undefined"
-      :class="[{ icon: type === 'icon', state: component, hidden: hide }, `column-${idx + 1}`]"
-      :style="style"
-      :title="!toDate ? (!component ? item[name] : '') : item[name] ? dayjs(item[name]).format(toDate) : ''">
-      <Component v-if="component" :is="component" :name :item :index />
-      <template v-else-if="item[name]">
-        {{ !toDate ? item[name] : item[name] ? dayjs(item[name]).format(toDate) : '' }}
-      </template>
+      v-for="({ name, label, style, hide, component }, idx) in tableItem"
+      :key="idx"
+      v-show="!hide"
+      :class="[`td column-${idx + 1}`]"
+      :style="style">
+      <component v-if="component" :is="component" :name :item :index />
+      <Text v-else :title="label" :text="label" />
     </div>
-    <div v-else-if="type === 'state'" :class="[`column-${idx + 1}`, { state: type === 'state' }]">
-      <TextRoundBox
-        v-if="
-          stateType === 6 || item?.staff_type !== 'visitor' || !['train_statis', 'proof', 'body_status'].includes(name)
-        "
-        :stateType
-        :value="name !== 'proof' ? item[name] : true"
-        :stateText
-        :stateTextArr />
-      <TextRoundBox v-else :stateType="3" :value="false" :stateTextArr="['']" />
-    </div>
-    <div
-      v-else-if="type === 'icon'"
-      :class="[classObj({ type, icon })]"
-      @click="
-        !['picture_as_pdf'].includes(icon)
-          ? click(name, item, index)
-          : downloadFile(
-              $event,
-              getUrl(item[name]),
-              `${item.class_staff_name ? `${item.class_staff_name}_${label}` : label}`
-            )
-      ">
-      <Component v-if="component" :is="component" :name :item :index />
-      <span v-else>{{ icon }}</span>
-    </div>
-  </template> -->
+  </template>
 </template>
 
 <script setup lang="ts"></script>

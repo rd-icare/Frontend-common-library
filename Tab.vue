@@ -6,18 +6,18 @@
       :class="[
         'item whitespace-nowrap',
         {
-          active: item.id ? item.id === routeParamsId : item.sub_path === routeSubPath,
+          active: item.id ? item.id === routeParamsId : item.subPath === routeSubPath,
           '!pr-24': item.id,
         },
       ]"
-      @click="clickFn({ type: 'router', sub_path: item.sub_path, id: item.id, index })">
+      @click="clickFn({ type: 'router', subPath: item.subPath, id: item.id, index })">
       <Text :text="item.text" />
       <Button
         v-if="item.id"
         class="close-btn icon-style no-border"
         icon="close"
         :title="$t('Util.close_index')"
-        @click.stop="clickFn({ type: 'close', sub_path: item.sub_path, id: item.id, index })" />
+        @click.stop="clickFn({ type: 'close', subPath: item.subPath, id: item.id, index })" />
     </div>
   </div>
 </template>

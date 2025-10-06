@@ -10,7 +10,7 @@
     <div class="thead" :class="{ 'show-scroll': showScroll }">
       <slot name="thead" class="tr"></slot>
     </div>
-    <div class="tbody-main">
+    <div class="tbody-box">
       <div
         ref="scrollRef"
         class="tbody fade-loading"

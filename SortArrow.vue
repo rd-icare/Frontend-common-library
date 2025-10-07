@@ -31,12 +31,16 @@ function toggleSort() {
   user-select: text;
   cursor: pointer;
   position: absolute;
-  top: 0px;
+  inset: 0 0 0 0;
+  /* top: 0px;
   left: 0px;
   width: 100%;
-  height: 100%;
+  height: 100%; */
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  > span {
+    font-size: 28px;
+  }
 }
 </style>

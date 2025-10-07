@@ -2,12 +2,13 @@
   <!-- thead 表頭 -->
   <template v-if="divType === 'thead'">
     <div
-      v-for="({ name, label, style, hidden, sortable }, idx) in tableItem"
+      v-for="({ name, label, style, hidden, sortable, component }, idx) in tableItem"
       :key="`thead-${name || idx}`"
       v-show="!hidden"
       :class="['th', `column-${idx + 1}`]"
       :style="style">
-      <Text class="font-bold" :title="label" :text="label" />
+      <component v-if="component" :is="component" :name :item :index />
+      <Text v-else class="font-bold" :title="label" :text="label" />
       <!-- 排序箭頭 -->
       <SortArrow
         v-if="sortable ?? true"
@@ -15,19 +16,20 @@
         :idx="idx"
         :activeIndex="activeIndex"
         :sortState="idx === activeIndex ? sortState : false"
-        @toggle="handleSort" />
+        @toggle="handleSort"
+        @click="activeIndex = idx" />
     </div>
   </template>
   <!-- tbody 表身 -->
   <template v-else-if="divType === 'tbody'">
     <div
-      v-for="({ name, label, style, hidden, component }, idx) in tableItem"
+      v-for="({ name, style, hidden, dayjsFormat, component }, idx) in tableItem"
       :key="`tbody-${name || idx}`"
       v-show="!hidden"
       :class="['td', `column-${idx + 1}`]"
       :style="style">
       <component v-if="component" :is="component" :name :item :index />
-      <Text v-else :title="item[name]" :text="item[name]" />
+      <Text v-else :title="valueFormat(item[name], dayjsFormat)" :text="valueFormat(item[name], dayjsFormat)" />
     </div>
   </template>
 </template>
@@ -58,6 +60,10 @@ const props = withDefaults(defineProps<Props>(), {
 const activeIndex = ref(0);
 /** 排序狀態 */
 const sortState = ref(true);
+/** 值的格式轉換 */
+function valueFormat(value: any, dayjsFormat?: string) {
+  return dayjsFormat ? dayjs(value).format(dayjsFormat) : value;
+}
 /** 排序 */
 function handleSort({ name, sortState: state }: TableItemClickFn) {
   sortState.value = state;

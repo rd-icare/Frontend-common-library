@@ -66,21 +66,22 @@ const props = withDefaults(defineProps<Props>(), {
   border-bottom: var(--border-1);
   > .item {
     position: relative;
-    top: 1px;
+    top: 0px;
     flex: 0 0 140px;
     display: flex;
     align-items: center;
-    margin-top: 3px;
+    margin-top: 0px;
+    margin-bottom: -1px;
     padding: 0 12px 1px 12px;
     border: var(--border-1);
     border-radius: var(--border-radius-2) var(--border-radius-2) 0 0;
     background-color: var(--surface);
     /* transition: var(--transition-fast); */
     &:first-child {
-      margin-left: 4px;
+      margin-left: 8px;
     }
     &:not(:last-child) {
-      margin-right: 4px;
+      margin-right: 6px;
     }
     &.active {
       pointer-events: none;

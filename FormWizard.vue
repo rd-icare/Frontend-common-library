@@ -88,7 +88,7 @@ const onSubmit = handleSubmit(
 watch(
   () => isReadOnly.value,
   (bool) => {
-    if (bool) {    
+    if (bool) {
       // resetForm 會把 values 還原為 initialValues（也會重置 touched），避免未儲存的改動殘留
       resetForm({ values: props.initialValues });
     }
@@ -133,10 +133,12 @@ form {
   flex-direction: column;
   gap: 12px;
   > .form-fieldset {
-    flex-grow: 1;
     border: none;
     display: flex;
     flex-direction: column;
+    &:has(.table-box) {
+      flex-grow: 1;
+    }
   }
 }
 </style>

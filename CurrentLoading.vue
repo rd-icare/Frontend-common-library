@@ -30,7 +30,7 @@ interface Props {
   position?: 'absolute' | 'fixed' | 'relative';
   /** 背景顏色 */
   colorCode?: string;
-  /** 加載文字 */
+  /** 載入文字 */
   text?: string | null;
 }
 

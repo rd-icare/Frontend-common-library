@@ -40,9 +40,12 @@
     <!-- 頁碼 -->
     <div v-if="!hidePageBox" class="page-box font-small-3">
       <div class="total-count">共 {{ storeParams.totalCount }} 筆</div>
-      <div v-if="!hideControl" class="control">
-        <div class="icons hide-style">
-          <div class="box" :class="{ disabled: storeParams.currentPage === 1 }" @click="clickFn('first')">
+      <div
+        v-if="!hideControl && storeParams.totalPage > 1"
+        class="control fade-loading"
+        :class="{ loading: controlLoading }">
+        <div class="icons hide-arrow-style">
+          <div class="box" :class="{ disabled: storeParams.currentPage < 4 }" @click="clickFn('first')">
             <span>first_page</span>
           </div>
           <div class="box" :class="{ disabled: storeParams.currentPage === 1 }" @click="clickFn('backward')">
@@ -64,7 +67,7 @@
           </div>
           <div
             class="box"
-            :class="{ disabled: storeParams.currentPage === storeParams.totalPage || storeParams.totalPage === 0 }"
+            :class="{ disabled: storeParams.currentPage > storeParams.totalPage - 3 || storeParams.totalPage === 1 }"
             @click="clickFn('last')">
             <span>last_page</span>
           </div>
@@ -139,6 +142,8 @@ const emit = defineEmits(['afterEnter', 'afterLeave']);
 const storeParams = defineModel<ReturnType<storeParams>>('storeParams', { type: Object, default: () => ({}) });
 /** 滾動條模板引用 */
 const scrollRef = ref<HTMLElement | null>(null);
+/** 頁碼控制載入 */
+const controlLoading = ref<boolean>(false);
 /** 顯示最多 5 個頁碼 */
 const visiblePages = computed(() => {
   const total = storeParams.value.totalPage || 1;
@@ -171,9 +176,14 @@ const fn = ref<FormFnType>({
     }
     // 切換顯示筆數
     if (item?.name === `${storeParams.value.tableClass}_show_num`) {
+      controlLoading.value = true;
       storeParams.value.perPage = +value;
+      // 當前總頁數重新計算
+      storeParams.value.totalPage = Math.ceil(storeParams.value.totalCount / storeParams.value.perPage);
       // 當前頁數重新計算
-      storeParams.value.currentPage = Math.ceil(storeParams.value.totalCount / storeParams.value.perPage);
+      if (storeParams.value.currentPage > storeParams.value.totalPage) {
+        storeParams.value.currentPage = storeParams.value.totalPage;
+      }
       nextTick(async () => {
         await props.getDatas();
         setScroll();
@@ -214,7 +224,11 @@ const clickFn = (type: string | number) => {
 /** 設定滾動條至頂部 */
 function setScroll() {
   // if (scrollRef.value) scrollRef.value.scrollTop = 0;
-  if (scrollRef.value) scrollRef.value.scrollTo({ top: 0, behavior: 'smooth' });
+  if (scrollRef.value)
+    scrollRef.value.scrollTo({
+      top: 0,
+      // behavior: 'smooth',
+    });
 }
 function afterEnter() {
   emit('afterEnter');
@@ -231,6 +245,7 @@ const stopWatch = watch(
       setScroll();
       storeParams.value.isScrollToTop = false;
     }
+    controlLoading.value = false;
   },
   { deep: true }
 );

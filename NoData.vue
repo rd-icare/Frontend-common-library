@@ -23,6 +23,7 @@ withDefaults(defineProps<Props>(), {
 <style lang="scss" scoped>
 .no-data {
   width: 100%;
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   align-items: center;

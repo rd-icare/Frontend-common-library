@@ -133,6 +133,7 @@ form {
   flex-direction: column;
   gap: 12px;
   > .form-fieldset {
+    flex-grow: 1;
     border: none;
     display: flex;
     flex-direction: column;

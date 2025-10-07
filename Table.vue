@@ -8,10 +8,13 @@
       },
     ]">
     <div class="thead" :class="{ 'show-scroll': showScroll }">
-      <slot name="thead" class="tr"></slot>
+      <div class="tr">
+        <slot name="thead"></slot>
+      </div>
     </div>
     <div class="tbody-box">
       <div
+        v-show="storeParams.data?.length"
         ref="scrollRef"
         class="tbody fade-loading"
         :class="[
@@ -21,15 +24,12 @@
           },
         ]">
         <TransitionGroup :name="isTransition" @after-enter="afterEnter" @after-leave="afterLeave">
-          <slot
-            name="tbody"
-            v-for="(item, index) in storeParams.data"
-            :key="item.id || item"
-            class="tr"
-            :="{ item, index }"></slot>
+          <div v-for="(item, index) in storeParams.data" :key="item.id || item" class="tr">
+            <slot name="tbody" :="{ item, index }"></slot>
+          </div>
         </TransitionGroup>
       </div>
-      <NoDataBox
+      <NoData
         v-show="!storeParams.data?.length"
         class="fade-loading"
         :class="{ loading: storeParams.loading }"
@@ -41,7 +41,7 @@
     <div v-if="!hidePageBox" class="page-box font-small-3">
       <div class="total-count">共 {{ storeParams.totalCount }} 筆</div>
       <div v-if="!hideControl" class="control">
-        <div class="icons">
+        <div class="icons hide-style">
           <div class="box" :class="{ disabled: storeParams.currentPage === 1 }" @click="clickFn('first')">
             <span>first_page</span>
           </div>
@@ -82,18 +82,20 @@
               }"
               :option="selectPageNum"
               :fn />
-            <Select
-              :item="{
-                type: 'select',
-                id: `${storeParams.tableClass}-${idSubStr}-show_num`,
-                name: `${storeParams.tableClass}_show_num`,
-                value: storeParams.perPage,
-                controlled: false,
-              }"
-              :option="[20, 40, 60, 80, 100]"
-              :fn />
           </div>
           <div class="text">/ {{ storeParams.totalPage }} 頁</div>
+        </div>
+        <div class="input-box">
+          <Select
+            :item="{
+              type: 'select',
+              id: `${storeParams.tableClass}-${idSubStr}-show_num`,
+              name: `${storeParams.tableClass}_show_num`,
+              value: storeParams.perPage,
+              controlled: false,
+            }"
+            :option="[20, 40, 60, 80, 100]"
+            :fn />
         </div>
       </div>
     </div>
@@ -125,11 +127,9 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   tableClass: '',
   idSubStr: 'one',
-  showScroll: false,
+  showScroll: true,
   isTransition: '',
   getDatas: async () => {},
-  noDataImgSrc: '',
-  noDataText: '',
   hidePageBox: false,
   hideControl: false,
 });

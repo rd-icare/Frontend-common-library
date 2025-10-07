@@ -1,5 +1,5 @@
 <template>
-  <div class="text gicons" :title="title">
+  <div class="text gicons" :title="`${title}`">
     <span v-if="icon">{{ icon }}</span>
     <div v-if="text">{{ text }}</div>
     <span v-if="iconR">{{ iconR }}</span>
@@ -9,11 +9,11 @@
 <script setup lang="ts">
 interface Props {
   /** 標題提示文字 */
-  title?: string;
+  title?: string | number;
   /** 左圖標 */
   icon?: string;
   /** 文字 */
-  text?: string | object;
+  text?: string | number | object;
   /** 右圖標 */
   iconR?: string;
 }
@@ -33,7 +33,6 @@ withDefaults(defineProps<Props>(), {
   display: grid;
   grid-auto-flow: column; /* 子元素強制橫向排 */
   align-items: center;
-  justify-content: flex-start;
   gap: 4px;
   > div {
     overflow: hidden;

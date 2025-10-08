@@ -7,7 +7,14 @@
         disabled: !storeParams.data?.length,
       },
     ]">
-    <div ref="mainScrollRef" class="main thead-sticky-style">
+    <div
+      ref="mainRef"
+      :class="[
+        'main',
+        {
+          'thead-sticky-style': isTheadSticky,
+        },
+      ]">
       <div class="thead" :class="{ 'show-scroll': showScroll }">
         <div class="tr">
           <slot name="thead"></slot>
@@ -16,7 +23,7 @@
       <div class="tbody-box">
         <div
           v-show="storeParams.data?.length"
-          ref="scrollRef"
+          ref="tbodyRef"
           class="tbody fade-loading"
           :class="[
             {
@@ -115,6 +122,8 @@ interface Props {
   idSubStr?: string;
   /** 顯示滾動條 */
   showScroll?: boolean;
+  /** 使用表頭位置黏住風格  */
+  isTheadSticky?: boolean;
   /** body-box 滾動動畫 */
   isTransition?: string;
   /** 請求資料 */
@@ -137,6 +146,7 @@ const props = withDefaults(defineProps<Props>(), {
   tableClass: '',
   idSubStr: 'one',
   showScroll: true,
+  isTheadSticky: true,
   isTransition: '',
   getDatas: async () => {},
   hidePageBox: false,
@@ -148,10 +158,8 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits(['afterEnter', 'afterLeave']);
 /** 狀態管理的參數 */
 const storeParams = defineModel<ReturnType<storeParams>>('storeParams', { type: Object, default: () => ({}) });
-/** .main 滾動條模板引用 */
-const mainScrollRef = ref<HTMLElement | null>(null);
-/** 滾動條模板引用 */
-const scrollRef = ref<HTMLElement | null>(null);
+/** 模板引用 */
+const scrollRef = useTemplateRef<HTMLElement>(props.isTheadSticky ? 'mainRef' : 'tbodyRef');
 /** 頁碼控制載入 */
 const controlLoading = ref<boolean>(false);
 /** 顯示最多 5 個頁碼 */
@@ -234,14 +242,8 @@ const clickFn = (type: string | number) => {
 /** 設定滾動條至頂部 */
 function setScroll() {
   // if (scrollRef.value) scrollRef.value.scrollTop = 0;
-  if (mainScrollRef.value) {
-    mainScrollRef.value.scrollTo({
-      top: 0,
-      // behavior: 'smooth',
-    });
-  }
-  if (scrollRef.value) {
-    scrollRef.value.scrollTo({
+  if (scrollRef) {
+    scrollRef.value?.scrollTo({
       top: 0,
       // behavior: 'smooth',
     });

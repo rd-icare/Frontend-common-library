@@ -116,10 +116,7 @@ const props = withDefaults(defineProps<ModalProps>(), {
 });
 
 /** 表格項目 */
-const tableItem = defineModel<TableItem[]>('tableItem', {
-  type: Array,
-  default: () => [],
-});
+const tableItem = defineModel<TableItem[]>('tableItem');
 
 /** 是否開啟彈出視窗 */
 const modalOpen = ref<boolean>(false);

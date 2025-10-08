@@ -30,10 +30,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 /** 表格項目 */
-const tableItem = defineModel<TableItem[]>('tableItem', {
-  type: Array,
-  default: () => [],
-});
+const tableItem = defineModel<TableItem[]>('tableItem');
 
 /** 選擇狀態 */
 const selectState = ref(false);

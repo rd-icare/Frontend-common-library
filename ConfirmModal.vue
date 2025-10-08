@@ -2,7 +2,7 @@
   <div>
     <div class="main">
       <component v-if="item.subComponent" :is="item.subComponent" />
-      <Text v-else :icon="item.subComponentIcon" :text="item.subComponentText" />
+      <Text v-else typeStyle="icon-style" :icon="item.subComponentIcon" :text="item.subComponentText" />
     </div>
     <slot name="bottom" />
   </div>

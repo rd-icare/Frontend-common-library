@@ -151,7 +151,7 @@ const props = withDefaults(defineProps<Props>(), {
   getDatas: async () => {},
   hidePageBox: false,
   hideControl: false,
-  hidePageNum: true,
+  hidePageNum: false,
   hidePageSelectNum: false,
 });
 

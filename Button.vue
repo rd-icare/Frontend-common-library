@@ -3,11 +3,14 @@
     ref="buttonRef"
     :type="type"
     class="btn-style gicons"
+    :class="typeStyle"
     :title="icon === 'arrow_back' ? '返回上頁' : title"
+    @click="typeStyle === 'select-style' && clickFn()"
     v-debounce-click:[timeout]>
     <span v-if="icon">{{ icon }}</span>
     <div v-if="text">{{ text }}</div>
-    <span v-if="iconR">{{ iconR }}</span>
+    <span v-if="typeStyle === 'select-style'">{{ selectState ? 'arrow_drop_up' : 'arrow_drop_down' }}</span>
+    <span v-else-if="iconR">{{ iconR }}</span>
   </button>
 </template>
 
@@ -17,6 +20,8 @@
 interface Props {
   /** 類型 */
   type?: 'button' | 'submit' | 'reset';
+  /** 類型風格 */
+  typeStyle?: string;
   /** 標題提示文字 */
   title?: string;
   /** 左圖標 */
@@ -31,6 +36,7 @@ interface Props {
 
 withDefaults(defineProps<Props>(), {
   type: 'button',
+  style: '',
   title: '',
   icon: '',
   text: '',
@@ -38,17 +44,19 @@ withDefaults(defineProps<Props>(), {
   timeout: 300,
 });
 
-// 定義事件
-// const emit = defineEmits<{
-//   (e: 'click', event: MouseEvent): void;
-// }>();
+const emit = defineEmits<{ (e: 'clickFn', val: boolean): void }>();
 
-// ref 持有 button
+/** 模板引用 */
 const buttonRef = ref<HTMLButtonElement | null>(null);
 
-// function onClick(event: MouseEvent) {
-//   emit('click', event);
-// }
+/** 選擇狀態 */
+const selectState = ref(false);
+
+/** 回傳點擊事件 */
+function clickFn() {
+  selectState.value = !selectState.value;
+  emit('clickFn', selectState.value);
+}
 </script>
 
 <style lang="scss" scoped>
@@ -94,7 +102,7 @@ button {
       border: 1px solid transparent;
       background-color: transparent;
     }
-    // 圖標
+    // 圖標風格
     &.icon-style {
       flex: 0 0 32px;
       width: 32px;
@@ -116,11 +124,15 @@ button {
         height: 100%;
       }
     }
-    // 圖標 hover
+    // 圖標風格 hover
     &.icon-style-hover {
       &:hover {
         @include hover-style;
       }
+    }
+    // 選擇風格
+    &.select-style {
+      padding: 0px 4px 0px 12px;
     }
     &.active {
       @include active-style;

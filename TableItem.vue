@@ -15,7 +15,7 @@
         :name="name"
         :idx="idx"
         :activeIndex="activeIndex"
-        :sortState="idx === activeIndex ? sortState : false"
+        :sortState="idx === activeIndex ? currSortState : false"
         :title="label"
         @toggle="handleSort"
         @click="activeIndex = idx" />
@@ -57,18 +57,18 @@ const props = withDefaults(defineProps<Props>(), {
   index: 0,
   clickFn: () => {},
 });
-/** 當前激活表格項目索引 */
-const activeIndex = ref(0);
-/** 排序狀態 */
-const sortState = ref(true);
+/** 當前欄位激活索引 */
+const activeIndex = ref<number>(0);
+/** 當前欄位排序狀態 */
+const currSortState = ref<boolean>(true);
 /** 值的格式轉換 */
 function valueFormat(value: any, dayjsFormat?: string) {
   return dayjsFormat ? dayjs(value).format(dayjsFormat) : value;
 }
 /** 排序 */
-function handleSort({ name, sortState: state }: TableItemClickFn) {
-  sortState.value = state;
-  props.clickFn({ name, sortState: state });
+function handleSort({ name, sortState }: TableItemClickFn) {
+  currSortState.value = sortState as boolean;
+  props.clickFn({ name, sortStateStr: sortState ? 'asc' : 'desc' });
 }
 onMounted(() => {
   // 預設第一個排序

@@ -1,5 +1,5 @@
 <template>
-  <div class="text gicons" :title="`${title}`">
+  <div class="text gicons" :class="typeStyle" :title="`${title}`">
     <span v-if="icon">{{ icon }}</span>
     <div v-if="text">{{ text }}</div>
     <span v-if="iconR">{{ iconR }}</span>
@@ -8,6 +8,8 @@
 
 <script setup lang="ts">
 interface Props {
+  /** 類型風格 */
+  typeStyle?: string;
   /** 標題提示文字 */
   title?: string | number;
   /** 左圖標 */
@@ -38,6 +40,9 @@ withDefaults(defineProps<Props>(), {
     overflow: hidden;
     text-overflow: ellipsis;
     word-break: break-all;
+  }
+  &.icon-style {
+    justify-content: flex-start;
   }
 }
 </style>

@@ -136,11 +136,6 @@ function beforeEnter() {
     // 隱藏 body 滾動條
     document.body.classList.add('overflow-hidden');
   }
-  // 放置集中管理
-  modals.value[props.id] = {
-    ...props,
-    modalOpen,
-  };
   if (props.onOpen && typeof props.onOpen === 'function') {
     props.onOpen();
   }
@@ -155,8 +150,6 @@ function beforeLeave() {
     // 顯示 body 滾動條
     document.body.classList.remove('overflow-hidden');
   }
-  // 從集中管理移除
-  delete modals.value[props.id];
   if (props.onClose && typeof props.onClose === 'function') {
     props.onClose();
   }
@@ -197,6 +190,12 @@ function blur(e: any) {
 // });
 
 onMounted(() => {
+  // 放置 modals 集中管理
+  modals.value[props.id] = {
+    ...props,
+    modalOpen,
+  };
+  // console.log('add modals', modals.value);
   modalOpen.value = true;
   nextTick(() => {
     // console.log(`id: ${props.id} index: ${props.index} itemHeight: ${props.itemHeight} mounted`);
@@ -218,6 +217,12 @@ onMounted(() => {
       return;
     }
   });
+});
+
+onUnmounted(() => {
+  // 從 modals 集中管理移除
+  delete modals.value[props.id];
+  // console.log('delete modals', modals.value);
 });
 </script>
 

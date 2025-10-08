@@ -13,6 +13,7 @@
         'main',
         {
           'thead-sticky-style': isTheadSticky,
+          'no-data-style': !storeParams.data?.length,
         },
       ]">
       <div class="thead" :class="{ 'show-scroll': showScroll }">

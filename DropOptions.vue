@@ -29,6 +29,12 @@ const props = withDefaults(defineProps<Props>(), {
   component: () => {},
 });
 
+/** 表格項目 */
+const tableItem = defineModel<TableItem[]>('tableItem', {
+  type: Array,
+  default: () => [],
+});
+
 /** 選擇狀態 */
 const selectState = ref(false);
 
@@ -41,6 +47,7 @@ function selectClick() {
       component: props.component,
       optionsMode: true,
       direction: 'bottomRight',
+      tableItem: tableItem.value,
     },
   });
 }

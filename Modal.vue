@@ -60,7 +60,7 @@
           :is="component"
           :="{ item: props }"
           v-model:modalOpen="modalOpen"
-          v-model:checkedData="checkedData">
+          v-model:tableItem="tableItem">
           <template #bottom>
             <div class="bottom">
               <Button :text="$t('Util.cancel')" @click="(modalOpen = false), onConfirm(false)" />
@@ -115,11 +115,14 @@ const props = withDefaults(defineProps<ModalProps>(), {
   close,
 });
 
+/** 表格項目 */
+const tableItem = defineModel<TableItem[]>('tableItem', {
+  type: Array,
+  default: () => [],
+});
+
 /** 是否開啟彈出視窗 */
 const modalOpen = ref<boolean>(false);
-
-/** 已勾選的資料 */
-const checkedData = ref<string[]>([]);
 
 /** 副標題類型文字顯示 */
 const subTitleType = ref<Record<string, string>>({
@@ -208,7 +211,6 @@ onMounted(() => {
   modals.value[props.id] = {
     ...props,
     modalOpen,
-    checkedData,
   };
   // console.log('add modals', modals.value);
   modalOpen.value = true;

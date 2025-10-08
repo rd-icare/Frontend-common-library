@@ -26,7 +26,7 @@
       :style="{
         zIndex: zIndex || 'var(--z-index-center-modal)',
       }"
-      @blur="optionsMode ? blur($event) : ''">
+      @focusout="optionsMode ? blur($event) : ''">
       <div v-if="backdrop && !draggable && !optionsMode" class="backdrop" @click="modalOpen = backdropDisabled"></div>
       <div
         class="content"
@@ -55,7 +55,12 @@
           </slot>
         </template>
         <!-- 插入組件 -->
-        <component class="center" :is="component" :="{ item: props }" v-model:modalOpen="modalOpen">
+        <component
+          class="center"
+          :is="component"
+          :="{ item: props }"
+          v-model:modalOpen="modalOpen"
+          v-model:checkedData="checkedData">
           <template #bottom>
             <div class="bottom">
               <Button :text="$t('Util.cancel')" @click="(modalOpen = false), onConfirm(false)" />
@@ -113,6 +118,9 @@ const props = withDefaults(defineProps<ModalProps>(), {
 /** 是否開啟彈出視窗 */
 const modalOpen = ref<boolean>(false);
 
+/** 已勾選的資料 */
+const checkedData = ref<string[]>([]);
+
 /** 副標題類型文字顯示 */
 const subTitleType = ref<Record<string, string>>({
   add: t('Util.add'),
@@ -166,21 +174,27 @@ function focus(e: any) {
 }
 
 /** 失焦 */
-function blur(e: any) {
-  // console.log(`${props.id} blur`, e);
+function blur(e: FocusEvent) {
+  console.log(`${props.id} blur`, e);
+
   // 如果分頁不在前景 → 不處理
-  if (document.hidden || !document.hasFocus()) {
-    return;
-  }
-  // 如果關閉的不是選項模式
-  if (!e.relatedTarget?.className.includes('options-mode')) {
-    // modalOpen.value = false;
-    Object.keys(modals.value || {}).forEach((key, index) => {
-      if (modals.value[key].optionsMode) {
-        modals.value[key].modalOpen = false;
-      }
-    });
-  }
+  if (document.hidden || !document.hasFocus()) return;
+
+  const target = e.relatedTarget as HTMLElement | null;
+
+  // 如果是點擊 INPUT 的話 → 不處理
+  if (target?.tagName === 'INPUT') return;
+  // 如果是選項模式 → 不處理
+  if (target?.className.includes('options-mode')) return;
+  // 如果是自身 ID → 不處理
+  if (target?.className.includes(props.id)) return;
+
+  // 關閉所有彈出視窗
+  Object.keys(modals.value || {}).forEach((key, index) => {
+    if (modals.value[key].optionsMode) {
+      modals.value[key].modalOpen = false;
+    }
+  });
 }
 
 /** 分享變量與方法，在 useModalManager.ts 內 return 也要同步  */
@@ -194,6 +208,7 @@ onMounted(() => {
   modals.value[props.id] = {
     ...props,
     modalOpen,
+    checkedData,
   };
   // console.log('add modals', modals.value);
   modalOpen.value = true;

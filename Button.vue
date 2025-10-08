@@ -44,18 +44,21 @@ withDefaults(defineProps<Props>(), {
   timeout: 300,
 });
 
-const emit = defineEmits<{ (e: 'clickFn', val: boolean): void }>();
+const emit = defineEmits<{ (e: 'clickFn'): void }>();
 
 /** 模板引用 */
 const buttonRef = ref<HTMLButtonElement | null>(null);
 
 /** 選擇狀態 */
-const selectState = ref(false);
+const selectState = defineModel<boolean>('selectState', {
+  type: Boolean,
+  default: false,
+});
 
 /** 回傳點擊事件 */
 function clickFn() {
   selectState.value = !selectState.value;
-  emit('clickFn', selectState.value);
+  emit('clickFn');
 }
 </script>
 

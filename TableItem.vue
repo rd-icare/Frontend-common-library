@@ -8,7 +8,7 @@
       :class="['th', `column-${idx + 1}`]"
       :style="style">
       <component v-if="component" :is="component" :name :item :index />
-      <Text v-else class="font-bold" :title="label" :text="label" />
+      <Text v-else class="font-bold pr-16" :title="label" :text="label" />
       <!-- 排序箭頭 -->
       <SortArrow
         v-if="sortable ?? true"
@@ -16,6 +16,7 @@
         :idx="idx"
         :activeIndex="activeIndex"
         :sortState="idx === activeIndex ? sortState : false"
+        :title="label"
         @toggle="handleSort"
         @click="activeIndex = idx" />
     </div>

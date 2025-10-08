@@ -7,35 +7,37 @@
         disabled: !storeParams.data?.length,
       },
     ]">
-    <div class="thead" :class="{ 'show-scroll': showScroll }">
-      <div class="tr">
-        <slot name="thead"></slot>
+    <div ref="mainScrollRef" class="main thead-sticky-style">
+      <div class="thead" :class="{ 'show-scroll': showScroll }">
+        <div class="tr">
+          <slot name="thead"></slot>
+        </div>
       </div>
-    </div>
-    <div class="tbody-box">
-      <div
-        v-show="storeParams.data?.length"
-        ref="scrollRef"
-        class="tbody fade-loading"
-        :class="[
-          {
-            loading: storeParams.loading,
-            'show-scroll': showScroll,
-          },
-        ]">
-        <TransitionGroup :name="isTransition" @after-enter="afterEnter" @after-leave="afterLeave">
-          <div v-for="(item, index) in storeParams.data" :key="item.id || item" class="tr">
-            <slot name="tbody" :="{ item, index }"></slot>
-          </div>
-        </TransitionGroup>
+      <div class="tbody-box">
+        <div
+          v-show="storeParams.data?.length"
+          ref="scrollRef"
+          class="tbody fade-loading"
+          :class="[
+            {
+              loading: storeParams.loading,
+              'show-scroll': showScroll,
+            },
+          ]">
+          <TransitionGroup :name="isTransition" @after-enter="afterEnter" @after-leave="afterLeave">
+            <div v-for="(item, index) in storeParams.data" :key="index" class="tr">
+              <slot name="tbody" :="{ item, index }"></slot>
+            </div>
+          </TransitionGroup>
+        </div>
+        <NoData
+          v-show="!storeParams.data?.length"
+          class="fade-loading"
+          :class="{ loading: storeParams.loading }"
+          :imgSrc="noDataImgSrc"
+          :text="noDataText" />
+        <CurrentLoading :show="storeParams.loading" colorCode="transparent" />
       </div>
-      <NoData
-        v-show="!storeParams.data?.length"
-        class="fade-loading"
-        :class="{ loading: storeParams.loading }"
-        :imgSrc="noDataImgSrc"
-        :text="noDataText" />
-      <CurrentLoading :show="storeParams.loading" colorCode="transparent" />
     </div>
     <!-- 頁碼 -->
     <div v-if="!hidePageBox" class="page-box font-small-3">
@@ -44,7 +46,7 @@
         v-if="!hideControl && storeParams.totalPage > 1"
         class="control fade-loading"
         :class="{ loading: controlLoading }">
-        <div class="icons hide-arrow-style">
+        <div v-if="!hidePageNum" class="icons hide-arrow-style">
           <div class="box" :class="{ disabled: storeParams.currentPage < 4 }" @click="clickFn('first')">
             <span>first_page</span>
           </div>
@@ -72,7 +74,7 @@
             <span>last_page</span>
           </div>
         </div>
-        <div class="select">
+        <div v-if="!hidePageSelectNum" class="select">
           <div class="text">第</div>
           <div class="input-box">
             <Select
@@ -97,7 +99,7 @@
               value: storeParams.perPage,
               controlled: false,
             }"
-            :option="[20, 40, 60, 80, 100]"
+            :option="[10, 20, 40, 60, 80, 100]"
             :fn />
         </div>
       </div>
@@ -121,10 +123,14 @@ interface Props {
   noDataImgSrc?: string;
   /** 無資料文字 */
   noDataText?: string;
-  /** 隱藏頁碼 */
+  /** 隱藏頁碼區塊 */
   hidePageBox?: boolean;
-  /** 隱藏控制 */
+  /** 隱藏頁碼控制 */
   hideControl?: boolean;
+  /** 隱藏頁碼數 */
+  hidePageNum?: boolean;
+  /** 隱藏頁碼數選項 */
+  hidePageSelectNum?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -135,11 +141,15 @@ const props = withDefaults(defineProps<Props>(), {
   getDatas: async () => {},
   hidePageBox: false,
   hideControl: false,
+  hidePageNum: true,
+  hidePageSelectNum: false,
 });
 
 const emit = defineEmits(['afterEnter', 'afterLeave']);
 /** 狀態管理的參數 */
 const storeParams = defineModel<ReturnType<storeParams>>('storeParams', { type: Object, default: () => ({}) });
+/** .main 滾動條模板引用 */
+const mainScrollRef = ref<HTMLElement | null>(null);
 /** 滾動條模板引用 */
 const scrollRef = ref<HTMLElement | null>(null);
 /** 頁碼控制載入 */
@@ -224,11 +234,18 @@ const clickFn = (type: string | number) => {
 /** 設定滾動條至頂部 */
 function setScroll() {
   // if (scrollRef.value) scrollRef.value.scrollTop = 0;
-  if (scrollRef.value)
+  if (mainScrollRef.value) {
+    mainScrollRef.value.scrollTo({
+      top: 0,
+      // behavior: 'smooth',
+    });
+  }
+  if (scrollRef.value) {
     scrollRef.value.scrollTo({
       top: 0,
       // behavior: 'smooth',
     });
+  }
 }
 function afterEnter() {
   emit('afterEnter');

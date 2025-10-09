@@ -8,7 +8,7 @@
       :class="['th', `column-${idx + 1}`]"
       :style="style">
       <component v-if="component" :is="component" :name :item :index />
-      <Text v-else class="font-bold pr-16" :title="label" :text="label" />
+      <Text v-else class="font-bold" :class="{ 'pr-16': sortable }" :title="label" :text="label" />
       <!-- 排序箭頭 -->
       <SortArrow
         v-if="sortable ?? true"
@@ -30,7 +30,10 @@
       :class="['td', `column-${idx + 1}`]"
       :style="style">
       <component v-if="component" :is="component" :name :item :index />
-      <Text v-else :title="valueFormat(item[name], dayjsFormat)" :text="valueFormat(item[name], dayjsFormat)" />
+      <Text
+        v-else
+        :title="valueFormat(name, dayjsFormat, item[name])"
+        :text="valueFormat(name, dayjsFormat, item[name])" />
     </div>
   </template>
 </template>
@@ -47,6 +50,8 @@ interface Props<T = Record<string, any>> {
   item?: T;
   /** API 資料項目索引 */
   index?: number;
+  /** API 資料項目序號 */
+  sn?: number;
   /** 函式 */
   clickFn?: (item: TableItemClickFn) => void;
 }
@@ -55,6 +60,7 @@ const props = withDefaults(defineProps<Props>(), {
   tableItem: () => [],
   item: () => ({}),
   index: 0,
+  currentPage: 1,
   clickFn: () => {},
 });
 /** 當前欄位激活索引 */
@@ -62,8 +68,15 @@ const activeIndex = ref<number>(0);
 /** 當前欄位排序狀態 */
 const currSortState = ref<boolean>(true);
 /** 值的格式轉換 */
-function valueFormat(value: any, dayjsFormat?: string) {
-  return dayjsFormat ? dayjs(value).format(dayjsFormat) : value;
+function valueFormat(name: string, dayjsFormat?: string, value?: any) {
+  // 每頁都要顯示序號
+  if (props.divType === 'tbody' && name === 'sn') return props.sn;
+  // 空值
+  if (!value) return '';
+  // 日期格式
+  if (dayjsFormat) return dayjs(value).format(dayjsFormat);
+  // 預設
+  return value;
 }
 /** 排序 */
 function handleSort({ name, sortState }: TableItemClickFn) {
@@ -71,9 +84,11 @@ function handleSort({ name, sortState }: TableItemClickFn) {
   props.clickFn({ name, sortStateStr: sortState ? 'asc' : 'desc' });
 }
 onMounted(() => {
-  // 預設第一個排序
-  const firstSortable = props.tableItem.findIndex((item) => item.sortable);
-  if (firstSortable >= 0) activeIndex.value = firstSortable;
+  /** 預設左邊第一個欄位排序，忽略 false */
+  // const firstSortable = props.tableItem.findIndex((item) => {
+  //   return item.sortable !== false;
+  // });
+  // if (firstSortable >= 0) activeIndex.value = firstSortable;
 });
 </script>
 

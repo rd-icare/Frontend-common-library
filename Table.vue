@@ -160,7 +160,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits(['afterEnter', 'afterLeave']);
 /** 狀態管理的參數 */
-const storeParams = defineModel<ReturnType<storeParams>>('storeParams', { type: Object, default: () => ({}) });
+const storeParams = defineModel<StoreParams>('storeParams', { type: Object, default: () => ({}) });
 /** 模板引用 */
 const scrollRef = useTemplateRef<HTMLElement>(props.isTheadSticky ? 'mainRef' : 'tbodyRef');
 /** 頁碼控制載入 */

@@ -41,13 +41,13 @@
 <script setup lang="ts">
 import dayjs from 'dayjs';
 // defineOptions({ inheritAttrs: false });
-interface Props<T = Record<string, any>> {
+interface Props {
   /** 元素類型 */
   divType: 'thead' | 'tbody';
   /** 表格項目資料 */
   tableItem: TableItem[];
   /** API 資料項目 */
-  item?: T;
+  item?: any;
   /** API 資料項目索引 */
   index?: number;
   /** API 資料項目序號 */

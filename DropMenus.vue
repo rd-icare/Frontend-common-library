@@ -30,9 +30,14 @@ const { modals } = storeToRefs(storeIndex);
 const {} = storeIndex;
 
 interface Props {
-  /** 彈出視窗選項模式的子項 ID 名稱 */
+  /** 彈出視窗選項模式的子項 ID 名稱
+   * 命名方式為小駝峰，調用此組件的組件名稱 */
   optionsModeId?: string;
-  /** aaa-bbb 目錄名稱 @/components/home/aaa/aaa-bbb */
+  /** 當前頁面類別
+   * 命名方式為中線 */
+  pageType?: string;
+  /** 目錄名稱
+   * 命名方式為中線，調用此組件的組件名稱 */
   dirName?: string;
   /** 拉下式選單資料 */
   data?: Record<string, any>;
@@ -41,6 +46,7 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {
   optionsModeId: '',
+  pageType: '',
   dirName: '',
   data: () => ({}),
   clickFn: () => {},
@@ -68,14 +74,12 @@ async function handleModal({ key, payload }: { key: string; payload: ModalProps 
     modals.value[currActiveKey.value].close();
     activeBtn.value[currActiveKey.value] = false;
   }
-  // 查找 dirName 內的 - 字串後獲取索引 0
-  const pageType = props.dirName.split('-')[0];
   // 首字母大寫
   const keyFirst = key.charAt(0).toUpperCase() + key.slice(1);
   // console.log(keyFirst);
   // 創建
   const modal = createModal({
-    component: defineAsyncComponent(() => import(`@/components/home/${pageType}/${props.dirName}/${keyFirst}.vue`)),
+    component: defineAsyncComponent(() => import(`@/components/home/${props.pageType}/${props.dirName}/${keyFirst}.vue`)),
     id: key,
     ...payload,
     onOpen: () => {

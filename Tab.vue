@@ -85,6 +85,7 @@ const props = withDefaults(defineProps<Props>(), {
     }
     &.active {
       pointer-events: none;
+      font-weight: bold;
       border-bottom: 1px solid var(--white);
       background-color: var(--white);
     }

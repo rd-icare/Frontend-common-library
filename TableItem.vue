@@ -52,7 +52,7 @@ interface Props {
   index?: number;
   /** API 資料項目序號 */
   sn?: number;
-  /** 函式 */
+  /** 返回點擊事件 */
   clickFn?: (item: TableItemClickFn) => void;
 }
 const props = withDefaults(defineProps<Props>(), {

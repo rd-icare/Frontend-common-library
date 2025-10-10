@@ -345,7 +345,7 @@ onUnmounted(() => {
     > :deep(.center) {
       display: flex;
       flex-direction: column;
-      > .main {
+      > div {
         flex-grow: 1;
         overflow: auto;
         height: v-bind(mainHeight);

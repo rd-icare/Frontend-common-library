@@ -33,7 +33,7 @@ interface Props {
   type?: string;
   /** 資料 */
   data?: TabDataItem[];
-  /** 函式 */
+  /** 返回點擊事件 */
   clickFn?: (item: TabClickFn) => void;
 }
 const props = withDefaults(defineProps<Props>(), {

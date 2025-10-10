@@ -1,7 +1,130 @@
 <template>
-  <div></div>
+  <div class="drop-menus-box">
+    <div
+      v-for="(value, key, index) in data"
+      :key="key"
+      :class="['item', { active: activeBtn[key] }]"
+      @click="
+        clickFn({ key }),
+          key !== 'logout' &&
+            handleModal({
+              key: key,
+              payload: {
+                index: index,
+                optionsMode: true,
+                direction: 'leftTop',
+                optionsModeId,
+                itemHeight: itemHeight,
+              },
+            })
+      ">
+      <Icon icon="chevron_left" />
+      <Text :text="value.text" />
+    </div>
+  </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const storeIndex = indexStore();
+const { modals } = storeToRefs(storeIndex);
+const {} = storeIndex;
 
-<style lang="scss" scoped></style>
+interface Props {
+  /** 彈出視窗選項模式的子項 ID 名稱 */
+  optionsModeId?: string;
+  /** aaa-bbb 目錄名稱 @/components/home/aaa/aaa-bbb */
+  dirName?: string;
+  /** 拉下式選單資料 */
+  data?: Record<string, any>;
+  /** 返回點擊事件 */
+  clickFn?: (item: DropMenusClickFn) => void;
+}
+const props = withDefaults(defineProps<Props>(), {
+  optionsModeId: '',
+  dirName: '',
+  data: () => ({}),
+  clickFn: () => {},
+});
+
+/** 當前啟用按鈕 */
+const activeBtn = ref<Record<string, boolean>>(
+  Object.fromEntries(Object.entries(props.data).map(([key, value], index) => [key, false]))
+);
+/** 當前啟用的對象 */
+const currActiveKey = ref<string>('');
+/** 項目高度 */
+const itemHeight = ref(36);
+
+/** 處理彈出視窗 */
+async function handleModal({ key, payload }: { key: string; payload: ModalProps }) {
+  // 當前啟用 => 關閉
+  if (activeBtn.value[key]) {
+    modals.value[key].close();
+    onClose();
+    return;
+  }
+  // 關閉上一個
+  if (currActiveKey.value) {
+    modals.value[currActiveKey.value].close();
+    activeBtn.value[currActiveKey.value] = false;
+  }
+  // 查找 dirName 內的 - 字串後獲取索引 0
+  const pageType = props.dirName.split('-')[0];
+  // 首字母大寫
+  const keyFirst = key.charAt(0).toUpperCase() + key.slice(1);
+  // console.log(keyFirst);
+  // 創建
+  const modal = createModal({
+    component: defineAsyncComponent(() => import(`@/components/home/${pageType}/${props.dirName}/${keyFirst}.vue`)),
+    id: key,
+    ...payload,
+    onOpen: () => {
+      activeBtn.value[key] = true;
+      currActiveKey.value = key;
+    },
+    onClose,
+  });
+  // 關閉
+  function onClose() {
+    activeBtn.value[key] = false;
+    currActiveKey.value = '';
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.drop-menus-box {
+  display: flex;
+  flex-direction: column;
+  > .item {
+    cursor: pointer;
+    flex: 0 0 calc(v-bind(itemHeight) * 1px);
+    display: flex;
+    align-items: center;
+    border: 1px solid transparent;
+    border-bottom: var(--border-2);
+    transition: var(--transition-fast);
+    &:last-child {
+      border-bottom: none;
+    }
+    &:hover {
+      background-color: var(--surface);
+    }
+    > .icon {
+      flex: 0 0 32px;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    > .text {
+      flex-grow: 1;
+      padding: 0 16px 0 8px;
+    }
+    &.active {
+      @include active-style;
+    }
+  }
+}
+</style>

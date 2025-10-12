@@ -21,12 +21,15 @@ interface Props {
   text?: string;
   /** 彈出視窗的內容組件 */
   component?: Component;
+  /** 彈出視窗關閉後 */
+  modalOnCloseComplete?: () => void;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   modalKey: '',
   text: '',
   component: () => {},
+  modalOnCloseComplete: () => {},
 });
 
 /** 表格項目 */
@@ -63,10 +66,15 @@ async function handleModal({ key, payload }: { key: string; payload: ModalProps 
     ...payload,
     onOpen: () => {},
     onClose,
+    onCloseComplete,
   });
   // 關閉
   function onClose() {
     selectState.value = false;
+  }
+  // 關閉完成
+  function onCloseComplete() {
+    props.modalOnCloseComplete();
   }
 }
 </script>

@@ -1,23 +1,26 @@
 <template>
   <div>
     <div class="main">
-      <div>
-        <input type="checkbox" id="case_no" value="case_no" v-model="checkedData" />
-        <label for="case_no">案號</label>
-      </div>
-      <div>
-        <input type="checkbox" id="name" value="name" v-model="checkedData" />
-        <label for="name">姓名</label>
-      </div>
-      <div>
-        <input type="checkbox" id="birthday" value="birthday" v-model="checkedData" />
-        <label for="birthday">生日</label>
+      <div class="input-box">
+        <Input
+          v-for="(item, index) in tableItem"
+          :key="item.name"
+          :item="{
+            type: 'checkbox',
+            name: item.name,
+            label: item.label,
+            hideShape: true,
+            modelValue: item.name,
+          }"
+          v-model:modelValue="checkedValue" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { toRef } from 'vue';
+
 const storeIndex = indexStore();
 const {} = storeToRefs(storeIndex);
 const { updateTableItem } = storeIndex;
@@ -27,7 +30,7 @@ const props = withDefaults(defineProps<ModalComponentProps>(), {
 });
 
 /** 已勾選的資料 */
-const checkedData = ref<string[]>([]);
+const checkedValue = ref<string[]>(['birthday', 'test1']);
 
 /** 表格項目 */
 const tableItem = defineModel<TableItem[]>('tableItem', {
@@ -36,7 +39,8 @@ const tableItem = defineModel<TableItem[]>('tableItem', {
 });
 
 /* 根據勾選同步更新 tableItem -> hidden 狀態 */
-watch(checkedData, (newVal) => {
+watch(checkedValue, (newVal, oldVal) => {
+  console.log(newVal);
   updateTableItem({
     key: String(props.item.id),
     tableItem: tableItem,
@@ -44,17 +48,17 @@ watch(checkedData, (newVal) => {
   });
 });
 
-/* 初始化時同步 checkedData 與 tableItem -> hidden 狀態 */
+/* 初始化時同步 checkedValue 與 tableItem -> hidden 狀態 */
 onMounted(() => {
   // 先嘗試取出使用者的記錄
   const saved = sessionStorage.getItem(String(props.item.id));
 
   if (saved) {
     // 若有紀錄，直接還原
-    checkedData.value = JSON.parse(saved);
+    checkedValue.value = JSON.parse(saved);
   } else {
-    // 若無紀錄，根據 tableItem.hidden 初始化 checkedData
-    checkedData.value = tableItem.value
+    // 若無紀錄，根據 tableItem.hidden 初始化 checkedValue
+    checkedValue.value = tableItem.value
       .filter((item) => item.hidden === undefined || item.hidden === false)
       .map((item) => item.name);
 
@@ -63,10 +67,11 @@ onMounted(() => {
     //   if (item.hidden === undefined) item.hidden = false;
     // });
   }
+  // console.log(checkedValue.value);
 
   // 初始化後馬上同步一次
   // tableItem.value.forEach((item) => {
-  //   item.hidden = !checkedData.value.includes(item.name);
+  //   item.hidden = !checkedValue.value.includes(item.name);
   // });
 });
 </script>
@@ -75,6 +80,12 @@ onMounted(() => {
 .center {
   > .main {
     padding: 12px;
+    > .input-box {
+      flex-direction: column;
+      > div {
+        width: auto;
+      }
+    }
   }
 }
 </style>

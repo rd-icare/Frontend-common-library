@@ -33,7 +33,7 @@
         eventName === 'change'
           ? (handleChange($event, !!errorMessage), fn.change && fn.change($event, value, item))
           : '',
-          change($event, item.type)
+          change()
       "
       @blur="handleBlur($event, true)"
       :disabled="item.disabled"
@@ -53,7 +53,7 @@
       @change="
         handleChange($event, !!errorMessage);
         fn.change && fn.change($event, value, item);
-        change($event, item.type);
+        change();
       "
       :="item.attr"
       :disabled="item.disabled"
@@ -127,7 +127,7 @@ const obj: any = {
 if (props.item.controlled !== undefined) obj.controlled = false;
 
 // 如果是 Checkbox & Radio 類型
-if (['checkbox', 'radio'].includes(props.item.type || '')) {
+if (['checkbox', 'radio'].includes(props.item.type ?? '')) {
   obj.type = props.item.type;
   obj.initialValue = props.item.checked;
   obj.checkedValue = props.item.trueValue ?? true;
@@ -147,7 +147,7 @@ const { value, errorMessage, handleChange, handleBlur, meta, validate, checked, 
   obj
 );
 
-const change = (_event: Event, _type?: string) => {
+const change = () => {
   if (typeof value.value === 'string') value.value = value.value.trim();
 };
 </script>

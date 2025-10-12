@@ -110,7 +110,9 @@ const props = withDefaults(defineProps<ModalProps>(), {
   subComponentIcon: '',
   subComponentText: '',
   onOpen: () => {},
+  onOpenComplete: () => {},
   onClose: () => {},
+  onCloseComplete: () => {},
   onConfirm: () => {},
   close,
 });
@@ -138,34 +140,34 @@ const itemHeight = ref(`${props.itemHeight * props.index}px` || '0px');
 /** 是否為中間彈出視窗 */
 const isCenterModal = props.backdrop && !props.draggable && !props.optionsMode;
 
-/** 開啟前的前置動作 */
+/** 開啟前 */
 function beforeEnter() {
   if (isCenterModal) {
     // 隱藏 body 滾動條
     document.body.classList.add('overflow-hidden');
   }
-  if (props.onOpen && typeof props.onOpen === 'function') {
-    props.onOpen();
-  }
+  // if (props.onOpen && typeof props.onOpen === 'function') {
+  // }
+  props.onOpen();
 }
 
-/** 開啟後的後續動作 */
+/** 開啟後 */
 function afterEnter() {}
 
-/** 關閉前的前置動作 */
+/** 關閉前 */
 function beforeLeave() {
   if (isCenterModal) {
     // 顯示 body 滾動條
     document.body.classList.remove('overflow-hidden');
   }
-  if (props.onClose && typeof props.onClose === 'function') {
-    props.onClose();
-  }
+  props.onClose();
 }
 
-/** 關閉後的後續動作 */
-function afterLeave() {
+/** 關閉後 */
+async function afterLeave() {
+  // console.log(`${props.id} afterLeave`);
   props.close();
+  props.onCloseComplete();
 }
 
 /** 聚焦 */
@@ -175,7 +177,7 @@ function focus(e: any) {
 
 /** 失焦 */
 function blur(e: FocusEvent) {
-  console.log(`${props.id} blur`, e);
+  // console.log(`${props.id} blur`, e);
 
   // 如果分頁不在前景 → 不處理
   if (document.hidden || !document.hasFocus()) return;

@@ -25,7 +25,7 @@
       :name="item.name"
       :class="{ 'custom-date': item.type === 'date', invalid: errorMessage, isValue: value }"
       :placeholder="!item.disabled ? item.placeholder || '輸入內容' : ''"
-      :value="item.type !== 'file' ? props.modelValue ?? value ?? item.value : ''"
+      :value="item.type !== 'file' ? props.modelValue ?? item.value ?? value : ''"
       @input="
         eventName === 'input' ? (handleChange($event, !!errorMessage), fn.input && fn.input($event, value, item)) : ''
       "

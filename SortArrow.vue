@@ -28,10 +28,9 @@ function toggleSort() {
 
 <style lang="scss" scoped>
 .arrow-box {
-  user-select: text;
   cursor: pointer;
   position: absolute;
-  inset: 0 0 0 0;
+  inset: 0 2px 0 0;
   /* top: 0px;
   left: 0px;
   width: 100%;

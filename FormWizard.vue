@@ -23,6 +23,8 @@
 import { useForm, type SubmissionContext, type InvalidSubmissionContext } from 'vee-validate';
 
 interface Props<T extends Record<string, any>> {
+  /** 表單名稱 */
+  name?: string;
   /** 初始值 */
   initialValues?: T;
   /** 有效性驗證 */
@@ -36,6 +38,7 @@ interface Props<T extends Record<string, any>> {
 }
 
 const props = withDefaults(defineProps<Props<any>>(), {
+  name: 'edit-form',
   initialValues: () => ({}),
   schema: () => ({}),
   keepValues: true,
@@ -56,6 +59,7 @@ const isReadOnly = defineModel<boolean | undefined>('readonly', {
 const active = ref(true);
 
 const {
+  name,
   values,
   errors,
   meta,
@@ -70,6 +74,7 @@ const {
   defineField,
   submitForm,
 } = useForm({
+  name: props.name,
   initialValues: props.initialValues,
   validationSchema: computed(() => props.schema),
   keepValuesOnUnmount: props.keepValues,
@@ -97,6 +102,7 @@ watch(
 
 /** 定義 vee-validate 表單暴露型別 */
 export interface _VeeFormExpose {
+  name: typeof name;
   values: typeof values;
   errors: typeof errors;
   meta: typeof meta;
@@ -111,6 +117,7 @@ export interface _VeeFormExpose {
   onSubmit: typeof onSubmit;
 }
 defineExpose<_VeeFormExpose>({
+  name,
   values,
   errors,
   meta,

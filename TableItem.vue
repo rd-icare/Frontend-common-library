@@ -2,12 +2,16 @@
   <!-- thead 表頭 -->
   <template v-if="divType === 'thead'">
     <div
-      v-for="({ name, label, style, hidden, sortable, component }, idx) in tableItem"
+      v-for="({ name, label, style, hidden, sortable, theadComponent, theadFormContent }, idx) in tableItem"
       :key="`thead-${name || idx}`"
       v-show="!hidden"
       :class="['th', `column-${idx + 1}`]"
       :style="style">
-      <component v-if="component" :is="component" :name :item :index />
+      <div v-if="theadFormContent" class="thead-form-content">
+        <Text class="font-bold" :class="{ 'pr-16': sortable }" :title="label" :text="label" />
+        <FormContentBox :formContent="[{ name, ...theadFormContent }]" :fn />
+      </div>
+      <component v-else-if="theadComponent" :is="theadComponent" :name :item :index />
       <Text v-else class="font-bold" :class="{ 'pr-16': sortable }" :title="label" :text="label" />
       <!-- 排序箭頭 -->
       <SortArrow
@@ -54,6 +58,8 @@ interface Props {
   sn?: number;
   /** 返回點擊事件 */
   clickFn?: (item: TableItemClickFn) => void;
+  /** 函式集合 */
+  fn?: FormFnType;
 }
 const props = withDefaults(defineProps<Props>(), {
   divType: 'tbody',

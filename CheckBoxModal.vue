@@ -19,8 +19,6 @@
 </template>
 
 <script setup lang="ts">
-import { toRef } from 'vue';
-
 const storeIndex = indexStore();
 const {} = storeToRefs(storeIndex);
 const { updateTableItem } = storeIndex;

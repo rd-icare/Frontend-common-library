@@ -11,6 +11,7 @@
             label: item.label,
             hideShape: true,
             modelValue: item.name,
+            controlled: false,
           }"
           v-model:modelValue="checkedValue" />
       </div>

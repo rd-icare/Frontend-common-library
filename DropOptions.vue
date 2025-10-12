@@ -45,6 +45,7 @@ function selectClick() {
     payload: {
       // component: defineAsyncComponent(() => import(`@/components/home/modal/xxx.vue`)),
       component: props.component,
+      maxHeight: 480,
       optionsMode: true,
       direction: 'bottomRight',
       tableItem: tableItem.value,

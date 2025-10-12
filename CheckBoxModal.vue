@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="main">
-      <div class="input-box">
+      <div class="input-box !gap-4">
         <Input
           v-for="(item, index) in tableItem"
           :key="item.name"
@@ -79,7 +79,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 .center {
   > .main {
-    padding: 12px;
+    padding: 12px 12px 12px 10px;
     > .input-box {
       flex-direction: column;
       > div {

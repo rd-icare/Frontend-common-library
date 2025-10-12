@@ -146,5 +146,11 @@ button {
       opacity: 0.5;
     }
   }
+  &:has(div) {
+    span {
+      position: relative;
+      top: 1px;
+    }
+  }
 }
 </style>

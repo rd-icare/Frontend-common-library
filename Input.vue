@@ -62,6 +62,21 @@
       :="item.attr"
       :disabled="item.disabled"
       :input-class="{ invalid: errorMessage }" />
+    <DatePickerTW
+      v-else-if="item.type === 'date' && item.yearType === 'tw'"
+      :lang="{ yearFormat: 'YYYY' }"
+      :input-attr="{ name: item.name, id: item.id || item.name }"
+      :placeholder="!item.disabled ? item.placeholder || '選擇日期' : ''"
+      :value="value"
+      @update:value="(val: string | null) => (value = val)"
+      @change="
+        handleChange($event, !!errorMessage);
+        fn.change && fn.change($event, value, item);
+        change();
+      "
+      :="item.attr"
+      :disabled="item.disabled"
+      :input-class="{ invalid: errorMessage }" />
     <div
       v-if="item.type === 'file'"
       v-drag-upload="{ item, setErrors }"
@@ -107,7 +122,8 @@
 </template>
 
 <script setup lang="ts">
-import DatePicker from 'vue-datepicker-next';
+import DatePicker from '@/composables/vue-datepicker-next/index.es.js';
+import DatePickerTW from '@/composables/vue-datepicker-next/index.tw.js';
 import { useField } from 'vee-validate';
 import { getUrl, downloadFile } from '@/utils/common';
 

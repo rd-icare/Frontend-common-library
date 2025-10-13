@@ -128,7 +128,9 @@ import { useField } from 'vee-validate';
 import { getUrl, downloadFile } from '@/utils/common';
 
 const props = withDefaults(defineProps<FormElementProps>(), {
-  item: () => ({}),
+  item: () => ({
+    name: '',
+  }),
   eventName: 'change',
   fn: () => ({
     input: () => {},

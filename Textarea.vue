@@ -30,7 +30,9 @@
 import { useField } from 'vee-validate';
 
 const props = withDefaults(defineProps<FormElementProps>(), {
-  item: () => ({}),
+  item: () => ({
+    name: '',
+  }),
   eventName: 'change',
   fn: () => ({
     input: () => {},
@@ -39,9 +41,13 @@ const props = withDefaults(defineProps<FormElementProps>(), {
   }),
 });
 
-const { value, errorMessage, handleChange, handleBlur, meta, validate } = useField(() => props.item.name, undefined, {
-  // 這裡若要雙向綁定可以加上 syncVModel: true
-});
+const { value, errorMessage, handleChange, handleBlur, meta, validate } = useField(
+  () => props.item.name,
+  undefined,
+  {
+    // 這裡若要雙向綁定可以加上 syncVModel: true
+  }
+);
 </script>
 
 <style lang="scss" scoped></style>

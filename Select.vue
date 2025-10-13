@@ -48,7 +48,9 @@
 import { useField } from 'vee-validate';
 
 const props = withDefaults(defineProps<FormElementProps>(), {
-  item: () => ({}),
+  item: () => ({
+    name: '',
+  }),
   eventName: 'change',
   option: () => [],
   fn: () => ({

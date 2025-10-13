@@ -2,18 +2,19 @@
   <div>
     <div class="main">
       <div class="input-box !gap-4">
-        <Input
-          v-for="(item, index) in tableItem"
-          :key="item.name"
-          :item="{
-            type: 'checkbox',
-            name: item.name,
-            label: item.label,
-            hideShape: true,
-            modelValue: item.name,
-            controlled: false,
-          }"
-          v-model:modelValue="checkedValue" />
+        <template v-for="(item, index) in tableItem" :key="item.name">
+          <Input
+            v-if="item.isFieldSetting !== false"
+            :item="{
+              type: 'checkbox',
+              name: item.name,
+              label: item.label,
+              hideShape: true,
+              modelValue: item.name,
+              controlled: false,
+            }"
+            v-model:modelValue="checkedValue" />
+        </template>
       </div>
     </div>
   </div>

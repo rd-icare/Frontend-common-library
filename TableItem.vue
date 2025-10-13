@@ -4,7 +4,7 @@
     <div
       v-for="({ name, label, style, hidden, sortable, theadComponent, theadFormContent }, idx) in tableItem"
       :key="`thead-${name || idx}`"
-      v-show="!hidden"
+      v-show="!hidden || name === 'sn'"
       :class="['th', `column-${idx + 1}`]"
       :style="style">
       <div v-if="theadFormContent" class="thead-form-content">
@@ -30,7 +30,7 @@
     <div
       v-for="({ name, style, hidden, dayjsFormat, component }, idx) in tableItem"
       :key="`tbody-${name || idx}`"
-      v-show="!hidden"
+      v-show="!hidden || name === 'sn'"
       :class="['td', `column-${idx + 1}`]"
       :style="style">
       <component v-if="component" :is="component" :name :item :index />

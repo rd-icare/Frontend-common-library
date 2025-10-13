@@ -30,7 +30,6 @@ withDefaults(defineProps<Props>(), {
 
 <style lang="scss" scoped>
 .text {
-  user-select: none;
   overflow: hidden;
   display: grid;
   grid-auto-flow: column; /* 子元素強制橫向排 */

@@ -109,7 +109,7 @@
               value: storeParams.perPage,
               controlled: false,
             }"
-            :option="[10, 20, 40, 60, 80, 100]"
+            :option="[1, 2, 20, 40, 60, 80, 100]"
             :fn />
         </div>
       </div>
@@ -197,7 +197,7 @@ const fn = ref<FormFnType>({
     }
     // 切換顯示筆數
     if (item?.name === `${storeParams.value.tableClass}_show_num`) {
-      controlLoading.value = true;
+      // controlLoading.value = true;
       storeParams.value.perPage = +value;
       // 當前總頁數重新計算
       storeParams.value.totalPage = Math.ceil(storeParams.value.totalCount / storeParams.value.perPage);
@@ -270,6 +270,13 @@ const stopWatch = watch(
     controlLoading.value = false;
   },
   { deep: true }
+);
+
+watch(
+  () => storeParams.value.perPage,
+  async (newValue, oldValue) => {
+    controlLoading.value = true;
+  }
 );
 
 onMounted(async () => {});

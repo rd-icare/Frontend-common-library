@@ -27,7 +27,9 @@
       :placeholder="!item.disabled ? item.placeholder || '輸入內容' : ''"
       :value="item.type !== 'file' ? props.modelValue ?? item.value ?? value : ''"
       @input="
-        eventName === 'input' ? (handleChange($event, !!errorMessage), fn.input && fn.input($event, value, item)) : ''
+        !isComposing && eventName === 'input'
+          ? (handleChange($event, !!errorMessage), fn.input && fn.input($event, value, item))
+          : ''
       "
       @change="
         eventName === 'change'
@@ -43,7 +45,9 @@
       :minlength="item.minlength || undefined"
       :maxlength="item.maxlength || undefined"
       :autocomplete="item.autocomplete || undefined"
-      :accept="item.accept || undefined" />
+      :accept="item.accept || undefined"
+      @compositionstart="isComposing = true"
+      @compositionend="onCompositionEnd" />
     <DatePicker
       v-else-if="item.type === 'date' && item.yearType === 'initial'"
       :input-attr="{ name: item.name, id: item.id || item.name }"
@@ -146,6 +150,17 @@ const { value, errorMessage, handleChange, handleBlur, meta, validate, checked, 
   undefined,
   obj
 );
+
+/** 是否正在中文輸入，判斷組字狀態 */
+const isComposing = ref(false);
+/** 中文輸入結束 */
+function onCompositionEnd(e: CompositionEvent) {
+  // console.log('中文輸入完成');
+  isComposing.value = false;
+  // 中文輸入完成後再執行方法
+  handleChange(e, !!errorMessage);
+  props.fn.input && props.fn.input(e, value.value, props.item);
+}
 
 const change = () => {
   if (typeof value.value === 'string') value.value = value.value.trim();

@@ -39,7 +39,7 @@ const tableItem = defineModel<TableItem[]>('tableItem', {
 
 /* 根據勾選同步更新 tableItem -> hidden 狀態 */
 watch(checkedValue, (newVal, oldVal) => {
-  console.log(newVal);
+  // console.log(newVal);
   updateTableItem({
     key: String(props.item.id),
     tableItem: tableItem,

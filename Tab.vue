@@ -65,6 +65,7 @@ const props = withDefaults(defineProps<Props>(), {
   display: flex;
   border-bottom: var(--border-1);
   > .item {
+    cursor: pointer;
     position: relative;
     top: 0px;
     flex: 0 0 140px;

@@ -39,9 +39,9 @@ const tableItem = defineModel<TableItem[]>('tableItem', {
 });
 
 /* 根據勾選同步更新 tableItem -> hidden 狀態 */
-watch(checkedValue, (newVal, oldVal) => {
+watch(checkedValue, async (newVal, oldVal) => {
   // console.log(newVal);
-  updateTableItem({
+  await updateTableItem({
     key: String(props.item.id),
     tableItem: tableItem,
     checkedValue: newVal,

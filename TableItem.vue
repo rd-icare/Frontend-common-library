@@ -9,7 +9,7 @@
       :style="style">
       <div v-if="theadFormContent" class="thead-form-content">
         <Text class="font-bold" :class="{ 'pr-16': sortable }" :title="label" :text="label" />
-        <FormContentBox :formContent="[{ ...theadFormContent, name }]" :fn />
+        <FormContentBox :formContent="[{ name, ...theadFormContent }]" :fn />
       </div>
       <component v-else-if="theadComponent" :is="theadComponent" :name :item :index />
       <Text v-else class="font-bold" :class="{ 'pr-16': sortable }" :title="label" :text="label" />
@@ -60,6 +60,8 @@ interface Props {
   clickFn?: (item: TableItemClickFn) => void;
   /** 函式集合 */
   fn?: FormFnType;
+  /** 默認排序 */
+  defaultSort?: string;
 }
 const props = withDefaults(defineProps<Props>(), {
   divType: 'tbody',
@@ -68,6 +70,8 @@ const props = withDefaults(defineProps<Props>(), {
   index: 0,
   currentPage: 1,
   clickFn: () => {},
+  fn: () => ({}),
+  defaultSort: '',
 });
 /** 當前欄位激活索引 */
 const activeIndex = ref<number>(0);
@@ -86,15 +90,16 @@ function valueFormat(name: string, dayjsFormat?: string, value?: any) {
 }
 /** 排序 */
 function handleSort({ name, sortState }: TableItemClickFn) {
-  currSortState.value = sortState as boolean;
+  currSortState.value = sortState ?? !currSortState.value;
   props.clickFn({ name, sortStateStr: sortState ? 'asc' : 'desc' });
 }
 onMounted(() => {
-  /** 預設左邊第一個欄位排序，忽略 false */
-  // const firstSortable = props.tableItem.findIndex((item) => {
-  //   return item.sortable !== false;
-  // });
-  // if (firstSortable >= 0) activeIndex.value = firstSortable;
+  if (props.divType === 'tbody') return;
+  /** defaultSort 預設欄位默認排序，忽略 false */
+  const defaultSortable = props.tableItem.findIndex((item) => {
+    return item.sortable !== false && item.name === props.defaultSort;
+  });
+  if (defaultSortable >= 0) activeIndex.value = defaultSortable;
 });
 </script>
 

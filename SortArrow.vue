@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 interface Props {
-  /** 欄位名稱 */
+  /** API 欄位名稱 */
   name: string;
   /** 表格項目索引 */
   idx: number;

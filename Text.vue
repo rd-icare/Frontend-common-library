@@ -31,8 +31,9 @@ withDefaults(defineProps<Props>(), {
 <style lang="scss" scoped>
 .text {
   overflow: hidden;
-  display: grid;
-  grid-auto-flow: column; /* 子元素強制橫向排 */
+  display: grid; // 填滿
+  /* display: inline-grid; // 不填滿 */
+  grid-auto-flow: column; // 子元素強制橫向排
   align-items: center;
   gap: 4px;
   > div {
@@ -42,6 +43,13 @@ withDefaults(defineProps<Props>(), {
   }
   &.icon-style {
     justify-content: flex-start;
+  }
+  &.link-style {
+    cursor: pointer;
+    color: var(--color-sub);
+    :hover {
+      text-decoration: underline;
+    }
   }
 }
 </style>

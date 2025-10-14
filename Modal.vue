@@ -184,8 +184,6 @@ function blur(e: FocusEvent) {
 
   const target = e.relatedTarget as HTMLElement | null;
 
-  // 如果是點擊 INPUT 的話 → 不處理
-  if (target?.tagName === 'INPUT') return;
   // 如果是選項模式 → 不處理
   if (target?.className.includes('options-mode')) return;
   // 如果是自身 ID → 不處理

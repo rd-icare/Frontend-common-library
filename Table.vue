@@ -189,6 +189,7 @@ const fn = ref<FormFnType>({
     // 前往頁數
     if (item?.name === `${storeParams.value.tableClass}_page_num`) {
       // storeParams.value.currentPage = Number(value);
+      /* 當你確定 value 是字串（例如從 <input> 或 select 取到的值），但希望它變成數字時，用 +value 是最簡潔的寫法，同等於 Number(value) */
       storeParams.value.currentPage = +value;
       nextTick(async () => {
         await props.getDatas();

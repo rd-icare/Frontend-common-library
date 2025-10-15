@@ -2,11 +2,11 @@
   <form @submit="onSubmit" @keypress.enter="(e) => (!useKeypressEnter ? e.preventDefault() : null)" novalidate>
     <!-- 用 fieldset 將整個 slot 包起來：HTML 會把所有子 input/textarea/select/button disabled -->
     <fieldset :disabled="isReadOnly" class="form-fieldset">
+      <!-- 插槽 表單內容 -->
       <slot name="content" :values="values" :errors="errors" :handleReset="handleReset" />
     </fieldset>
-
-    <slot name="buttons" :handleReset="handleReset" :resetForm="resetForm" />
-
+    <!-- 插槽 表單底部 -->
+    <slot name="bottom" :handleReset="handleReset" :resetForm="resetForm" />
     <!-- debug -->
     <div
       class="form-values-box"

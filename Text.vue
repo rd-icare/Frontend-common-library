@@ -46,7 +46,7 @@ withDefaults(defineProps<Props>(), {
   }
   &.link-style {
     cursor: pointer;
-    color: var(--color-sub);
+    color: var(--color-secondary);
     :hover {
       text-decoration: underline;
     }

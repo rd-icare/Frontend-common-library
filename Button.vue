@@ -91,9 +91,9 @@ button {
     }
     // 副色
     &.c-sub {
-      border: 1px solid var(--color-sub);
+      border: 1px solid var(--color-secondary);
       color: var(--white);
-      background-color: var(--color-sub);
+      background-color: var(--color-secondary);
       &:hover {
         filter: brightness(1.1);
       }

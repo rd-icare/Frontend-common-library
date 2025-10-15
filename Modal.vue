@@ -60,6 +60,7 @@
           :is="component"
           :="{ item: props }"
           v-model:modalOpen="modalOpen"
+          v-model:modalLoading="loading"
           v-model:tableItem="tableItem">
           <template #bottom>
             <div class="bottom">
@@ -72,7 +73,7 @@
         <div v-if="showBottom" class="bottom">
           <Button :text="$t('Util.close')" @click="modalOpen = false" />
         </div>
-        <CurrentLoading :show="modalLoading" />
+        <CurrentLoading :show="loading" />
       </div>
     </div>
   </Transition>
@@ -120,8 +121,10 @@ const props = withDefaults(defineProps<ModalProps>(), {
 /** 表格項目 */
 const tableItem = defineModel<TableItem[]>('tableItem');
 
-/** 是否開啟彈出視窗 */
+/** 彈出視窗開啟 */
 const modalOpen = ref<boolean>(false);
+/** 彈出視窗載入中 */
+const loading = ref<boolean>(props.modalLoading);
 
 /** 副標題類型文字顯示 */
 const subTitleType = ref<Record<string, string>>({
@@ -152,7 +155,10 @@ function beforeEnter() {
 }
 
 /** 開啟後 */
-function afterEnter() {}
+function afterEnter() {
+  // console.log(`${props.id} afterEnter`);
+  props.onOpenComplete();
+}
 
 /** 關閉前 */
 function beforeLeave() {
@@ -321,7 +327,7 @@ onUnmounted(() => {
     > .top {
       user-select: none;
       position: relative;
-      height: 36px;
+      height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -338,14 +344,14 @@ onUnmounted(() => {
         left: 12px;
       }
       > .close-btn {
-        right: 0px;
+        right: 4px;
         z-index: 1;
       }
     }
     > :deep(.center) {
       display: flex;
       flex-direction: column;
-      > div {
+      .main {
         flex-grow: 1;
         overflow: auto;
         height: v-bind(mainHeight);

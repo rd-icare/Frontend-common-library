@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 const storeIndex = indexStore();
-const { routePath, routeSubPath, routeSideMenu, routeParamsId } = storeToRefs(storeIndex);
+const { routePath, routeSubPath, routeTypeSideMenu, routeParamsId } = storeToRefs(storeIndex);
 const {} = storeIndex;
 interface Props {
   /** 類型 */

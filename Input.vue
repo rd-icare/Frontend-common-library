@@ -122,8 +122,8 @@
 </template>
 
 <script setup lang="ts">
-import DatePicker from '@/composables/vue-datepicker-next/index.es.js';
-import DatePickerTW from '@/composables/vue-datepicker-next/index.tw.js';
+import DatePicker from '@/vue-datepicker-next/index.es.js';
+import DatePickerTW from '@/vue-datepicker-next/index.tw.js';
 import { useField } from 'vee-validate';
 import { getUrl, downloadFile } from '@/utils/common';
 

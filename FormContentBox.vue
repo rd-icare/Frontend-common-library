@@ -41,7 +41,7 @@ withDefaults(defineProps<Props>(), {
 });
 
 /**
- * type -> 元件對應表
+ * type → 元件對應表
  */
 const componentMap: Record<string, any> = {
   select: Select,

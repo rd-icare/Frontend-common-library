@@ -10,14 +10,32 @@
           '!pr-24': item.id,
         },
       ]"
-      @click="clickFn({ type: 'router', subPath: item.subPath, id: item.id, index })">
+      @click="
+        clickFn({
+          type: 'router',
+          text: item.text,
+          subPath: item.subPath,
+          id: item.id,
+          paginName: item.paginName,
+          index,
+        })
+      ">
       <Text :text="item.text" />
       <Button
         v-if="item.id"
         class="close-btn icon-style no-border"
         icon="close"
         :title="$t('Util.close_index')"
-        @click.stop="clickFn({ type: 'close', subPath: item.subPath, id: item.id, index })" />
+        @click.stop="
+          clickFn({
+            type: 'close',
+            text: item.text,
+            subPath: item.subPath,
+            id: item.id,
+            paginName: item.paginName,
+            index,
+          })
+        " />
     </div>
   </div>
 </template>
@@ -29,15 +47,12 @@ const storeIndex = indexStore();
 const { routePath, routeSubPath, routeTypeSideMenu, routeParamsId } = storeToRefs(storeIndex);
 const {} = storeIndex;
 interface Props {
-  /** 類型 */
-  type?: string;
   /** 資料 */
   data?: TabDataItem[];
   /** 返回點擊事件 */
   clickFn?: (item: TabClickFn) => void;
 }
 const props = withDefaults(defineProps<Props>(), {
-  type: '',
   data: () => [],
   clickFn: () => {},
 });

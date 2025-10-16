@@ -1,7 +1,7 @@
 <template>
   <div class="select" :class="[item.class]" :style="item.style">
     <label
-      v-if="item.type !== 'hidden' && item.hideLabel !== true"
+      v-if="item.label && item.type !== 'hidden' && item.hideLabel !== true"
       :for="item.id || item.name"
       :class="{ 'no-value': value === '_' }">
       {{ item.label }}

@@ -7,6 +7,7 @@
     </fieldset>
     <!-- 插槽 表單底部 -->
     <slot name="bottom" :handleReset="handleReset" :resetForm="resetForm" />
+    <slot />
     <!-- debug -->
     <div
       class="form-values-box"

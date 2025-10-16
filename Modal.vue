@@ -69,11 +69,14 @@
               <Button v-else class="c-primary" :text="$t('Util.leave')" @click="(modalOpen = false), onConfirm(true)" />
             </div>
           </template>
+          <template #loading>
+            <CurrentLoading :show="loading" />
+          </template>
         </component>
         <div v-if="showBottom" class="bottom">
           <Button :text="$t('Util.close')" @click="modalOpen = false" />
         </div>
-        <CurrentLoading :show="loading" />
+        <!-- <CurrentLoading :show="loading" /> -->
       </div>
     </div>
   </Transition>
@@ -97,6 +100,7 @@ const props = withDefaults(defineProps<ModalProps>(), {
   subTitle: '',
   maxWidth: 0,
   height: 0,
+  minHeight: 0,
   maxHeight: 0,
   zIndex: 0,
   backdrop: true,
@@ -135,6 +139,7 @@ const subTitleType = ref<Record<string, string>>({
 
 /** 彈出視窗 main 的高度 */
 const mainHeight = ref(props.height ? `${props.height}px` : '');
+const mainMinHeight = ref(props.minHeight ? `${props.minHeight}px` : '');
 const mainMaxHeight = ref(props.maxHeight ? `${props.maxHeight}px` : props.optionsMode ? '' : 'calc(100vh - 116px)');
 
 /** 開啟彈出視窗 */
@@ -349,12 +354,14 @@ onUnmounted(() => {
       }
     }
     > :deep(.center) {
+      position: relative;
       display: flex;
       flex-direction: column;
       .main {
         flex-grow: 1;
         overflow: auto;
         height: v-bind(mainHeight);
+        min-height: v-bind(mainMinHeight);
         max-height: v-bind(mainMaxHeight);
       }
     }

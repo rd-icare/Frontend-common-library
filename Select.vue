@@ -4,42 +4,44 @@
       v-if="item.type !== 'hidden' && item.hideLabel !== true"
       :for="item.id || item.name"
       :class="{ 'no-value': value === '_' }">
+      <div v-if="item.need" class="form-required"></div>
       {{ item.label }}
-      <span v-if="item.need" class="form-star" :class="{ active: item.need }"></span>
     </label>
-    <select
-      :id="item.id || item.name"
-      :name="item.name"
-      class="custom-select"
-      :class="{ invalid: errorMessage, 'is-value': value }"
-      :value="item.value ?? value"
-      @input="
-        eventName === 'input' ? (handleChange($event, !!errorMessage), fn.input && fn.input($event, value, item)) : ''
-      "
-      @change="
-        eventName === 'change'
-          ? (handleChange($event, !!errorMessage), fn.change && fn.change($event, value, item))
-          : ''
-      "
-      @blur="handleBlur($event, true)"
-      :disabled="item.disabled"
-      :autocomplete="item.autocomplete || undefined">
-      <option v-if="item.noValue" value="_" selected hidden></option>
-      <option v-if="item.select === true" value="" selected disabled hidden>
-        {{ item.selectedText || '請選擇' }}
-      </option>
-      <option v-else-if="item.select === false" value="">
-        {{ item.selectedText || '不限' }}
-      </option>
-      <option
-        v-for="(opt, index) in option"
-        :key="index"
-        :value="typeof opt === 'object' && opt !== null && 'value' in opt ? opt.value : opt">
-        {{ typeof opt === 'object' && opt !== null && 'label' in opt ? opt.label : opt }}
-      </option>
-    </select>
-    <div v-if="!item.hideError && errorMessage" class="error">
-      {{ errorMessage }}
+    <div class="element">
+      <select
+        :id="item.id || item.name"
+        :name="item.name"
+        class="custom-select"
+        :class="{ invalid: errorMessage, 'is-value': value }"
+        :value="item.value ?? value"
+        @input="
+          eventName === 'input' ? (handleChange($event, !!errorMessage), fn.input && fn.input($event, value, item)) : ''
+        "
+        @change="
+          eventName === 'change'
+            ? (handleChange($event, !!errorMessage), fn.change && fn.change($event, value, item))
+            : ''
+        "
+        @blur="handleBlur($event, true)"
+        :disabled="item.disabled"
+        :autocomplete="item.autocomplete || undefined">
+        <option v-if="item.noValue" value="_" selected hidden></option>
+        <option v-if="item.select === true" value="" selected disabled hidden>
+          {{ item.selectedText || '請選擇' }}
+        </option>
+        <option v-else-if="item.select === false" value="">
+          {{ item.selectedText || '不限' }}
+        </option>
+        <option
+          v-for="(opt, index) in option"
+          :key="index"
+          :value="typeof opt === 'object' && opt !== null && 'value' in opt ? opt.value : opt">
+          {{ typeof opt === 'object' && opt !== null && 'label' in opt ? opt.label : opt }}
+        </option>
+      </select>
+      <div v-if="!item.hideError && errorMessage" class="error">
+        {{ errorMessage }}
+      </div>
     </div>
   </div>
 </template>

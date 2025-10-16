@@ -1,8 +1,8 @@
 <template>
-  <div class="textarea" :class="[item.class]">
+  <div class="textarea" :class="[item.class]" :style="item.style">
     <label v-if="item.type !== 'hidden' && item.hideLabel !== true" :for="item.id || item.name">
-      <div v-if="item.need" class="form-required"></div>
       {{ item.label }}
+      <div v-if="item.need" class="form-required"></div>
     </label>
     <div class="element">
       <textarea

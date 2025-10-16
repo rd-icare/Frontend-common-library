@@ -1,11 +1,11 @@
 <template>
-  <div class="select" :class="[item.class]">
+  <div class="select" :class="[item.class]" :style="item.style">
     <label
       v-if="item.type !== 'hidden' && item.hideLabel !== true"
       :for="item.id || item.name"
       :class="{ 'no-value': value === '_' }">
-      <div v-if="item.need" class="form-required"></div>
       {{ item.label }}
+      <div v-if="item.need" class="form-required"></div>
     </label>
     <div class="element">
       <select

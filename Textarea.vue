@@ -1,5 +1,11 @@
 <template>
-  <div class="textarea" :class="[item.class]" :style="item.style">
+  <div
+    class="textarea"
+    :class="[item.class]"
+    :style="{
+      flex: item.flex ? `1 1 ${item.flex}%` : '',
+      ...item.style,
+    }">
     <label v-if="item.label && item.type !== 'hidden' && item.hideLabel !== true" :for="item.id || item.name">
       {{ item.label }}
       <div v-if="item.need" class="form-required"></div>

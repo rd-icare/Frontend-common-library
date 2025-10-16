@@ -11,7 +11,10 @@
         checked,
       },
     ]"
-    :style="item.style">
+    :style="{
+      flex: item.flex ? `1 1 ${item.flex}%` : '',
+      ...item.style,
+    }">
     <label v-if="item.type === 'checkbox' && item.hideShape" class="checkbox-icon gicons" :for="item.id || item.name">
       <span>{{ item.disabled ? 'indeterminate_check_box' : checked ? 'check_box' : 'check_box_outline_blank' }}</span>
     </label>

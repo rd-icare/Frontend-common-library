@@ -3,7 +3,7 @@
     class="select"
     :class="[item.class]"
     :style="{
-      flex: item.flex ? `1 1 ${item.flex}%` : '',
+      minWidth: item.minWidth ? item.minWidth + 'px' : '',
       ...item.style,
     }">
     <label

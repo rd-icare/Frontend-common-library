@@ -12,7 +12,7 @@
       },
     ]"
     :style="{
-      flex: item.flex ? `1 1 ${item.flex}%` : '',
+      minWidth: item.minWidth ? item.minWidth + 'px' : '',
       ...item.style,
     }">
     <label v-if="item.type === 'checkbox' && item.hideShape" class="checkbox-icon gicons" :for="item.id || item.name">

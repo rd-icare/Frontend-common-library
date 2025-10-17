@@ -1,6 +1,7 @@
 <template>
   <div class="input-box" :class="{ 'no-placeholder': noPlaceholder }">
     <template v-for="(item, index) in formContent" :key="item.name || index">
+      <div v-if="item.breakLine" class="break-line"></div>
       <component
         v-if="componentMap[item.type as keyof typeof componentMap]"
         :is="componentMap[item.type as keyof typeof componentMap]"

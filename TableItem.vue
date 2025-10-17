@@ -2,11 +2,14 @@
   <!-- thead 表頭 -->
   <template v-if="divType === 'thead'">
     <div
-      v-for="({ name, label, style, hidden, sortable, theadComponent, theadFormContent }, idx) in tableItem"
+      v-for="({ name, label, minWidth, style, hidden, sortable, theadComponent, theadFormContent }, idx) in tableItem"
       :key="`thead-${name || idx}`"
       v-show="!hidden || name === 'sn'"
       :class="['th', `column-${idx + 1}`]"
-      :style="style">
+      :style="{
+        minWidth: minWidth ? minWidth + 'px' : '',
+        ...style,
+      }">
       <div v-if="theadFormContent" class="thead-form-content">
         <Text class="font-bold" :class="{ 'pr-16': sortable }" :title="label" :text="label" />
         <FormContentBox :formContent="[{ name, ...theadFormContent }]" :fn />
@@ -28,11 +31,14 @@
   <!-- tbody 表身 -->
   <template v-else-if="divType === 'tbody'">
     <div
-      v-for="({ name, style, hidden, dayjsFormat, component }, idx) in tableItem"
+      v-for="({ name, minWidth, style, hidden, dayjsFormat, component }, idx) in tableItem"
       :key="`tbody-${name || idx}`"
       v-show="!hidden || name === 'sn'"
       :class="['td', `column-${idx + 1}`]"
-      :style="style">
+      :style="{
+        minWidth: minWidth ? minWidth + 'px' : '',
+        ...style,
+      }">
       <component v-if="component" :is="component" :name :item :index />
       <Text
         v-else

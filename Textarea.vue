@@ -3,7 +3,7 @@
     class="textarea"
     :class="[item.class]"
     :style="{
-      flex: item.flex ? `1 1 ${item.flex}%` : '',
+      minWidth: item.minWidth ? item.minWidth + 'px' : '',
       ...item.style,
     }">
     <label v-if="item.label && item.type !== 'hidden' && item.hideLabel !== true" :for="item.id || item.name">

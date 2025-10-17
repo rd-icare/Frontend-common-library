@@ -245,6 +245,7 @@ const vComponent: Directive = {
 };
 
 onMounted(async () => {
+  // console.log('Modal mounted');
   // 放置 modals 集中管理
   modals.value[props.id] = {
     ...props,

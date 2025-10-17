@@ -1,12 +1,12 @@
 <template>
   <Transition
-    name="fade"
+    :name="transitionName"
     @before-enter="beforeEnter"
     @after-enter="afterEnter"
     @before-leave="beforeLeave"
     @after-leave="afterLeave">
     <div
-      v-if="modalOpen"
+      v-show="modalOpen"
       tabindex="-1"
       :key="id"
       :class="[
@@ -47,15 +47,16 @@
             @click="modalOpen = false" />
         </div>
         <!-- 插槽 -->
-        <template v-if="!component">
+        <!-- <template v-if="!component">
           <slot>
             <div class="center">
               <div class="main">Demo</div>
             </div>
           </slot>
-        </template>
+        </template> -->
         <!-- 插入組件 -->
         <component
+          v-Component
           class="center"
           :is="component"
           :="{ item: props }"
@@ -84,6 +85,7 @@
 
 <script setup lang="ts">
 // import type { ModalProps } from '@/types/index';
+import type { Directive } from 'vue';
 const storeIndex = indexStore();
 const { modals } = storeToRefs(storeIndex);
 const {} = storeIndex;
@@ -114,6 +116,7 @@ const props = withDefaults(defineProps<ModalProps>(), {
   subComponent: () => {},
   subComponentIcon: '',
   subComponentText: '',
+  transitionName: 'fade',
   onOpen: () => {},
   onOpenComplete: () => {},
   onClose: () => {},
@@ -214,34 +217,40 @@ function blur(e: FocusEvent) {
 //   modalOpen,
 // });
 
-onMounted(() => {
+const vComponent: Directive = {
+  mounted(el, binding, vnode) {
+    // console.log('v-Component mounted', el, binding, vnode);
+    modalOpen.value = true;
+    nextTick(() => {
+      // console.log(`id: ${props.id} index: ${props.index} itemHeight: ${props.itemHeight} mounted`);
+      // 如果是拖曳模式
+      if (props.draggable) {
+        const el = document.querySelector(`#${props.id} .content`) as HTMLElement;
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          const left = window.innerWidth - rect.width - 16;
+          el.style.inset = `${48 + props.index * 16}px auto auto ${left}px`;
+        }
+        return;
+      }
+      // 如果是選項模式
+      if (props.optionsMode) {
+        const el = document.querySelector(`#${props.id} .modal-box`) as HTMLElement;
+        // 聚焦最後啟用的彈出視窗
+        if (el) el.focus();
+        return;
+      }
+    });
+  },
+};
+
+onMounted(async () => {
   // 放置 modals 集中管理
   modals.value[props.id] = {
     ...props,
     modalOpen,
   };
   // console.log('add modals', modals.value);
-  modalOpen.value = true;
-  nextTick(() => {
-    // console.log(`id: ${props.id} index: ${props.index} itemHeight: ${props.itemHeight} mounted`);
-    // 如果是拖曳模式
-    if (props.draggable) {
-      const el = document.querySelector(`#${props.id} .content`) as HTMLElement;
-      if (el) {
-        const rect = el.getBoundingClientRect();
-        const left = window.innerWidth - rect.width - 16;
-        el.style.inset = `${48 + props.index * 16}px auto auto ${left}px`;
-      }
-      return;
-    }
-    // 如果是選項模式
-    if (props.optionsMode) {
-      const el = document.querySelector(`#${props.id} .modal-box`) as HTMLElement;
-      // 聚焦最後啟用的彈出視窗
-      if (el) el.focus();
-      return;
-    }
-  });
 });
 
 onUnmounted(() => {
@@ -317,8 +326,8 @@ onUnmounted(() => {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 150%;
+    height: 150%;
     background-color: var(--background-mask);
   }
   > .content {

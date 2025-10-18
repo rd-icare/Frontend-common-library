@@ -29,7 +29,7 @@
         :type="item.type || 'text'"
         :name="item.name"
         :class="{ 'custom-date': item.type === 'date', invalid: errorMessage, isValue: value }"
-        :placeholder="!item.disabled ? item.placeholder || '輸入內容' : ''"
+        :placeholder="!item.disabled ? item.placeholder : ''"
         :value="item.type !== 'file' ? props.modelValue ?? item.value ?? value : ''"
         @input="
           !isComposing && eventName === 'input'
@@ -56,7 +56,7 @@
       <DatePicker
         v-else-if="item.type === 'date' && item.yearType === 'initial'"
         :input-attr="{ name: item.name, id: item.id || item.name }"
-        :placeholder="!item.disabled ? item.placeholder || '選擇日期' : ''"
+        :placeholder="!item.disabled ? item.placeholder || '年/月/日' : ''"
         :value="value"
         @update:value="(val: string | null) => (value = val)"
         @change="
@@ -71,7 +71,7 @@
         v-else-if="item.type === 'date' && item.yearType === 'tw'"
         :lang="{ yearFormat: 'YYYY' }"
         :input-attr="{ name: item.name, id: item.id || item.name }"
-        :placeholder="!item.disabled ? item.placeholder || '選擇日期' : ''"
+        :placeholder="!item.disabled ? item.placeholder || '年/月/日' : ''"
         :value="value"
         @update:value="(val: string | null) => (value = val)"
         @change="
@@ -124,6 +124,7 @@
         v-show="!item.hideEye"
         :type-text="item.type === 'text'" />
     </div>
+    <div v-if="item.unit" class="unit">{{ item.unit }}</div>
   </div>
 </template>
 
@@ -136,6 +137,8 @@ import { getUrl, downloadFile } from '@/utils/common';
 const props = withDefaults(defineProps<FormElementProps>(), {
   item: () => ({
     name: '',
+    type: 'text',
+    label: '',
   }),
   eventName: 'change',
   fn: () => ({

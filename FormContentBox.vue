@@ -1,5 +1,10 @@
 <template>
-  <div class="input-box" :class="{ 'no-placeholder': noPlaceholder }">
+  <div
+    class="input-box"
+    :class="{
+      'no-placeholder': noPlaceholder,
+      'horizontal-mode': horizontalMode,
+    }">
     <template v-for="(item, index) in formContent" :key="item.name || index">
       <div v-if="item.breakLine" class="break-line"></div>
       <component
@@ -34,6 +39,8 @@ interface Props {
   fn?: FormFnType;
   /** 不顯示 placeholder */
   noPlaceholder?: boolean;
+  /** 表單元素水平模式 */
+  horizontalMode?: boolean;
 }
 withDefaults(defineProps<Props>(), {
   formContent: () => [],

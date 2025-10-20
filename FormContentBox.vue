@@ -3,7 +3,8 @@
     class="input-box"
     :class="{
       'no-placeholder': noPlaceholder,
-      'horizontal-mode': horizontalMode,
+      'horizontal-mode': directionMode === 'horizontal',
+      'vertical-mode': directionMode === 'vertical',
       'adaptive-width': adaptiveWidth,
     }">
     <template v-for="(item, index) in formContent" :key="item.name || index">
@@ -40,8 +41,8 @@ interface Props {
   fn?: FormFnType;
   /** 不顯示 placeholder */
   noPlaceholder?: boolean;
-  /** 表單元素水平模式 */
-  horizontalMode?: boolean;
+  /** 表單元素方向模式 */
+  directionMode?: 'horizontal' | 'vertical';
   /** 表單元素自適應寬度 */
   adaptiveWidth?: boolean;
 }

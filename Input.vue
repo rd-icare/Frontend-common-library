@@ -47,10 +47,10 @@
         :true-value="item.trueValue"
         :false-value="item.falseValue"
         :checked="item.checked || checked"
-        :minlength="item.minlength || undefined"
-        :maxlength="item.maxlength || undefined"
-        :autocomplete="item.autocomplete || undefined"
-        :accept="item.accept || undefined"
+        :minlength="item.minlength"
+        :maxlength="item.maxlength"
+        :autocomplete="item.autocomplete"
+        :accept="item.accept"
         @compositionstart="isComposing = true"
         @compositionend="onCompositionEnd" />
       <DatePicker
@@ -86,7 +86,15 @@
         v-if="item.type === 'file'"
         v-drag-upload="{ item, setErrors }"
         class="file-box gicons"
-        :class="[{ 'is-icon-type': item.isIconType, 'is-icon-type-active': item.isIconType && value }]">
+        :class="[
+          {
+            'is-icon-type': item.isIconType,
+            'is-icon-type-active': item.isIconType && value,
+          },
+        ]"
+        :style="{
+          height: item.fileBoxHeight ? item.fileBoxHeight + 'px' : '',
+        }">
         <label
           v-if="!item.isIconType"
           class="file-shape"
@@ -96,11 +104,13 @@
             <Img :src="getUrl(value as string | File | null | undefined)" />
           </div>
           <div class="box">
-            <div class="text1">
-              <span>add</span>
-              <div v-html="item.placeholder || '上傳檔案'"></div>
+            <div class="middle-text">
+              <span>upload</span>
+              <div class="placeholder" v-html="item.placeholder || '上傳檔案'"></div>
             </div>
-            <div class="text2 font-small-4">{{ item.formatText || '檔案格式：JPG/PNG/PDF' }}</div>
+            <div v-if="item.formatText" class="format-text font-small-4">
+              {{ item.formatText ? `檔案格式：${item.formatText}` : '' }}
+            </div>
           </div>
         </label>
         <template v-else>

@@ -13,8 +13,8 @@
     <div class="element">
       <textarea
         :id="item.id || item.name"
-        :type="item.type || 'text'"
         :name="item.name"
+        :class="{ invalid: errorMessage }"
         :placeholder="item.placeholder"
         :value="item.value ?? value"
         @input="
@@ -26,7 +26,9 @@
             : ''
         "
         @blur="handleBlur($event, true)"
-        :disabled="item.disabled"></textarea>
+        :disabled="item.disabled"
+        :rows="item.rows"
+        :cols="item.cols"></textarea>
       <div v-if="item.hideError !== true && errorMessage && meta.touched" class="error">
         {{ errorMessage }}
       </div>
@@ -39,6 +41,7 @@ import { useField } from 'vee-validate';
 
 const props = withDefaults(defineProps<FormElementProps>(), {
   item: () => ({
+    type: 'textarea',
     name: '',
   }),
   eventName: 'change',

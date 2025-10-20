@@ -30,7 +30,7 @@
         "
         @blur="handleBlur($event, true)"
         :disabled="item.disabled"
-        :autocomplete="item.autocomplete || undefined">
+        :autocomplete="item.autocomplete">
         <option v-if="item.noValue" value="_" selected hidden></option>
         <option v-if="item.select === true" value="" selected disabled hidden>
           {{ item.selectedText || '請選擇' }}
@@ -57,6 +57,7 @@ import { useField } from 'vee-validate';
 
 const props = withDefaults(defineProps<FormElementProps>(), {
   item: () => ({
+    type: 'select',
     name: '',
   }),
   eventName: 'change',

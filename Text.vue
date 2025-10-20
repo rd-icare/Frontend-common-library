@@ -1,7 +1,10 @@
 <template>
   <div class="text gicons" :class="typeStyle" :title="`${title}`">
     <span v-if="icon">{{ icon }}</span>
-    <div v-if="text">{{ text }}</div>
+    <div v-if="text">
+      {{ text }}
+      <slot />
+    </div>
     <span v-if="iconR">{{ iconR }}</span>
   </div>
 </template>

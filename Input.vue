@@ -20,7 +20,7 @@
     </label>
     <label v-if="item.label && item.type !== 'hidden' && item.hideLabel !== true" :for="item.id || item.name">
       {{ item.label }}
-      <div v-if="item.need" class="form-required"></div>
+      <div v-if="item.type !== 'checkbox' && item.need" class="form-required"></div>
     </label>
     <div class="element">
       <input
@@ -111,6 +111,9 @@
             <div v-if="item.formatText" class="format-text font-small-4">
               {{ item.formatText ? `檔案格式：${item.formatText}` : '' }}
             </div>
+          </div>
+          <div class="delete-button" :title="$t('Util.delete')" @click.prevent="value = undefined">
+            <span class="icon">delete</span>
           </div>
         </label>
         <template v-else>

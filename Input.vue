@@ -112,7 +112,7 @@
               {{ item.formatText ? `檔案格式：${item.formatText}` : '' }}
             </div>
           </div>
-          <div class="delete-button" :title="$t('Util.delete')" @click.prevent="value = undefined">
+          <div class="delete-button" :title="$t('Util.delete')" @click.prevent="value = null">
             <span class="icon">delete</span>
           </div>
         </label>

@@ -4,6 +4,7 @@
     :class="{
       'no-placeholder': noPlaceholder,
       'horizontal-mode': horizontalMode,
+      'adaptive-width': adaptiveWidth,
     }">
     <template v-for="(item, index) in formContent" :key="item.name || index">
       <div v-if="item.breakLine" class="break-line"></div>
@@ -41,11 +42,13 @@ interface Props {
   noPlaceholder?: boolean;
   /** 表單元素水平模式 */
   horizontalMode?: boolean;
+  /** 表單元素自適應寬度 */
+  adaptiveWidth?: boolean;
 }
 withDefaults(defineProps<Props>(), {
   formContent: () => [],
   optionContent: () => ({}),
-  noPlaceholder: false,
+  adaptiveWidth: true,
 });
 
 /**

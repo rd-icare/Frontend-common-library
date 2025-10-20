@@ -29,8 +29,8 @@
             : ''
         "
         @blur="handleBlur($event, true)"
-        :disabled="item.disabled"
-        :autocomplete="item.autocomplete">
+        :autocomplete="item.autocomplete"
+        :disabled="item.disabled">
         <option v-if="item.noValue" value="_" selected hidden></option>
         <option v-if="item.select === true" value="" selected disabled hidden>
           {{ item.selectedText || '請選擇' }}

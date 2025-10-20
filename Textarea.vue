@@ -26,9 +26,9 @@
             : ''
         "
         @blur="handleBlur($event, true)"
-        :disabled="item.disabled"
         :rows="item.rows"
-        :cols="item.cols"></textarea>
+        :cols="item.cols"
+        :disabled="item.disabled"></textarea>
       <div v-if="item.hideError !== true && errorMessage && meta.touched" class="error">
         {{ errorMessage }}
       </div>

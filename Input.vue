@@ -43,16 +43,16 @@
             change()
         "
         @blur="handleBlur($event, true)"
-        :disabled="item.disabled"
+        :minlength="item.minlength"
+        :maxlength="item.maxlength"
+        @compositionstart="isComposing = true"
+        @compositionend="onCompositionEnd"
         :true-value="item.trueValue"
         :false-value="item.falseValue"
         :checked="item.checked || checked"
-        :minlength="item.minlength"
-        :maxlength="item.maxlength"
-        :autocomplete="item.autocomplete"
         :accept="item.accept"
-        @compositionstart="isComposing = true"
-        @compositionend="onCompositionEnd" />
+        :autocomplete="item.autocomplete"
+        :disabled="item.disabled" />
       <DatePicker
         v-else-if="item.type === 'date' && item.yearType === 'initial'"
         :input-attr="{ name: item.name, id: item.id || item.name }"

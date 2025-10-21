@@ -30,7 +30,13 @@
         :name="item.name"
         :class="{ 'custom-date': item.type === 'date', invalid: errorMessage, isValue: value }"
         :placeholder="item.placeholder"
-        :value="item.type !== 'file' ? props.modelValue ?? item.value ?? value : ''"
+        :value="
+          item.type !== 'file'
+            ? props.modelValue ?? item.dayjsFormat
+              ? dayjs(item.value).format(item.dayjsFormat)
+              : item.value ?? value
+            : ''
+        "
         @input="
           !isComposing && eventName === 'input'
             ? (handleChange($event, !!errorMessage), fn.input && fn.input($event, value, item))
@@ -131,17 +137,19 @@
           >
         </template>
       </div>
-      <div v-if="!item.hideError && errorMessage" class="error">{{ errorMessage }}</div>
+      <div v-if="!item.hideError && item.type !== 'checkbox' && errorMessage" class="error">{{ errorMessage }}</div>
       <IconEye
         v-if="item.type === 'password' || item.class === 'font-password'"
         v-show="!item.hideEye"
         :type-text="item.type === 'text'" />
     </div>
     <div v-if="item.unit" class="unit">{{ item.unit }}</div>
+    <div v-if="!item.hideError && item.type === 'checkbox' && errorMessage" class="error">{{ errorMessage }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
+import dayjs from 'dayjs';
 import DatePicker from '@/vue-datepicker-next/index.es.js';
 import DatePickerTW from '@/vue-datepicker-next/index.tw.js';
 import { useField } from 'vee-validate';

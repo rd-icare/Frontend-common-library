@@ -1,5 +1,5 @@
 <template>
-  <form @submit="onSubmit" @keypress.enter="(e) => (!useKeypressEnter ? e.preventDefault() : null)" novalidate>
+  <form @submit="onSubmit" @keypress.enter="(e) => (!useEnter ? e.preventDefault() : null)" novalidate>
     <!-- 用 fieldset 將整個 slot 包起來：HTML 會把所有子 input/textarea/select/button disabled -->
     <fieldset :disabled="isReadOnly" class="form-fieldset">
       <!-- 插槽 表單內容 -->
@@ -32,8 +32,8 @@ interface Props<T extends Record<string, any>> {
   schema?: T;
   /** 保持值 */
   keepValues?: boolean;
-  /** 使用 enter 鍵提交 */
-  useKeypressEnter?: boolean;
+  /** 是否使用 enter 鍵 */
+  useEnter?: boolean;
   /** 顯示表單值 */
   showFormValues?: boolean;
 }
@@ -43,7 +43,7 @@ const props = withDefaults(defineProps<Props<any>>(), {
   initialValues: () => ({}),
   schema: () => ({}),
   keepValues: true,
-  useKeypressEnter: false,
+  useEnter: false,
   showFormValues: false,
 });
 

@@ -118,7 +118,7 @@
               {{ item.formatText ? `檔案格式：${item.formatText}` : '' }}
             </div>
           </div>
-          <div class="delete-button" :title="$t('Util.delete')" @click.prevent="value = null">
+          <div v-show="value" class="delete-button" :title="$t('Util.delete')" @click.prevent="value = null">
             <span class="icon">delete</span>
           </div>
         </label>

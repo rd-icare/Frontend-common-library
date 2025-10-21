@@ -109,7 +109,7 @@
               value: storeParams.perPage,
               controlled: false,
             }"
-            :option="[1, 2, 20, 40, 60, 80, 100]"
+            :option="[1, 2, 20, 40, 60, 80, 100].map((item) => ({ label: String(item), value: item }))"
             :fn />
         </div>
       </div>
@@ -180,7 +180,10 @@ const visiblePages = computed(() => {
 const selectPageNum = computed(() =>
   Array(storeParams.value.totalPage)
     .fill('')
-    .map((item, index) => index + 1)
+    .map((item, index) => ({
+      label: String(index + 1),
+      value: index + 1,
+    }))
 );
 /** 表單輸入事件 */
 const fn = ref<FormFnType>({

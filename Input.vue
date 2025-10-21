@@ -29,7 +29,7 @@
         :type="item.type || 'text'"
         :name="item.name"
         :class="{ 'custom-date': item.type === 'date', invalid: errorMessage, isValue: value }"
-        :placeholder="!item.disabled ? item.placeholder : ''"
+        :placeholder="item.placeholder"
         :value="item.type !== 'file' ? props.modelValue ?? item.value ?? value : ''"
         @input="
           !isComposing && eventName === 'input'
@@ -56,7 +56,7 @@
       <DatePicker
         v-else-if="item.type === 'date' && item.yearType === 'initial'"
         :input-attr="{ name: item.name, id: item.id || item.name }"
-        :placeholder="!item.disabled ? item.placeholder || '年/月/日' : ''"
+        :placeholder="item.placeholder || '年/月/日'"
         :value="value"
         @update:value="(val: string | null) => (value = val)"
         @change="
@@ -64,14 +64,14 @@
           fn.change && fn.change($event, value, item);
           change();
         "
-        :="item.attr"
+        :="item.dateAttr"
         :disabled="item.disabled"
         :input-class="{ invalid: errorMessage }" />
       <DatePickerTW
         v-else-if="item.type === 'date' && item.yearType === 'tw'"
         :lang="{ yearFormat: 'YYYY' }"
         :input-attr="{ name: item.name, id: item.id || item.name }"
-        :placeholder="!item.disabled ? item.placeholder || '年/月/日' : ''"
+        :placeholder="item.placeholder || '年/月/日'"
         :value="value"
         @update:value="(val: string | null) => (value = val)"
         @change="
@@ -79,7 +79,7 @@
           fn.change && fn.change($event, value, item);
           change();
         "
-        :="item.attr"
+        :="item.dateAttr"
         :disabled="item.disabled"
         :input-class="{ invalid: errorMessage }" />
       <div

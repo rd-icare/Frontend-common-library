@@ -32,9 +32,7 @@
         :placeholder="item.placeholder"
         :value="
           item.type !== 'file'
-            ? props.modelValue ?? item.dayjsFormat
-              ? dayjs(item.value).format(item.dayjsFormat)
-              : item.value ?? value
+            ? props.modelValue ?? (item.dayjsFormat ? dayjs(item.value).format(item.dayjsFormat) : item.value) ?? value
             : ''
         "
         @input="

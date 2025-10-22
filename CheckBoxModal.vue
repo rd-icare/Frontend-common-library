@@ -78,7 +78,7 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .center {
-  > .main {
+  > .modal-main {
     padding: 12px 24px 12px 10px;
     > .input-box {
       flex-direction: column;

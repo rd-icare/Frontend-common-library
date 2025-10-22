@@ -90,6 +90,7 @@ const onSubmit = handleSubmit(
   }
 );
 
+/** 阻止 enter 鍵送出表單，僅 textarea 可用 */
 function handleEnter(e: KeyboardEvent, allowEnter: boolean) {
   const target = e.target as HTMLElement;
   if (!allowEnter && target.tagName !== 'TEXTAREA') {

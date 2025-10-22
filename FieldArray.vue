@@ -1,5 +1,5 @@
 <template>
-  <slot name="content" :="{ fields, remove, replace, update, push, swap, insert, prepend, move }" />
+  <slot name="content" :="{ fieldName, fields, remove, replace, update, push, swap, insert, prepend, move }" />
 </template>
 
 <script setup lang="ts" generic="T">

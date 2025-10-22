@@ -39,7 +39,7 @@
         minWidth: minWidth ? minWidth + 'px' : '',
         ...style,
       }">
-      <component v-if="component" :is="component" :name :item :index :slotCtx />
+      <component v-if="component" :is="component" :name :item :index :fieldName :slotCtx />
       <Text
         v-else
         :title="valueFormat(name, dayjsFormat, item[name])"
@@ -68,6 +68,8 @@ interface Props {
   fn?: FormFnType;
   /** 默認排序 */
   defaultSort?: string;
+  /** useFieldArray 的欄位名稱 */
+  fieldName?: string;
   /** 由 slot 插槽獲得 useFieldArray 方法傳入 */
   slotCtx?: FieldArraySlot<T>;
 }

@@ -1,5 +1,5 @@
 <template>
-  <form @submit="onSubmit" @keypress.enter="(e) => (!useEnter ? e.preventDefault() : null)" novalidate>
+  <form @submit="onSubmit" @keypress.enter="(e) => handleEnter(e, useEnter)" novalidate>
     <!-- 用 fieldset 將整個 slot 包起來：HTML 會把所有子 input/textarea/select/button disabled -->
     <fieldset :disabled="isReadOnly" class="form-fieldset">
       <!-- 插槽 表單內容 -->
@@ -89,6 +89,13 @@ const onSubmit = handleSubmit(
     emit('invalidSubmit', values as any, errors, results);
   }
 );
+
+function handleEnter(e: KeyboardEvent, allowEnter: boolean) {
+  const target = e.target as HTMLElement;
+  if (!allowEnter && target.tagName !== 'TEXTAREA') {
+    e.preventDefault();
+  }
+}
 
 // optional: 當切回只讀時，自動還原到 initialValues（視需求可移除）
 watch(

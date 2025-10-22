@@ -86,10 +86,12 @@
 <script setup lang="ts">
 // import type { ModalProps } from '@/types/index';
 import type { Directive } from 'vue';
+
+const { locale, t, ct } = useI18nGlobal();
+
 const storeIndex = indexStore();
 const { modals } = storeToRefs(storeIndex);
 const {} = storeIndex;
-const { locale, t, ct } = useI18nGlobal();
 
 const props = withDefaults(defineProps<ModalProps>(), {
   component: () => {},

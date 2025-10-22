@@ -102,7 +102,7 @@ button {
     &.no-border {
       height: auto;
       padding: 0px;
-      border: 1px solid transparent;
+      border: none;
       background-color: transparent;
     }
     // 圖標風格

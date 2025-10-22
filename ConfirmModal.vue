@@ -30,8 +30,5 @@ function handleClick() {
 
 <style lang="scss" scoped>
 .center {
-  > .main {
-    padding: 12px;
-  }
 }
 </style>

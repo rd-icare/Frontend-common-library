@@ -14,6 +14,7 @@
         {
           'thead-sticky-style': isTheadSticky,
           'editable-style': isEditable,
+          'no-page-style': hidePageBox,
           'no-data-style': !data?.length,
         },
       ]"

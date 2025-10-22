@@ -2,6 +2,8 @@
   <slot name="content" :="{ fields, remove, replace, update, push, swap, insert, prepend, move }" />
 </template>
 
+<!-- generic="T extends Record<string, any>" -->
+
 <script setup lang="ts" generic="T">
 import { useFieldArray, type FieldArrayContext, type FieldEntry } from 'vee-validate';
 

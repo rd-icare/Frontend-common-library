@@ -4,18 +4,22 @@
     :class="[
       storeParams.tableClass,
       {
-        disabled: !storeParams.data?.length,
+        disabled: !data?.length,
       },
     ]">
     <div
       ref="mainRef"
       :class="[
-        'main',
+        'table-main',
         {
           'thead-sticky-style': isTheadSticky,
-          'no-data-style': !storeParams.data?.length,
+          'editable-style': isEditable,
+          'no-data-style': !data?.length,
         },
-      ]">
+      ]"
+      :style="{
+        minHeight: minHeight ? minHeight + 'px' : '',
+      }">
       <div class="thead" :class="{ 'show-scroll': showScroll }">
         <div class="tr">
           <slot name="thead"></slot>
@@ -23,7 +27,7 @@
       </div>
       <div class="tbody-box">
         <div
-          v-show="storeParams.data?.length"
+          v-show="data?.length"
           ref="tbodyRef"
           class="tbody fade-loading"
           :class="[
@@ -33,7 +37,7 @@
             },
           ]">
           <TransitionGroup :name="isTransition" @after-enter="afterEnter" @after-leave="afterLeave">
-            <div v-for="(item, index) in storeParams.data" :key="index" class="tr">
+            <div v-for="(item, index) in data" :key="index" class="tr">
               <slot
                 name="tbody"
                 :="{ item, index, sn: index + 1 + (storeParams.currentPage - 1) * storeParams.perPage }"></slot>
@@ -41,7 +45,7 @@
           </TransitionGroup>
         </div>
         <NoData
-          v-show="!storeParams.data?.length"
+          v-show="!data?.length"
           class="fade-loading"
           :class="{ loading: storeParams.loading }"
           :imgSrc="noDataImgSrc"
@@ -117,7 +121,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="T">
 interface Props {
   /** tableClass */
   tableClass?: string;
@@ -125,8 +129,10 @@ interface Props {
   idSubStr?: string;
   /** 顯示滾動條 */
   showScroll?: boolean;
-  /** 使用表頭位置黏住風格  */
+  /** 是否為表頭位置黏住  */
   isTheadSticky?: boolean;
+  /** 是否為可編輯模式 */
+  isEditable?: boolean;
   /** body-box 滾動動畫 */
   isTransition?: string;
   /** 請求資料 */
@@ -143,6 +149,8 @@ interface Props {
   hidePageNum?: boolean;
   /** 隱藏頁碼數選項 */
   hidePageSelectNum?: boolean;
+  /** .table-main 最小高度 */
+  minHeight?: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -150,6 +158,7 @@ const props = withDefaults(defineProps<Props>(), {
   idSubStr: 'one',
   showScroll: true,
   isTheadSticky: true,
+  isEditable: false,
   isTransition: '',
   getDatas: async () => {},
   hidePageBox: false,
@@ -161,6 +170,10 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits(['afterEnter', 'afterLeave']);
 /** 狀態管理的參數 */
 const storeParams = defineModel<StoreParams>('storeParams', { type: Object, default: () => ({}) });
+/** 可編輯的資料 */
+const editable = defineModel<T[]>('editable', { type: Array, default: () => [] });
+/** 資料 */
+const data = computed(() => storeParams.value.data || editable.value);
 /** 模板引用 */
 const scrollRef = useTemplateRef<HTMLElement>(props.isTheadSticky ? 'mainRef' : 'tbodyRef');
 /** 頁碼控制載入 */

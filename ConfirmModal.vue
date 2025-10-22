@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="main">
+    <div class="modal-main">
       <component v-if="item.subComponent" :is="item.subComponent" />
       <Text v-else typeStyle="icon-style" :icon="item.subComponentIcon" :text="item.subComponentText" />
     </div>

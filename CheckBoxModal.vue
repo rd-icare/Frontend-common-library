@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="main">
+    <div class="modal-main">
       <div class="input-box !gap-4">
         <template v-for="(item, index) in tableItem" :key="item.name">
           <Input

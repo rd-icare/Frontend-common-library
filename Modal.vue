@@ -50,7 +50,7 @@
         <!-- <template v-if="!component">
           <slot>
             <div class="center">
-              <div class="main">Demo</div>
+              <div class="modal-main">Demo</div>
             </div>
           </slot>
         </template> -->
@@ -367,7 +367,7 @@ onUnmounted(() => {
       position: relative;
       display: flex;
       flex-direction: column;
-      .main {
+      .modal-main {
         flex-grow: 1;
         overflow: auto;
         height: v-bind(mainHeight);

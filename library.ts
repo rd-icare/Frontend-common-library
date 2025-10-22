@@ -1,6 +1,7 @@
 import Button from './Button.vue';
 import ConfirmModal from './ConfirmModal.vue';
 import CurrentLoading from './CurrentLoading.vue';
+import FieldArray from './FieldArray.vue';
 import FormContentBox from './FormContentBox.vue';
 import FormWizard from './FormWizard.vue';
 import Icon from './Icon.vue';
@@ -22,6 +23,7 @@ export {
   Button,
   ConfirmModal,
   CurrentLoading,
+  FieldArray,
   FormContentBox,
   FormWizard,
   Icon,

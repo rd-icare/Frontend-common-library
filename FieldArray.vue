@@ -16,17 +16,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 // 定義 slots 型別，讓父層可透過 content slot 取用方法
 defineSlots<{
-  content: (args: {
-    fields: FieldEntry<T>[];
-    remove: (idx: number) => void;
-    replace: (value: T[]) => void;
-    update: (idx: number, value: T) => void;
-    push: (value: T) => void;
-    swap: (a: number, b: number) => void;
-    insert: (idx: number, value: T) => void;
-    prepend: (value: T) => void;
-    move: (from: number, to: number) => void;
-  }) => void;
+  content: (args: FieldArraySlot<T>) => void;
 }>();
 
 // 使用 useFieldArray 並完整解構

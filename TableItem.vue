@@ -39,7 +39,7 @@
         minWidth: minWidth ? minWidth + 'px' : '',
         ...style,
       }">
-      <component v-if="component" :is="component" :name :item :index />
+      <component v-if="component" :is="component" :name :item :index :slotCtx />
       <Text
         v-else
         :title="valueFormat(name, dayjsFormat, item[name])"
@@ -48,7 +48,7 @@
   </template>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="T">
 import dayjs from 'dayjs';
 // defineOptions({ inheritAttrs: false });
 interface Props {
@@ -68,6 +68,8 @@ interface Props {
   fn?: FormFnType;
   /** 默認排序 */
   defaultSort?: string;
+  /** 由 slot 插槽獲得 useFieldArray 方法傳入 */
+  slotCtx?: FieldArraySlot<T>;
 }
 const props = withDefaults(defineProps<Props>(), {
   divType: 'tbody',

@@ -127,6 +127,10 @@ button {
         height: 100%;
       }
     }
+    // 紅色主題
+    &.color-red {
+      @include active-style;
+    }
     // 圖標風格 hover
     &.icon-style-hover {
       &:hover {

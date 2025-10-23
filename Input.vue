@@ -44,7 +44,7 @@
           eventName === 'change'
             ? (handleChange($event, !!errorMessage), fn.change && fn.change($event, value, item))
             : '',
-            item.type !== 'file' ? change() : item.imageCompressor ? '' : ''
+            change($event, value, item)
         "
         @blur="handleBlur($event, true)"
         :minlength="item.minlength"
@@ -66,7 +66,7 @@
         @change="
           handleChange($event, !!errorMessage);
           fn.change && fn.change($event, value, item);
-          change();
+          change($event, value, item);
         "
         :="item.dateAttr"
         :disabled="item.disabled"
@@ -81,7 +81,7 @@
         @change="
           handleChange($event, !!errorMessage);
           fn.change && fn.change($event, value, item);
-          change();
+          change($event, value, item);
         "
         :="item.dateAttr"
         :disabled="item.disabled"
@@ -109,8 +109,13 @@
           </div>
           <div class="box">
             <div class="middle-text">
-              <span>upload</span>
-              <div class="placeholder" v-html="item.placeholder || '上傳檔案'"></div>
+              <template v-if="!processing">
+                <span>upload</span>
+                <div class="placeholder" v-html="item.placeholder || '上傳檔案'"></div>
+              </template>
+              <template v-else>
+                <div>圖片壓縮中...</div>
+              </template>
             </div>
             <div v-if="item.formatText" class="format-text font-small-4">
               {{ item.formatText ? `檔案格式：${item.formatText}` : '' }}
@@ -154,7 +159,7 @@ import dayjs from 'dayjs';
 import DatePicker from '@/vue-datepicker-next/index.es.js';
 import DatePickerTW from '@/vue-datepicker-next/index.tw.js';
 import { useField } from 'vee-validate';
-import { getUrl, downloadFile } from '@/utils/common';
+import { getUrl, downloadFile, onFileChange } from '@/utils/common';
 
 const props = withDefaults(defineProps<FormElementProps>(), {
   item: () => ({
@@ -170,6 +175,11 @@ const props = withDefaults(defineProps<FormElementProps>(), {
   }),
   modelValue: undefined,
 });
+
+/** 圖片壓縮完成 url */
+const previewUrl = ref<string>('');
+/** 圖片壓縮中 */
+const processing = ref(false);
 
 const obj: any = {
   type: 'default',
@@ -211,7 +221,12 @@ function onCompositionEnd(e: CompositionEvent) {
   props.fn.input && props.fn.input(e, value.value, props.item);
 }
 
-const change = () => {
+const change = (e: Event, value: any, item: FormElements) => {
+  // 圖片壓縮
+  if (item.type === 'file' && item.imageCompressor) {
+    return onFileChange(e, item, previewUrl, processing);
+  }
+  // 去除空白
   if (typeof value.value === 'string') value.value = value.value.trim();
 };
 </script>

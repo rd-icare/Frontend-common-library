@@ -44,7 +44,7 @@
           eventName === 'change'
             ? (handleChange($event, !!errorMessage), fn.change && fn.change($event, value, item))
             : '',
-            change()
+            item.type !== 'file' ? change() : item.imageCompressor ? '' : ''
         "
         @blur="handleBlur($event, true)"
         :minlength="item.minlength"

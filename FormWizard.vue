@@ -23,6 +23,7 @@
 
 <script setup lang="ts">
 import { useForm, type SubmissionContext, type InvalidSubmissionContext } from 'vee-validate';
+import { toErrorFocus } from '@/utils/common';
 
 interface Props<T extends Record<string, any>> {
   /** 表單名稱 */
@@ -88,7 +89,9 @@ const onSubmit = handleSubmit(
     emit('submit', values, actions);
   },
   (results) => {
+    console.log('invalidSubmit', results);
     emit('invalidSubmit', values as any, errors, results);
+    toErrorFocus(results.errors);
   }
 );
 

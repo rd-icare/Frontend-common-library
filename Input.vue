@@ -28,25 +28,19 @@
         :id="item.id || item.name"
         :type="item.type || 'text'"
         :name="item.name"
-        :class="{ 'custom-date': item.type === 'date', invalid: errorMessage, isValue: value }"
+        :class="{
+          'custom-date': item.type === 'date',
+          invalid: errorMessage,
+          isValue: value,
+        }"
         :placeholder="item.placeholder"
         :value="
           item.type !== 'file'
             ? props.modelValue ?? (item.dayjsFormat ? dayjs(item.value).format(item.dayjsFormat) : item.value) ?? value
             : ''
         "
-        @input="
-          !isComposing && eventName === 'input'
-            ? (handleChange($event, !!errorMessage), fn.input && fn.input($event, value, item))
-            : '',
-            runFn($event, item)
-        "
-        @change="
-          eventName === 'change'
-            ? (handleChange($event, !!errorMessage), fn.change && fn.change($event, value, item))
-            : '',
-            runFn($event, item)
-        "
+        @input="!isComposing && eventName === 'input' ? (runFn($event, item), fn.input?.($event, value, item)) : ''"
+        @change="eventName === 'change' ? (runFn($event, item), fn.change?.($event, value, item)) : ''"
         @blur="handleBlur($event, true)"
         :minlength="item.minlength"
         :maxlength="item.maxlength"
@@ -57,18 +51,14 @@
         :checked="item.checked || checked"
         :accept="item.accept"
         :autocomplete="item.autocomplete"
-        :disabled="item.disabled" />
+        :disabled="item.disabled || processing" />
       <DatePicker
         v-else-if="item.type === 'date' && item.yearType === 'initial'"
         :input-attr="{ name: item.name, id: item.id || item.name }"
         :placeholder="item.placeholder || '年/月/日'"
         :value="value"
         @update:value="(val: string | null) => (value = val)"
-        @change="
-          handleChange($event, !!errorMessage);
-          fn.change && fn.change($event, value, item);
-          runFn($event, item);
-        "
+        @change="runFn($event, item), fn.change?.($event, value, item)"
         :="item.dateAttr"
         :disabled="item.disabled"
         :input-class="{ invalid: errorMessage }" />
@@ -79,11 +69,7 @@
         :placeholder="item.placeholder || '年/月/日'"
         :value="value"
         @update:value="(val: string | null) => (value = val)"
-        @change="
-          handleChange($event, !!errorMessage);
-          fn.change && fn.change($event, value, item);
-          runFn($event, item);
-        "
+        @change="runFn($event, item), fn.change?.($event, value, item)"
         :="item.dateAttr"
         :disabled="item.disabled"
         :input-class="{ invalid: errorMessage }" />
@@ -103,7 +89,13 @@
         <label
           v-if="!item.isIconType"
           class="file-shape"
-          :class="[{ active: value, invalid: errorMessage, disabled: item.disabled }]"
+          :class="[
+            {
+              active: value,
+              invalid: errorMessage,
+              disabled: item.disabled,
+            },
+          ]"
           :for="item.id || item.name">
           <div v-show="value" class="image-box">
             <Img :src="getUrl(value as string | File | null | undefined)" />
@@ -115,7 +107,7 @@
                 <div class="placeholder" v-html="item.placeholder || '上傳檔案'"></div>
               </template>
               <template v-else>
-                <div>圖片壓縮中...</div>
+                <div class="hidden">圖片壓縮中...</div>
               </template>
             </div>
             <div v-if="item.formatText" class="format-text font-small-4">
@@ -128,6 +120,7 @@
             icon="delete"
             :title="$t('Util.delete')"
             @click.prevent="value = null" />
+          <CurrentLoading :show="processing" />
         </label>
         <template v-else>
           <div v-show="false" class="image-box">
@@ -223,10 +216,12 @@ function onCompositionEnd(e: CompositionEvent) {
 }
 
 const runFn = (e: Event, item: FormElements) => {
+  // console.log('runFn', e, item);
   // 圖片壓縮
   if (item.type === 'file' && item.imageCompressor) {
     return onFileChange(e, item, previewUrl, processing);
   }
+  handleChange(e, !!errorMessage);
   // 去除空白
   if (typeof value.value === 'string') value.value = value.value.trim();
 };

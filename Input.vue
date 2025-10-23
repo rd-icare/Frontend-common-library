@@ -38,13 +38,14 @@
         @input="
           !isComposing && eventName === 'input'
             ? (handleChange($event, !!errorMessage), fn.input && fn.input($event, value, item))
-            : ''
+            : '',
+            runFn($event, item)
         "
         @change="
           eventName === 'change'
             ? (handleChange($event, !!errorMessage), fn.change && fn.change($event, value, item))
             : '',
-            change($event, value, item)
+            runFn($event, item)
         "
         @blur="handleBlur($event, true)"
         :minlength="item.minlength"
@@ -66,7 +67,7 @@
         @change="
           handleChange($event, !!errorMessage);
           fn.change && fn.change($event, value, item);
-          change($event, value, item);
+          runFn($event, item);
         "
         :="item.dateAttr"
         :disabled="item.disabled"
@@ -81,7 +82,7 @@
         @change="
           handleChange($event, !!errorMessage);
           fn.change && fn.change($event, value, item);
-          change($event, value, item);
+          runFn($event, item);
         "
         :="item.dateAttr"
         :disabled="item.disabled"
@@ -221,7 +222,7 @@ function onCompositionEnd(e: CompositionEvent) {
   props.fn.input && props.fn.input(e, value.value, props.item);
 }
 
-const change = (e: Event, value: any, item: FormElements) => {
+const runFn = (e: Event, item: FormElements) => {
   // 圖片壓縮
   if (item.type === 'file' && item.imageCompressor) {
     return onFileChange(e, item, previewUrl, processing);

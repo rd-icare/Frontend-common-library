@@ -38,7 +38,7 @@
             },
           ]">
           <TransitionGroup :name="isTransition" @after-enter="afterEnter" @after-leave="afterLeave">
-            <div v-for="(item, index) in data" :key="index" class="tr">
+            <div v-for="(item, index) in data" :key="item" class="tr">
               <slot
                 name="tbody"
                 :="{ item, index, sn: index + 1 + (storeParams.currentPage - 1) * storeParams.perPage }"></slot>

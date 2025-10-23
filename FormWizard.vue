@@ -16,6 +16,7 @@
       @click.self="active = !active">
       <pre>values: {{ values }}</pre>
       <pre>errors: {{ errors }}</pre>
+      <pre>meta: {{ meta }}</pre>
     </div>
   </form>
 </template>
@@ -79,6 +80,7 @@ const {
   initialValues: props.initialValues,
   validationSchema: computed(() => props.schema),
   keepValuesOnUnmount: props.keepValues,
+  validateOnMount: false, // 掛載時不驗證
 });
 
 const onSubmit = handleSubmit(

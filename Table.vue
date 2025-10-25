@@ -38,6 +38,7 @@
             },
           ]">
           <TransitionGroup :name="isTransition" @after-enter="afterEnter" @after-leave="afterLeave">
+            <!-- key 值 item → 解決表單元素不錯亂 index → 解決換頁滾動條不閃動 -->
             <div v-for="(item, index) in data" :key="isEditable ? item : index" class="tr">
               <slot
                 name="tbody"

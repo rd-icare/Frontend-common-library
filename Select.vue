@@ -41,7 +41,8 @@
         <option
           v-for="(opt, index) in option"
           :key="index"
-          :value="typeof opt === 'object' && opt !== null && 'value' in opt ? opt.value : opt">
+          :value="typeof opt === 'object' && opt !== null && 'value' in opt ? opt.value : opt"
+          :data-label="opt.label">
           {{ typeof opt === 'object' && opt !== null && 'label' in opt ? opt.label : opt }}
         </option>
       </select>

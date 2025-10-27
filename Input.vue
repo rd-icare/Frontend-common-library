@@ -7,7 +7,7 @@
         password: item.type === 'password' || item.class === 'font-password',
         file: item.type === 'file',
         checkbox: item.type === 'checkbox',
-        hidden: item.type === 'hidden',
+        hidden: ['hidden', 'array'].includes(item.type),
         checked,
       },
     ]"
@@ -18,7 +18,7 @@
     <label v-if="item.type === 'checkbox' && item.hideShape" class="checkbox-icon gicons" :for="item.id || item.name">
       <span>{{ item.disabled ? 'indeterminate_check_box' : checked ? 'check_box' : 'check_box_outline_blank' }}</span>
     </label>
-    <label v-if="item.label && item.type !== 'hidden' && item.hideLabel !== true" :for="item.id || item.name">
+    <label v-if="item.label && item.hideLabel !== true" :for="item.id || item.name">
       {{ item.label }}
       <div v-if="item.type !== 'checkbox' && item.need" class="form-required"></div>
     </label>

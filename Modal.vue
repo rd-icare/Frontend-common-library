@@ -60,6 +60,7 @@
           class="center"
           :is="component"
           :="{ item: props }"
+          @request-after-leave="requestAfterLeave"
           v-model:modalOpen="modalOpen"
           v-model:modalLoading="loading"
           v-model:tableItem="tableItem">
@@ -124,7 +125,7 @@ const props = withDefaults(defineProps<ModalProps>(), {
   onClose: () => {},
   onCloseComplete: () => {},
   onConfirm: () => {},
-  close,
+  close: async () => {},
 });
 
 /** 表格項目 */
@@ -179,11 +180,22 @@ function beforeLeave() {
   props.onClose();
 }
 
+/** 彈出視窗的內容組件的回調 */
+let afterLeaveCallback: (() => Promise<void>) | null = null;
+function requestAfterLeave(callback: () => Promise<void>) {
+  afterLeaveCallback = callback;
+}
+
 /** 關閉後 */
 async function afterLeave() {
   // console.log(`${props.id} afterLeave`);
-  props.close();
+  await props.close({
+    callback: afterLeaveCallback,
+  });
   props.onCloseComplete();
+  if (afterLeaveCallback) {
+    afterLeaveCallback = null;
+  }
 }
 
 /** 聚焦 */

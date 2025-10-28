@@ -8,16 +8,12 @@
     <!-- 插槽 表單底部 -->
     <slot name="bottom" :handleReset="handleReset" :resetForm="resetForm" />
     <slot />
-    <!-- debug -->
-    <div
-      class="form-values-box"
-      :class="{ active }"
-      :style="{ display: showFormValues ? 'block' : 'none' }"
-      @click.self="active = !active">
-      <pre>values: {{ values }}</pre>
-      <pre>errors: {{ errors }}</pre>
-      <pre>meta: {{ meta }}</pre>
-    </div>
+    <FormValuesBox
+      v-if="showFormValues"
+      :values="values"
+      :errors="errors"
+      :meta="meta"
+      :showFormValues="showFormValues" />
   </form>
 </template>
 
@@ -59,7 +55,6 @@ const isReadOnly = defineModel<boolean | undefined>('readonly', {
   type: Boolean || undefined,
   default: undefined,
 });
-const active = ref(true);
 
 const {
   name,

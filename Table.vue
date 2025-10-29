@@ -138,7 +138,7 @@ interface Props {
   /** body-box 滾動動畫 */
   isTransition?: string;
   /** 請求資料 */
-  getDatas?: () => Promise<void>;
+  getDatas?: () => Promise<any>;
   /** 無資料圖片 */
   noDataImgSrc?: string;
   /** 無資料文字 */

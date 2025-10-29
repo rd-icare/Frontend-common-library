@@ -70,7 +70,7 @@ const componentMap: Record<string, any> = {
   &.label-width {
     :deep(> div) {
       label:not(.checkbox-icon) {
-        width: calc(v-bind(labelWidth) * 1px);
+        min-width: calc(v-bind(labelWidth) * 1px);
         justify-content: flex-end;
       }
     }

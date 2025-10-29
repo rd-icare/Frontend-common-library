@@ -24,7 +24,7 @@ interface Props {
 defineProps<Props>();
 
 const active = ref(true);
-const boxWidth = ref(360);
+const boxWidth = ref(200);
 const resizing = ref(false);
 const startX = ref(0);
 const startWidth = ref(0);

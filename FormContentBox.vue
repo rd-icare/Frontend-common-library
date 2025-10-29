@@ -6,6 +6,7 @@
       'horizontal-mode': directionMode === 'horizontal',
       'vertical-mode': directionMode === 'vertical',
       'adaptive-width': adaptiveWidth,
+      'label-width': labelWidth,
     }">
     <template v-for="(item, index) in formContent" :key="item.name || index">
       <div v-if="item.breakLine" class="break-line"></div>
@@ -45,6 +46,8 @@ interface Props {
   directionMode?: 'horizontal' | 'vertical';
   /** 表單元素自適應寬度 */
   adaptiveWidth?: boolean;
+  /** 表單元素標籤寬度 */
+  labelWidth?: number;
 }
 withDefaults(defineProps<Props>(), {
   formContent: () => [],
@@ -62,4 +65,15 @@ const componentMap: Record<string, any> = {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.input-box {
+  &.label-width {
+    :deep(> div) {
+      label:not(.checkbox-icon) {
+        width: calc(v-bind(labelWidth) * 1px);
+        justify-content: flex-end;
+      }
+    }
+  }
+}
+</style>

@@ -9,7 +9,7 @@
     <label
       v-if="item.label && item.hideLabel !== true"
       :for="item.id || item.name"
-      :class="{ 'no-value': value === '_' }">
+      :class="[{ 'no-value': value === '_' }, item.labelClass]">
       {{ item.label }}
       <div v-if="item.need" class="form-required"></div>
     </label>

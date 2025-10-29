@@ -6,7 +6,7 @@
       minWidth: item.minWidth ? item.minWidth + 'px' : '',
       ...item.style,
     }">
-    <label v-if="item.label && item.hideLabel !== true" :for="item.id || item.name">
+    <label v-if="item.label && item.hideLabel !== true" :for="item.id || item.name" :class="[item.labelClass]">
       {{ item.label }}
       <div v-if="item.need" class="form-required"></div>
     </label>

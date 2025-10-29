@@ -15,17 +15,20 @@
       minWidth: item.minWidth ? item.minWidth + 'px' : '',
       ...item.style,
     }">
-    <label v-if="item.type === 'checkbox' && item.hideShape" class="checkbox-icon gicons" :for="item.id || item.name">
+    <label v-if="item.type === 'checkbox' && item.hideShape" class="checkbox-icon gicons" :for="checkboxId">
       <span>{{ item.disabled ? 'indeterminate_check_box' : checked ? 'check_box' : 'check_box_outline_blank' }}</span>
     </label>
-    <label v-if="item.label && item.hideLabel !== true" :for="item.id || item.name" :class="[item.labelClass]">
+    <label
+      v-if="item.label && item.hideLabel !== true"
+      :for="item.type === 'checkbox' ? checkboxId : item.id ?? item.name"
+      :class="[item.labelClass]">
       {{ item.label }}
       <div v-if="item.type !== 'checkbox' && item.need" class="form-required"></div>
     </label>
     <div class="element">
       <input
         v-if="item.type !== 'date'"
-        :id="item.id || item.name"
+        :id="item.type === 'checkbox' ? checkboxId : item.id ?? item.name"
         :type="item.type || 'text'"
         :name="item.name"
         :class="{
@@ -169,6 +172,8 @@ const props = withDefaults(defineProps<FormElementProps>(), {
   }),
   modelValue: undefined,
 });
+
+const checkboxId = useId();
 
 /** 圖片壓縮完成 url */
 const previewUrl = ref<string>('');

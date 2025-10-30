@@ -33,7 +33,7 @@ interface Props {
   /** 彈出視窗選項模式的子項 ID 名稱
    * 命名方式為小駝峰，調用此組件的組件名稱 */
   optionsModeId?: string;
-  /** 當前頁面類別
+  /** 當前頁面類型
    * 命名方式為中線 */
   pageType?: string;
   /** 目錄名稱

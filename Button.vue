@@ -136,7 +136,7 @@ button {
       border: 1px solid var(--color-secondary);
       color: var(--color-secondary);
       /* background-color: var(--color-secondary-bg); */
-      background-color: var(--white);
+      background-color: var(--color-secondary-bg);
     }
     // 圖標風格 hover
     &.icon-style-hover {
@@ -164,17 +164,11 @@ button {
       top: 1px;
     }
   }
-  &:has(div) {
-    span {
-      position: relative;
-      top: 1px;
-    }
-  }
   &:has(.icon-left) {
-    padding: 0px 12px 0px 8px;    
+    padding: 0px 12px 0px 8px;
   }
   &:has(.icon-right) {
-    padding: 0px 8px 0px 12px;    
+    padding: 0px 8px 0px 12px;
   }
 }
 </style>

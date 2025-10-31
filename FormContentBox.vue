@@ -1,5 +1,5 @@
 <template>
-  <fieldset class="form-fieldset" :disabled="readonly">
+  <fieldset class="form-fieldset" :class="[fieldsetClass]" :disabled="readonly">
     <div
       class="input-box"
       v-bind="attrs"
@@ -41,6 +41,8 @@ const attrs = useAttrs();
 
 /* 父層透過 props 傳進來的參數 */
 interface Props {
+  /** fieldset 樣式 */
+  fieldsetClass?: string;
   /** 不顯示 placeholder */
   noPlaceholder?: boolean;
   /** 表單元素方向模式 */

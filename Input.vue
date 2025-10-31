@@ -39,7 +39,9 @@
         :placeholder="item.placeholder"
         :value="
           item.type !== 'file'
-            ? props.modelValue ?? (item.dayjsFormat ? dayjs(item.value).format(item.dayjsFormat) : item.value) ?? value
+            ? props.modelValue ??
+              (item.dayjsFormat && item.value ? dayjs(item.value).format(item.dayjsFormat) : item.value) ??
+              value
             : ''
         "
         @input="!isComposing && eventName === 'input' ? (runFn($event, item), fn.input?.($event, value, item)) : ''"

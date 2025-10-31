@@ -7,10 +7,10 @@
     :title="icon === 'arrow_back' ? '返回上頁' : title"
     @click="typeStyle === 'select-style' && clickFn()"
     v-debounce-click:[timeout]>
-    <span v-if="icon">{{ icon }}</span>
+    <span v-if="icon" class="icon-left">{{ icon }}</span>
     <div v-if="text">{{ text }}</div>
     <span v-if="typeStyle === 'select-style'">{{ selectState ? 'arrow_drop_up' : 'arrow_drop_down' }}</span>
-    <span v-else-if="iconR">{{ iconR }}</span>
+    <span v-else-if="iconR" class="icon-right">{{ iconR }}</span>
   </button>
 </template>
 
@@ -135,7 +135,8 @@ button {
     &.color-green {
       border: 1px solid var(--color-secondary);
       color: var(--color-secondary);
-      background-color: var(--color-secondary-bg);
+      /* background-color: var(--color-secondary-bg); */
+      background-color: var(--white);
     }
     // 圖標風格 hover
     &.icon-style-hover {
@@ -157,10 +158,23 @@ button {
     }
   }
   &:has(div) {
+    padding: 0px 12px 0px 8px;
     span {
       position: relative;
       top: 1px;
     }
+  }
+  &:has(div) {
+    span {
+      position: relative;
+      top: 1px;
+    }
+  }
+  &:has(.icon-left) {
+    padding: 0px 12px 0px 8px;    
+  }
+  &:has(.icon-right) {
+    padding: 0px 8px 0px 12px;    
   }
 }
 </style>

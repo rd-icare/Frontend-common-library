@@ -18,7 +18,6 @@ interface Props {
   values: Record<string, any>;
   errors: Record<string, any>;
   meta: Record<string, any>;
-  showFormValues: boolean;
 }
 
 defineProps<Props>();

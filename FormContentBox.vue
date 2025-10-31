@@ -1,29 +1,32 @@
 <template>
-  <div
-    class="input-box"
-    :class="{
-      'no-placeholder': noPlaceholder,
-      'horizontal-mode': directionMode === 'horizontal',
-      'vertical-mode': directionMode === 'vertical',
-      'adaptive-width': adaptiveWidth,
-      'label-width': labelWidth,
-    }">
-    <template v-for="(item, index) in formContent" :key="item.name || index">
-      <div v-if="item.breakLine" class="break-line"></div>
-      <component
-        v-if="componentMap[item.type as keyof typeof componentMap]"
-        :is="componentMap[item.type as keyof typeof componentMap]"
-        :="{
-          item,
-          option: optionContent[item.name],
-          fn,
-        }"
-        :eventName="item.eventName" />
+  <fieldset class="form-fieldset" :disabled="readonly">
+    <div
+      class="input-box"
+      v-bind="attrs"
+      :class="{
+        'no-placeholder': noPlaceholder,
+        'horizontal-mode': directionMode === 'horizontal',
+        'vertical-mode': directionMode === 'vertical',
+        'adaptive-width': adaptiveWidth,
+        'label-width': labelWidth,
+      }">
+      <template v-for="(item, index) in formContent" :key="item.name || index">
+        <div v-if="item.breakLine" class="break-line"></div>
+        <component
+          v-if="componentMap[item.type as keyof typeof componentMap]"
+          :is="componentMap[item.type as keyof typeof componentMap]"
+          :="{
+            item,
+            option: optionContent[item.name],
+            fn,
+          }"
+          :eventName="item.eventName" />
 
-      <Input v-else :="{ item, fn }" :eventName="item.eventName" v-model:modelValue="item.modelValue" />
-    </template>
-    <slot />
-  </div>
+        <Input v-else :="{ item, fn }" :eventName="item.eventName" v-model:modelValue="item.modelValue" />
+      </template>
+      <slot />
+    </div>
+  </fieldset>
 </template>
 
 <script setup lang="ts">
@@ -32,14 +35,12 @@ import Select from './Select.vue';
 import Textarea from './Textarea.vue';
 import Input from './Input.vue';
 
+// 阻止自動繼承屬性到 root (fieldset)
+defineOptions({ inheritAttrs: false });
+const attrs = useAttrs();
+
 /* 父層透過 props 傳進來的參數 */
 interface Props {
-  /** 表單內容 */
-  formContent: FormElements[];
-  /** 選項內容 */
-  optionContent?: Record<string, any>;
-  /** 函式集合 */
-  fn?: FormFnType;
   /** 不顯示 placeholder */
   noPlaceholder?: boolean;
   /** 表單元素方向模式 */
@@ -48,6 +49,14 @@ interface Props {
   adaptiveWidth?: boolean;
   /** 表單元素標籤寬度 */
   labelWidth?: number;
+  /** 表單內容 */
+  formContent?: FormElements[];
+  /** 選項內容 */
+  optionContent?: Record<string, any>;
+  /** 函式集合 */
+  fn?: FormFnType;
+  /** 是否為只讀 */
+  readonly?: boolean;
 }
 withDefaults(defineProps<Props>(), {
   formContent: () => [],

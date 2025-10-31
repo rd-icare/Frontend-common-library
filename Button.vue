@@ -131,6 +131,12 @@ button {
     &.color-red {
       @include active-style;
     }
+    // 副色主題
+    &.color-green {
+      border: 1px solid var(--color-secondary);
+      color: var(--color-secondary);
+      background-color: var(--color-secondary-bg);
+    }
     // 圖標風格 hover
     &.icon-style-hover {
       &:hover {

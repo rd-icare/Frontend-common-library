@@ -20,7 +20,7 @@
     </label>
     <label
       v-if="item.label && item.hideLabel !== true"
-      :for="item.type === 'checkbox' ? checkboxId : item.id ?? item.name"
+      :for="item.type === 'checkbox' ? checkboxId : item.type !== 'date' ? item.id ?? item.name : ''"
       :class="[item.labelClass]">
       {{ item.label }}
       <div v-if="item.type !== 'checkbox' && item.need" class="form-required"></div>

@@ -2,7 +2,7 @@ import Button from './Button.vue';
 import ConfirmModal from './ConfirmModal.vue';
 import CurrentLoading from './CurrentLoading.vue';
 import FieldArray from './FieldArray.vue';
-import FormContentBox from './FormContentBox.vue';
+import FormContent from './FormContent.vue';
 import FormWizard from './FormWizard.vue';
 import Icon from './Icon.vue';
 import IconEye from './IconEye.vue';
@@ -24,7 +24,7 @@ export {
   ConfirmModal,
   CurrentLoading,
   FieldArray,
-  FormContentBox,
+  FormContent,
   FormWizard,
   Icon,
   IconEye,

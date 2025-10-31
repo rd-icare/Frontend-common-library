@@ -5,7 +5,7 @@
     <!-- 插槽 表單底部 -->
     <slot name="bottom" :handleReset="handleReset" :resetForm="resetForm" />
     <slot />
-    <FormValuesBox v-if="$global.isTest" :values="values" :errors="errors" :meta="meta" />
+    <FormValues v-if="$global.isTest" :values="values" :errors="errors" :meta="meta" />
   </form>
 </template>
 

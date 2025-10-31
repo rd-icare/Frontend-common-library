@@ -1,7 +1,7 @@
 <template>
   <div
-    ref="formValuesBox"
-    class="form-values-box"
+    ref="formValuesRef"
+    class="form-values"
     :class="{ active }"
     :style="{ width: boxWidth + 'px' }"
     @click.self="active = !active">
@@ -27,13 +27,13 @@ const boxWidth = ref(360);
 const resizing = ref(false);
 const startX = ref(0);
 const startWidth = ref(0);
-const formValuesBox = ref<HTMLElement | null>(null);
+const formValuesRef = ref<HTMLElement | null>(null);
 
 const startResize = (e: MouseEvent) => {
   e.preventDefault();
   resizing.value = true;
   startX.value = e.clientX;
-  startWidth.value = formValuesBox.value?.offsetWidth || 360;
+  startWidth.value = formValuesRef.value?.offsetWidth || 360;
 
   document.addEventListener('mousemove', resizeBox);
   document.addEventListener('mouseup', stopResize);
@@ -56,7 +56,7 @@ onBeforeUnmount(stopResize);
 
 <style lang="scss" scoped>
 /* 表單值樣式 */
-.form-values-box {
+.form-values {
   display: block;
   overflow-y: auto;
   position: fixed;

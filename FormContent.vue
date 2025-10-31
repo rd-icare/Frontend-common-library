@@ -39,28 +39,7 @@ import Input from './Input.vue';
 defineOptions({ inheritAttrs: false });
 const attrs = useAttrs();
 
-/* 父層透過 props 傳進來的參數 */
-interface Props {
-  /** fieldset 樣式 */
-  fieldsetClass?: string;
-  /** 不顯示 placeholder */
-  noPlaceholder?: boolean;
-  /** 表單元素方向模式 */
-  directionMode?: 'horizontal' | 'vertical';
-  /** 表單元素自適應寬度 */
-  adaptiveWidth?: boolean;
-  /** 表單元素標籤寬度 */
-  labelWidth?: number;
-  /** 表單內容 */
-  formContent?: FormElements[];
-  /** 選項內容 */
-  optionContent?: Record<string, any>;
-  /** 函式集合 */
-  fn?: FormFnType;
-  /** 是否為只讀 */
-  readonly?: boolean;
-}
-withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<FormContentProps>(), {
   formContent: () => [],
   optionContent: () => ({}),
   adaptiveWidth: true,

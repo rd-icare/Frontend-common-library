@@ -174,5 +174,10 @@ button {
   &:has(.icon-right) {
     padding: 0px 8px 0px 12px;
   }
+  &:disabled {
+    cursor: not-allowed;
+    /* filter: grayscale(1); */
+    opacity: 0.5;
+  }
 }
 </style>

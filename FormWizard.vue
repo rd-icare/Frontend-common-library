@@ -83,17 +83,6 @@ function handleEnter(e: KeyboardEvent, allowEnter: boolean) {
   }
 }
 
-// optional: 當切回只讀時，自動還原到 initialValues（視需求可移除）
-// watch(
-//   () => props.readonly,
-//   (bool) => {
-//     if (bool) {
-//       // resetForm 會把 values 還原為 initialValues（也會重置 touched），避免未儲存的改動殘留
-//       resetForm({ values: props.initialValues });
-//     }
-//   }
-// );
-
 /** 定義 vee-validate 表單暴露型別 */
 export interface _VeeFormExpose {
   name: typeof name;

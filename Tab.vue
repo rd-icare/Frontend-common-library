@@ -10,6 +10,7 @@
           '!pr-24': item.id,
         },
       ]"
+      :title="item.text"
       @click="
         clickFn({
           type: 'router',
@@ -20,7 +21,7 @@
           index,
         })
       ">
-      <Text :text="item.text" />
+      <Text class="pointer-events-none" :text="item.text" />
       <Button
         v-if="item.id"
         class="close-btn icon-style no-border"
@@ -80,7 +81,7 @@ const props = withDefaults(defineProps<Props>(), {
   display: flex;
   border-bottom: var(--border-1);
   > .item {
-    cursor: pointer;
+    /* cursor: pointer; */
     position: relative;
     top: 0px;
     flex: 0 0 140px;
@@ -100,7 +101,8 @@ const props = withDefaults(defineProps<Props>(), {
       margin-right: 6px;
     }
     &.active {
-      pointer-events: none;
+      /* pointer-events: none; */
+      cursor: default;
       font-weight: bold;
       border-bottom: 1px solid var(--white);
       background-color: var(--white);

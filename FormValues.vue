@@ -5,11 +5,12 @@
     :class="{ active }"
     :style="{ width: boxWidth + 'px' }"
     @click.self="active = !active">
+    <div class="content">
+      <pre>values: {{ values }}</pre>
+      <pre>errors: {{ errors }}</pre>
+      <pre>meta: {{ meta }}</pre>
+    </div>
     <div v-if="!active" class="resizer" @mousedown="startResize"></div>
-
-    <pre>values: {{ values }}</pre>
-    <pre>errors: {{ errors }}</pre>
-    <pre>meta: {{ meta }}</pre>
   </div>
 </template>
 
@@ -57,19 +58,24 @@ onBeforeUnmount(stopResize);
 <style lang="scss" scoped>
 /* 表單值樣式 */
 .form-values {
-  display: block;
-  overflow-y: auto;
-  position: fixed;
+  overflow: hidden;
   height: calc(100% - 40px);
-  font-size: 14px;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 99999;
+  display: block;
+  font-size: 14px;
   background-color: var(--componets-fill);
   border: var(--border-1);
-  border-radius: var(--border-radius-2);
-  padding: 16px;
+  border-radius: var(--border-radius-1);
   opacity: 0.95;
+
+  .content {
+    overflow-y: auto;
+    height: 100%;
+    padding: 16px;
+  }
 
   &.active {
     z-index: 1;

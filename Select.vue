@@ -8,14 +8,14 @@
     }">
     <label
       v-if="item.label && item.hideLabel !== true"
-      :for="item.id || item.name"
+      :for="vueId ?? item.id ?? item.name"
       :class="[{ 'no-value': value === '_' }, item.labelClass]">
       {{ item.label }}
       <div v-if="item.need" class="form-required"></div>
     </label>
     <div class="element">
       <select
-        :id="item.id || item.name"
+        :id="vueId ?? item.id ?? item.name"
         :name="item.name"
         class="custom-select"
         :class="{ invalid: errorMessage, 'is-value': value }"
@@ -69,6 +69,8 @@ const props = withDefaults(defineProps<FormElementProps>(), {
     click: () => {},
   }),
 });
+
+const vueId = useId();
 
 // vee-validate useField
 const obj: Record<string, unknown> = {

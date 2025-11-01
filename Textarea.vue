@@ -6,13 +6,13 @@
       minWidth: item.minWidth ? item.minWidth + 'px' : '',
       ...item.style,
     }">
-    <label v-if="item.label && item.hideLabel !== true" :for="item.id || item.name" :class="[item.labelClass]">
+    <label v-if="item.label && item.hideLabel !== true" :for="vueId ?? item.id ?? item.name" :class="[item.labelClass]">
       {{ item.label }}
       <div v-if="item.need" class="form-required"></div>
     </label>
     <div class="element">
       <textarea
-        :id="item.id || item.name"
+        :id="vueId ?? item.id ?? item.name"
         :name="item.name"
         :class="{ invalid: errorMessage }"
         :placeholder="item.placeholder"
@@ -51,6 +51,8 @@ const props = withDefaults(defineProps<FormElementProps>(), {
     click: () => {},
   }),
 });
+
+const vueId = useId();
 
 const { value, errorMessage, handleChange, handleBlur, meta, validate } = useField(() => props.item.name, undefined, {
   // 這裡若要雙向綁定可以加上 syncVModel: true

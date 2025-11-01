@@ -15,12 +15,12 @@
       minWidth: item.minWidth ? item.minWidth + 'px' : '',
       ...item.style,
     }">
-    <label v-if="item.type === 'checkbox' && item.hideShape" class="checkbox-icon gicons" :for="checkboxId">
+    <label v-if="item.type === 'checkbox' && item.hideShape" class="checkbox-icon gicons" :for="vueId">
       <span>{{ item.disabled ? 'indeterminate_check_box' : checked ? 'check_box' : 'check_box_outline_blank' }}</span>
     </label>
     <label
       v-if="item.label && item.hideLabel !== true"
-      :for="item.type === 'checkbox' ? checkboxId : item.type !== 'date' ? item.id ?? item.name : ''"
+      :for="item.type !== 'date' ? vueId ?? item.id ?? item.name : ''"
       :class="[item.labelClass]">
       {{ item.label }}
       <div v-if="item.type !== 'checkbox' && item.need" class="form-required"></div>
@@ -28,13 +28,12 @@
     <div class="element">
       <input
         v-if="item.type !== 'date'"
-        :id="item.type === 'checkbox' ? checkboxId : item.id ?? item.name"
+        :id="vueId ?? item.id ?? item.name"
         :type="item.type || 'text'"
         :name="item.name"
         :class="{
           'custom-date': item.type === 'date',
           invalid: errorMessage,
-          isValue: value,
         }"
         :placeholder="item.placeholder"
         :value="
@@ -175,7 +174,7 @@ const props = withDefaults(defineProps<FormElementProps>(), {
   modelValue: undefined,
 });
 
-const checkboxId = useId();
+const vueId = useId();
 
 /** 圖片壓縮完成 url */
 const previewUrl = ref<string>('');

@@ -48,8 +48,8 @@ const open = (event: MouseEvent, bool: boolean) => {
   right: 0px;
   > .icon {
     cursor: pointer;
-    width: 32px;
-    height: 32px;
+    width: var(--box-height);
+    height: var(--box-height);
     display: flex;
     align-items: center;
     justify-content: center;

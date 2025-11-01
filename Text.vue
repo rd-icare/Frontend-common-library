@@ -59,5 +59,29 @@ withDefaults(defineProps<Props>(), {
       text-decoration: underline;
     }
   }
+  &.round-style {
+    min-height: var(--box-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 4px 12px;
+    border-radius: var(--border-radius-1);
+    .value {
+      word-break: break-word;
+    }
+    // 紅色主題
+    &.color-red {
+      @include active-style;
+    }
+    // 綠色主題
+    &.color-green {
+      @include green-style;
+    }
+    // 藍色主題
+    &.color-blue {
+      @include blue-style;
+    }
+  }
 }
 </style>

@@ -2,8 +2,17 @@
   <div>
     <div class="modal-main">
       <component v-if="item.subComponent" :is="item.subComponent" />
-      <div v-else>
+      <div v-else-if="item.subComponentIcon || item.subComponentText">
         <Text typeStyle="icon-style" :icon="item.subComponentIcon" :text="item.subComponentText" />
+      </div>
+      <div v-else class="flex flex-col items-center gap-12">
+        <div class="flex items-center">
+          <div class="shrink-0">變更內容：</div>
+          <Text
+            typeStyle="round-style color-green"
+            :text="`${typeSideMenu} / ${subPath}${customPaginName ? ` / ${customPaginName}` : ''}`" />
+        </div>
+        <Text text="離開前是否儲存本頁資料所做變更？" />
       </div>
     </div>
     <slot name="bottom" />
@@ -24,6 +33,8 @@ const modalOpen = defineModel<boolean>('modalOpen', {
   default: true,
 });
 
+const { path, typeSideMenu, subPath, customPaginName } = props.item?.breadcrumbs ?? {};
+
 /** 處理點擊事件 */
 function handleClick() {
   console.log('已觸發點擊');
@@ -34,9 +45,9 @@ function handleClick() {
 .center {
   > .modal-main {
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     align-items: center;
-    padding: 12px;   
+    padding: 12px;
   }
   :deep(.bottom) {
     justify-content: center !important;

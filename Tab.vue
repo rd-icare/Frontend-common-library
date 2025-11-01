@@ -123,7 +123,7 @@ const props = withDefaults(defineProps<Props>(), {
     }
   }
   &.small-style {
-    /* flex: 0 0 32px; */
+    /* flex: 0 0 var(--box-height); */
     > .item {
       flex: 0 0 100px;
       justify-content: center;

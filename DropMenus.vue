@@ -115,9 +115,9 @@ async function handleModal({ key, payload }: { key: string; payload: ModalProps 
       background-color: var(--surface);
     }
     > .icon {
-      flex: 0 0 32px;
-      width: 32px;
-      height: 32px;
+      flex: 0 0 var(--box-height);
+      width: var(--box-height);
+      height: var(--box-height);
       display: flex;
       align-items: center;
       justify-content: center;

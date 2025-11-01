@@ -67,7 +67,7 @@ button {
   // 預設
   &.btn-style {
     overflow: hidden;
-    height: 32px;
+    height: var(--box-height);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -107,9 +107,9 @@ button {
     }
     // 圖標風格
     &.icon-style {
-      flex: 0 0 32px;
-      width: 32px;
-      height: 32px;
+      flex: 0 0 var(--box-height);
+      width: var(--box-height);
+      height: var(--box-height);
       justify-content: center;
       padding: 0px;
       &.left {
@@ -131,16 +131,13 @@ button {
     &.color-red {
       @include active-style;
     }
-    // 副色主題
+    // 綠色主題
     &.color-green {
-      border: 1px solid var(--color-secondary);
-      color: var(--color-secondary);
-      background-color: var(--color-secondary-bg);
+      @include green-style;
     }
+    // 藍色主題
     &.color-blue {
-      border: 1px solid var(--color-tertiary);
-      color: var(--color-tertiary);
-      background-color: var(--color-tertiary-bg);
+      @include blue-style;
     }
     // 圖標風格 hover
     &.icon-style-hover {

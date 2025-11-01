@@ -109,6 +109,7 @@ export interface _VeeFormExpose {
   setFieldError: typeof setFieldError;
   defineField: typeof defineField;
   onSubmit: typeof onSubmit;
+  initialValues: typeof props.initialValues;
 }
 defineExpose<_VeeFormExpose>({
   name,
@@ -124,6 +125,7 @@ defineExpose<_VeeFormExpose>({
   setFieldError,
   defineField,
   onSubmit,
+  initialValues: props.initialValues,
 });
 </script>
 

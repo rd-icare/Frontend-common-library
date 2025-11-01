@@ -44,7 +44,7 @@
             class="close-btn icon-style no-border"
             icon="close"
             :title="$t('Util.close')"
-            @click="modalOpen = false" />
+            @click="(modalOpen = false), onConfirm(false)" />
         </div>
         <!-- 插槽 -->
         <!-- <template v-if="!component">

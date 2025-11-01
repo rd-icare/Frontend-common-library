@@ -18,10 +18,7 @@
     <label v-if="item.type === 'checkbox' && item.hideShape" class="checkbox-icon gicons" :for="vueId">
       <span>{{ item.disabled ? 'indeterminate_check_box' : checked ? 'check_box' : 'check_box_outline_blank' }}</span>
     </label>
-    <label
-      v-if="item.label && item.hideLabel !== true"
-      :for="item.type !== 'date' ? vueId ?? item.id ?? item.name : ''"
-      :class="[item.labelClass]">
+    <label v-if="item.label && item.hideLabel !== true" :for="vueId ?? item.id ?? item.name" :class="[item.labelClass]">
       {{ item.label }}
       <div v-if="item.type !== 'checkbox' && item.need" class="form-required"></div>
     </label>
@@ -58,7 +55,7 @@
         :disabled="item.disabled || processing" />
       <DatePicker
         v-else-if="item.type === 'date' && item.yearType === 'initial'"
-        :input-attr="{ name: item.name, id: item.id || item.name }"
+        :input-attr="{ name: item.name, id: vueId ?? item.id ?? item.name }"
         :placeholder="item.placeholder || '年/月/日'"
         :value="value"
         @update:value="(val: string | null) => (value = val)"
@@ -69,7 +66,7 @@
       <DatePickerTW
         v-else-if="item.type === 'date' && item.yearType === 'tw'"
         :lang="{ yearFormat: 'YYYY' }"
-        :input-attr="{ name: item.name, id: item.id || item.name }"
+        :input-attr="{ name: item.name, id: vueId ?? item.id ?? item.name }"
         :placeholder="item.placeholder || '年/月/日'"
         :value="value"
         @update:value="(val: string | null) => (value = val)"
@@ -100,7 +97,7 @@
               disabled: item.disabled,
             },
           ]"
-          :for="item.id || item.name">
+          :for="vueId ?? item.id ?? item.name">
           <div v-show="value" class="image-box">
             <Img :src="getUrl(value as string | File | null | undefined)" />
           </div>
@@ -130,7 +127,7 @@
           <div v-show="false" class="image-box">
             <Img :src="getUrl(value as string | File | null | undefined)" />
           </div>
-          <label v-if="!value" class="file-shape" :for="item.id || item.name">
+          <label v-if="!value" class="file-shape" :for="vueId ?? item.id ?? item.name">
             <span class="icon">upgrade</span>
           </label>
           <span

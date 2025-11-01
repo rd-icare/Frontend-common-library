@@ -2,7 +2,9 @@
   <div>
     <div class="modal-main">
       <component v-if="item.subComponent" :is="item.subComponent" />
-      <Text v-else typeStyle="icon-style" :icon="item.subComponentIcon" :text="item.subComponentText" />
+      <div v-else>
+        <Text typeStyle="icon-style" :icon="item.subComponentIcon" :text="item.subComponentText" />
+      </div>
     </div>
     <slot name="bottom" />
   </div>
@@ -30,5 +32,14 @@ function handleClick() {
 
 <style lang="scss" scoped>
 .center {
+  > .modal-main {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    padding: 12px;   
+  }
+  :deep(.bottom) {
+    justify-content: center !important;
+  }
 }
 </style>

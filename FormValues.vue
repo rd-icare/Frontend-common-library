@@ -5,7 +5,7 @@
     :class="{ active }"
     :style="{ width: boxWidth + 'px' }"
     @click.self="active = !active">
-    <div class="content">
+    <div class="content" @click.stop="active = !active">
       <pre>values: {{ values }}</pre>
       <pre>errors: {{ errors }}</pre>
       <pre>meta: {{ meta }}</pre>
@@ -59,16 +59,17 @@ onBeforeUnmount(stopResize);
 /* 表單值樣式 */
 .form-values {
   overflow: hidden;
-  height: calc(100% - 40px);
+  height: calc(100%);
   position: fixed;
   top: 0;
   left: 0;
   z-index: 99999;
   display: block;
   font-size: 14px;
-  background-color: var(--componets-fill);
-  border: var(--border-1);
-  border-radius: var(--border-radius-1);
+  color: #fff;
+  background-color: #282828;
+  border: 1px solid #5e5e5e;
+  border-radius: 0;
   opacity: 0.95;
 
   .content {
@@ -83,6 +84,9 @@ onBeforeUnmount(stopResize);
     width: 16px !important;
     height: 16px;
     padding: 8px;
+    background-color: var(--white);
+    border: var(--border-1);
+    border-radius: var(--border-radius-2);
   }
 
   /* 右側可拖曳區域 */

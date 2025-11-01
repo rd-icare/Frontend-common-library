@@ -135,8 +135,12 @@ button {
     &.color-green {
       border: 1px solid var(--color-secondary);
       color: var(--color-secondary);
-      /* background-color: var(--color-secondary-bg); */
       background-color: var(--color-secondary-bg);
+    }
+    &.color-blue {
+      border: 1px solid var(--color-tertiary);
+      color: var(--color-tertiary);
+      background-color: var(--color-tertiary-bg);
     }
     // 圖標風格 hover
     &.icon-style-hover {

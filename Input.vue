@@ -151,9 +151,10 @@
 
 <script setup lang="ts">
 import dayjs from 'dayjs';
+import { useField } from 'vee-validate';
+
 import DatePicker from '@/vue-datepicker-next/index.es.js';
 import DatePickerTW from '@/vue-datepicker-next/index.tw.js';
-import { useField } from 'vee-validate';
 import { getUrl, downloadFile, onFileChange } from '@/utils/common';
 
 const props = withDefaults(defineProps<FormElementProps>(), {
@@ -175,6 +176,7 @@ const vueId = useId();
 
 /** 圖片壓縮完成 url */
 const previewUrl = ref<string>('');
+
 /** 圖片壓縮中 */
 const processing = ref(false);
 
@@ -209,10 +211,13 @@ const { value, errorMessage, handleChange, handleBlur, meta, validate, checked, 
 
 /** 是否正在中文輸入，判斷組字狀態 */
 const isComposing = ref(false);
+
 /** 中文輸入結束 */
 function onCompositionEnd(e: CompositionEvent) {
   // console.log('中文輸入完成');
+
   isComposing.value = false;
+
   // 中文輸入完成後再執行方法
   handleChange(e, !!errorMessage);
   props.fn.input && props.fn.input(e, value.value, props.item);
@@ -220,11 +225,14 @@ function onCompositionEnd(e: CompositionEvent) {
 
 const runFn = (e: Event, item: FormElements) => {
   // console.log('runFn', e, item);
+
   // 圖片壓縮
   if (item.type === 'file' && item.imageCompressor) {
     return onFileChange(e, item, previewUrl, processing);
   }
+
   handleChange(e, !!errorMessage);
+
   // 去除空白
   if (typeof value.value === 'string') value.value = value.value.trim();
 };

@@ -4,6 +4,7 @@
 
 <script setup lang="ts">
 import { ref, nextTick } from 'vue';
+
 import { loadFile } from '@/composables/toPDFView';
 
 interface Props {
@@ -32,6 +33,7 @@ const imgRef = ref<HTMLImageElement | null>(null);
 const imgUrl = (): string => {
   if (props.src instanceof File) {
     console.log('imgUrl File');
+
     nextTick(() => {
       if (!imgRef.value) return;
       const srcStr = imgRef.value.src;
@@ -42,9 +44,11 @@ const imgUrl = (): string => {
         fileToBase64({ node: imgRef.value, value: props.src });
       }
     });
+
     return ''; // 預設先回空字串，因為 File 要 async 處理
   } else if (typeof props.src === 'string' && props.src.includes('.pdf')) {
     console.log('imgUrl .pdf');
+
     nextTick(() => {
       if (!imgRef.value) return;
       imgRef.value.src = '/img/space.gif';
@@ -55,6 +59,7 @@ const imgUrl = (): string => {
         }
       });
     });
+
     return ''; // 預設先回空字串
   }
 
@@ -70,6 +75,7 @@ const imgError = (event: Event) => {
   // console.log('imgError', props.src);
   const target = event.target as HTMLImageElement;
   target.parentElement?.classList.add('error-img');
+
   if (props.src !== null && String(props.src).includes('blob')) {
     target.src = new URL('/img/loading.gif', import.meta.url).href;
   } else {

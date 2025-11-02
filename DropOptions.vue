@@ -61,6 +61,7 @@ async function handleModal({ key, payload }: { key: string; payload: ModalProps 
     onClose();
     return;
   }
+
   // 創建
   createModal({
     id: key,
@@ -69,10 +70,12 @@ async function handleModal({ key, payload }: { key: string; payload: ModalProps 
     onClose,
     onCloseComplete,
   });
+
   // 關閉
   function onClose() {
     selectState.value = false;
   }
+  
   // 關閉完成
   function onCloseComplete() {
     props.modalOnCloseComplete();

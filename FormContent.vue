@@ -37,6 +37,7 @@ import Input from './Input.vue';
 
 // 阻止自動繼承屬性到 root (fieldset)
 defineOptions({ inheritAttrs: false });
+
 const attrs = useAttrs();
 
 withDefaults(defineProps<FormContentProps>(), {

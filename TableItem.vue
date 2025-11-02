@@ -50,7 +50,9 @@
 
 <script setup lang="ts" generic="T">
 import dayjs from 'dayjs';
+
 // defineOptions({ inheritAttrs: false });
+
 interface Props {
   /** 元素類型 */
   divType: 'thead' | 'tbody';
@@ -71,6 +73,7 @@ interface Props {
   /** 由 slot 插槽獲得 useFieldArray 方法傳入 */
   slotCtx?: FieldArraySlot<T>;
 }
+
 const props = withDefaults(defineProps<Props>(), {
   divType: 'tbody',
   tableItem: () => [],
@@ -81,32 +84,42 @@ const props = withDefaults(defineProps<Props>(), {
   fn: () => ({}),
   defaultSort: '',
 });
+
 /** 當前欄位激活索引 */
 const activeIndex = ref<number>(0);
+
 /** 當前欄位排序狀態 */
 const currSortState = ref<boolean>(true);
+
 /** 值的格式轉換 */
 function valueFormat(name: string, dayjsFormat?: string, value?: any) {
   // 每頁都要顯示序號
   if (props.divType === 'tbody' && name === 'sn') return props.sn;
+
   // 空值
   if (!value) return '';
+
   // 日期格式
   if (dayjsFormat) return dayjs(value).format(dayjsFormat);
+
   // 預設
   return value;
 }
+
 /** 排序 */
 function handleSort({ name, sortState }: TableItemClickFn) {
   currSortState.value = sortState ?? !currSortState.value;
   props.clickFn({ name, sortStateStr: sortState ? 'asc' : 'desc' });
 }
+
 onMounted(() => {
   if (props.divType === 'tbody') return;
+
   /** defaultSort 預設欄位默認排序，忽略 false */
   const defaultSortable = props.tableItem.findIndex((item) => {
     return item.sortable !== false && item.name === props.defaultSort;
   });
+
   if (defaultSortable >= 0) activeIndex.value = defaultSortable;
 });
 </script>

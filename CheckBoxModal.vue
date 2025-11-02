@@ -67,6 +67,7 @@ onMounted(() => {
     //   if (item.hidden === undefined) item.hidden = false;
     // });
   }
+  
   // console.log(checkedValue.value);
 
   // 初始化後馬上同步一次

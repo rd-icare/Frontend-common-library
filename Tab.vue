@@ -47,12 +47,14 @@
 const storeIndex = indexStore();
 const { routePath, routeSubPath, routeTypeSideMenu, routeParamsId } = storeToRefs(storeIndex);
 const {} = storeIndex;
+
 interface Props {
   /** 資料 */
   data?: TabDataItem[];
   /** 返回點擊事件 */
   clickFn?: (item: TabClickFn) => void;
 }
+
 const props = withDefaults(defineProps<Props>(), {
   data: () => [],
   clickFn: () => {},

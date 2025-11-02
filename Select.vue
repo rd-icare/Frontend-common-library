@@ -76,6 +76,7 @@ const vueId = useId();
 const obj: Record<string, unknown> = {
   initialValue: props.item.value,
 };
+
 if (props.item.controlled !== undefined) {
   obj.controlled = false;
 }

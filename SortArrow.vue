@@ -18,8 +18,11 @@ interface Props {
   /** 排序狀態 */
   sortState: boolean;
 }
+
 const props = defineProps<Props>();
+
 const emit = defineEmits<{ (e: 'toggle', payload: TableItemClickFn): void }>();
+
 /** 切換排序 */
 function toggleSort() {
   emit('toggle', { name: props.name, sortState: !props.sortState });

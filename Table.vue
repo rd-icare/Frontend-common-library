@@ -170,16 +170,22 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits(['afterEnter', 'afterLeave']);
+
 /** 狀態管理的參數 */
 const storeParams = defineModel<StoreParams>('storeParams', { type: Object, default: () => ({}) });
+
 /** 可編輯的資料 */
 const editable = defineModel<T[]>('editable', { type: Array, default: () => [] });
+
 /** 資料 */
 const data = computed(() => storeParams.value.data || editable.value);
+
 /** 模板引用 */
 const scrollRef = useTemplateRef<HTMLElement>(props.isTheadSticky ? 'mainRef' : 'tbodyRef');
+
 /** 頁碼控制載入 */
 const controlLoading = ref<boolean>(false);
+
 /** 顯示最多 5 個頁碼 */
 const visiblePages = computed(() => {
   const total = storeParams.value.totalPage || 1;
@@ -191,6 +197,7 @@ const visiblePages = computed(() => {
   for (let i = start; i <= end; i++) pages.push(i);
   return pages;
 });
+
 /** 頁碼數量選項 */
 const selectPageNum = computed(() =>
   Array(storeParams.value.totalPage)
@@ -200,10 +207,12 @@ const selectPageNum = computed(() =>
       value: index + 1,
     }))
 );
+
 /** 表單輸入事件 */
 const fn = ref<FormFnType>({
   change: (e, value, item) => {
     console.log('change', value, item);
+
     // 前往頁數
     if (item?.name === `${storeParams.value.tableClass}_page_num`) {
       // storeParams.value.currentPage = Number(value);
@@ -214,6 +223,7 @@ const fn = ref<FormFnType>({
         setScroll();
       });
     }
+
     // 切換顯示筆數
     if (item?.name === `${storeParams.value.tableClass}_show_num`) {
       // controlLoading.value = true;
@@ -224,6 +234,7 @@ const fn = ref<FormFnType>({
       if (storeParams.value.currentPage > storeParams.value.totalPage) {
         storeParams.value.currentPage = storeParams.value.totalPage;
       }
+
       nextTick(async () => {
         await props.getDatas();
         setScroll();
@@ -231,10 +242,12 @@ const fn = ref<FormFnType>({
     }
   },
 });
+
 /** 頁碼控制點擊事件 */
 const clickFn = (type: string | number) => {
   const sp = storeParams.value;
   if (!sp) return;
+
   // const current = sp.currentPage ?? 1;
   const current = sp.currentPage;
   const total = sp.totalPage;
@@ -256,6 +269,7 @@ const clickFn = (type: string | number) => {
       if (typeof type === 'number') sp.currentPage = type;
       break;
   }
+
   nextTick(async () => {
     await props.getDatas();
     setScroll();
@@ -271,21 +285,26 @@ function setScroll() {
     });
   }
 }
+
 function afterEnter() {
   emit('afterEnter');
 }
+
 function afterLeave() {
   emit('afterLeave');
 }
+
 /* 監聽列表資料 */
 const stopWatch = watch(
   () => storeParams.value.data,
   async (newValue, oldValue) => {
     // console.log(`watch Table`)
+
     if (storeParams.value.isScrollToTop) {
       setScroll();
       storeParams.value.isScrollToTop = false;
     }
+
     controlLoading.value = false;
   },
   { deep: true }

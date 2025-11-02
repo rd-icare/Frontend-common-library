@@ -44,6 +44,7 @@ interface Props {
   /** 返回點擊事件 */
   clickFn?: (item: DropMenusClickFn) => void;
 }
+
 const props = withDefaults(defineProps<Props>(), {
   optionsModeId: '',
   pageType: '',
@@ -56,8 +57,10 @@ const props = withDefaults(defineProps<Props>(), {
 const activeBtn = ref<Record<string, boolean>>(
   Object.fromEntries(Object.entries(props.data).map(([key, value], index) => [key, false]))
 );
+
 /** 當前啟用的對象 */
 const currActiveKey = ref<string>('');
+
 /** 項目高度 */
 const itemHeight = ref(36);
 
@@ -69,14 +72,17 @@ async function handleModal({ key, payload }: { key: string; payload: ModalProps 
     onClose();
     return;
   }
+
   // 關閉上一個
   if (currActiveKey.value) {
     modals.value[currActiveKey.value].close();
     activeBtn.value[currActiveKey.value] = false;
   }
+
   // 首字母大寫
   const keyFirst = key.charAt(0).toUpperCase() + key.slice(1);
   // console.log(keyFirst);
+
   // 創建
   const modal = createModal({
     component: defineAsyncComponent(() => import(`@/components/home/${props.pageType}/${props.dirName}/${keyFirst}.vue`)),
@@ -88,6 +94,7 @@ async function handleModal({ key, payload }: { key: string; payload: ModalProps 
     },
     onClose,
   });
+  
   // 關閉
   function onClose() {
     activeBtn.value[key] = false;

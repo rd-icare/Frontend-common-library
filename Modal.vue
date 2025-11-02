@@ -133,6 +133,7 @@ const tableItem = defineModel<TableItem[]>('tableItem');
 
 /** 彈出視窗開啟 */
 const modalOpen = ref<boolean>(false);
+
 /** 彈出視窗載入中 */
 const loading = ref<boolean>(props.modalLoading);
 
@@ -160,14 +161,17 @@ function beforeEnter() {
     // 隱藏 body 滾動條
     document.body.classList.add('overflow-hidden');
   }
+
   // if (props.onOpen && typeof props.onOpen === 'function') {
   // }
+
   props.onOpen();
 }
 
 /** 開啟後 */
 function afterEnter() {
   // console.log(`${props.id} afterEnter`);
+
   props.onOpenComplete();
 }
 
@@ -177,6 +181,7 @@ function beforeLeave() {
     // 顯示 body 滾動條
     document.body.classList.remove('overflow-hidden');
   }
+
   props.onClose();
 }
 
@@ -189,10 +194,12 @@ function requestAfterLeave(callback: () => Promise<void>) {
 /** 關閉後 */
 async function afterLeave() {
   // console.log(`${props.id} afterLeave`);
+
   await props.close({
     callback: afterLeaveCallback,
   });
   props.onCloseComplete();
+
   if (afterLeaveCallback) {
     afterLeaveCallback = null;
   }
@@ -214,6 +221,7 @@ function blur(e: FocusEvent) {
 
   // 如果是選項模式 → 不處理
   if (target?.className.includes('options-mode')) return;
+
   // 如果是自身 ID → 不處理
   if (target?.className.includes(props.id)) return;
 
@@ -237,6 +245,7 @@ const vComponent: Directive = {
     modalOpen.value = true;
     nextTick(() => {
       // console.log(`id: ${props.id} index: ${props.index} itemHeight: ${props.itemHeight} mounted`);
+
       // 如果是拖曳模式
       if (props.draggable) {
         const el = document.querySelector(`#${props.id} .content`) as HTMLElement;
@@ -245,13 +254,16 @@ const vComponent: Directive = {
           const left = window.innerWidth - rect.width - 16;
           el.style.inset = `${48 + props.index * 16}px auto auto ${left}px`;
         }
+
         return;
       }
+
       // 如果是選項模式
       if (props.optionsMode) {
         const el = document.querySelector(`#${props.id} .modal-box`) as HTMLElement;
         // 聚焦最後啟用的彈出視窗
         if (el) el.focus();
+
         return;
       }
     });
@@ -260,11 +272,13 @@ const vComponent: Directive = {
 
 onMounted(async () => {
   // console.log('Modal mounted');
+
   // 放置 modals 集中管理
   modals.value[props.id] = {
     ...props,
     modalOpen,
   };
+
   // console.log('add modals', modals.value);
 });
 

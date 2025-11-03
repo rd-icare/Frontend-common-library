@@ -5,7 +5,7 @@
     :class="{ active }"
     :style="{ width: boxWidth + 'px' }"
     @click.self="active = !active">
-    <div class="content" @click.stop="active = !active">
+    <div class="content">
       <pre>values: {{ values }}</pre>
       <pre>errors: {{ errors }}</pre>
       <pre>meta: {{ meta }}</pre>
@@ -75,7 +75,8 @@ onBeforeUnmount(stopResize);
   .content {
     overflow-y: auto;
     height: 100%;
-    padding: 16px;
+    padding: 16px 16px 16px 0px;
+    margin-left: 16px;
   }
 
   &.active {

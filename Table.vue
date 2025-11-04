@@ -317,7 +317,9 @@ watch(
   }
 );
 
-onMounted(async () => {});
+onMounted(async () => {
+  storeParams.value.scrollRef = scrollRef.value;
+});
 </script>
 
 <style lang="scss" scoped></style>

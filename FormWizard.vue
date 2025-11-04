@@ -1,5 +1,5 @@
 <template>
-  <form @submit="onSubmit" @keypress.enter="(e) => handleEnter(e, useEnter)" novalidate>
+  <form ref="scrollRef" @submit="onSubmit" @keypress.enter="(e) => handleEnter(e, useEnter)" novalidate>
     <!-- 插槽 表單內容 -->
     <slot name="content" :values="values" :errors="errors" :handleReset="handleReset" />
     <!-- 插槽 表單底部 -->
@@ -36,6 +36,9 @@ const props = withDefaults(defineProps<Props>(), {
   keepValues: true,
   useEnter: false,
 });
+
+/** 滾動元素 */
+const scrollRef = defineModel<HTMLElement | null>('scrollRef');
 
 const emit = defineEmits<{
   <T extends Record<string, any>>(e: 'submit', values: T, actions: SubmissionContext<T>): void;

@@ -90,7 +90,7 @@ button {
       }
     }
     // 副色
-    &.c-sub {
+    &.c-secondary {
       border: 1px solid var(--color-secondary);
       color: var(--white);
       background-color: var(--color-secondary);
@@ -127,9 +127,13 @@ button {
         height: 100%;
       }
     }
+    // 副色主題
+    &.color-secondary {
+      @include blue-style;
+    }
     // 紅色主題
     &.color-red {
-      @include active-style;
+      @include red-style;
     }
     // 綠色主題
     &.color-green {

@@ -9,7 +9,7 @@
         <div class="flex items-center">
           <div class="shrink-0">變更內容：</div>
           <Text
-            typeStyle="round-style color-green"
+            typeStyle="round-style color-secondary"
             :text="`${typeSideMenu} / ${subPath}${customPaginName ? ` / ${customPaginName}` : ''}`" />
         </div>
         <Text text="離開前是否儲存本頁資料所做變更？" />

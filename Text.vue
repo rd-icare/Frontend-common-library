@@ -70,9 +70,13 @@ withDefaults(defineProps<Props>(), {
     .value {
       word-break: break-word;
     }
+    // 副色主題
+    &.color-secondary {
+      @include blue-style;
+    }
     // 紅色主題
     &.color-red {
-      @include active-style;
+      @include red-style;
     }
     // 綠色主題
     &.color-green {

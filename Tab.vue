@@ -6,7 +6,9 @@
       :class="[
         'item whitespace-nowrap',
         {
-          active: item.id ? item.id == routeParamsId : item.subPath === routeSubPath,
+          active: item.id
+            ? item.id.toString().trim() == routeParamsId.toString().trim()
+            : item.subPath === routeSubPath,
           '!pr-24': item.id,
         },
       ]"

@@ -27,6 +27,8 @@ interface Props {
   useEnter?: boolean;
   /** 是否為只讀 */
   // readonly?: boolean;
+  /** 提交 */
+  submit?: (values: any, actions: SubmissionContext<Record<string, any>>) => Promise<void> | void;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -35,13 +37,14 @@ const props = withDefaults(defineProps<Props>(), {
   schema: () => ({}),
   keepValues: true,
   useEnter: false,
+  submit: () => {},
 });
 
 /** 滾動元素 */
 const scrollRef = defineModel<HTMLElement | null>('scrollRef');
 
 const emit = defineEmits<{
-  <T extends Record<string, any>>(e: 'submit', values: T, actions: SubmissionContext<T>): void;
+  // <T extends Record<string, any>>(e: 'submit', values: T, actions: SubmissionContext<T>): void;
   <T extends Record<string, any>>(e: 'invalidSubmit', values: T, errors: T, results: InvalidSubmissionContext<T>): void;
 }>();
 
@@ -68,16 +71,11 @@ const {
   validateOnMount: false, // 掛載時不驗證
 });
 
-const onSubmit = handleSubmit(
-  (values, actions) => {
-    emit('submit', values, actions);
-  },
-  (results) => {
-    console.log('invalidSubmit', results);
-    emit('invalidSubmit', values as any, errors, results);
-    toErrorFocus(results.errors);
-  }
-);
+const onSubmit = handleSubmit(props.submit, (results) => {
+  console.log('invalidSubmit', results);
+  emit('invalidSubmit', values as any, errors, results);
+  toErrorFocus(results.errors);
+});
 
 /** 阻止 enter 鍵送出表單，僅 textarea 可用 */
 function handleEnter(e: KeyboardEvent, allowEnter: boolean) {

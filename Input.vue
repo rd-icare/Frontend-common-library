@@ -7,20 +7,26 @@
         password: item.type === 'password' || item.class === 'font-password',
         file: item.type === 'file',
         checkbox: item.type === 'checkbox',
+        radio: item.type === 'radio',
         hidden: ['hidden', 'array'].includes(item.type),
-        checked,
+        checked: item.checked || checked,
       },
     ]"
     :style="{
       minWidth: item.minWidth ? item.minWidth + 'px' : '',
       ...item.style,
     }">
-    <label v-if="item.type === 'checkbox' && item.hideShape" class="checkbox-icon gicons" :for="vueId">
-      <span>{{ item.disabled ? 'indeterminate_check_box' : checked ? 'check_box' : 'check_box_outline_blank' }}</span>
+    <label
+      v-if="['checkbox', 'radio'].includes(item.type ?? '') && item.hideShape"
+      class="icon-box gicons"
+      :for="vueId">
+      <span>{{
+        item.disabled ? 'indeterminate_check_box' : item.checked || checked ? 'check_box' : 'check_box_outline_blank'
+      }}</span>
     </label>
     <label v-if="item.label && item.hideLabel !== true" :for="vueId ?? item.id ?? item.name" :class="[item.labelClass]">
       {{ item.label }}
-      <div v-if="item.type !== 'checkbox' && item.need" class="form-required"></div>
+      <div v-if="!['checkbox', 'radio'].includes(item.type ?? '') && item.need" class="form-required"></div>
     </label>
     <div class="element">
       <input
@@ -140,14 +146,18 @@
           >
         </template>
       </div>
-      <div v-if="!item.hideError && item.type !== 'checkbox' && errorMessage" class="error">{{ errorMessage }}</div>
+      <div v-if="!item.hideError && !['checkbox', 'radio'].includes(item.type ?? '') && errorMessage" class="error">
+        {{ errorMessage }}
+      </div>
       <IconEye
         v-if="item.type === 'password' || item.class === 'font-password'"
         v-show="!item.hideEye"
         :type-text="item.type === 'text'" />
     </div>
     <div v-if="item.unit" class="unit">{{ item.unit }}</div>
-    <div v-if="!item.hideError && item.type === 'checkbox' && errorMessage" class="error">{{ errorMessage }}</div>
+    <div v-if="!item.hideError && ['checkbox', 'radio'].includes(item.type ?? '') && errorMessage" class="error">
+      {{ errorMessage }}
+    </div>
   </div>
 </template>
 

@@ -30,10 +30,11 @@
 </template>
 
 <script setup lang="ts">
-import InputNone from './InputNone.vue';
 import Select from './Select.vue';
 import Textarea from './Textarea.vue';
 import Input from './Input.vue';
+import Label from './Label.vue';
+import InputNone from './InputNone.vue';
 
 // 阻止自動繼承屬性到 root (fieldset)
 defineOptions({ inheritAttrs: false });
@@ -52,6 +53,7 @@ withDefaults(defineProps<FormContentProps>(), {
 const componentMap: Record<string, any> = {
   select: Select,
   textarea: Textarea,
+  label: Label,
   none: InputNone,
 };
 </script>

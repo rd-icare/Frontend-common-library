@@ -9,7 +9,7 @@
         checkbox: item.type === 'checkbox',
         radio: item.type === 'radio',
         hidden: ['hidden', 'array'].includes(item.type),
-        checked: item.checked || checked,
+        checked: item.checked ?? checked,
       },
     ]"
     :style="{
@@ -21,7 +21,7 @@
       class="icon-box gicons"
       :for="vueId">
       <span>{{
-        item.disabled ? 'indeterminate_check_box' : item.checked || checked ? 'check_box' : 'check_box_outline_blank'
+        item.disabled ? 'indeterminate_check_box' : item.checked ?? checked ? 'check_box' : 'check_box_outline_blank'
       }}</span>
     </label>
     <label v-if="item.label && item.hideLabel !== true" :for="vueId ?? item.id ?? item.name" :class="[item.labelClass]">
@@ -41,9 +41,7 @@
         :placeholder="item.placeholder"
         :value="
           item.type !== 'file'
-            ? (props.modelValue && item.dayjsFormat
-                ? dayjs(props.modelValue).format(item.dayjsFormat)
-                : props.modelValue) ??
+            ? (modelValue && item.dayjsFormat ? dayjs(modelValue).format(item.dayjsFormat) : modelValue) ??
               (item.value && item.dayjsFormat ? dayjs(item.value).format(item.dayjsFormat) : item.value) ??
               value
             : ''
@@ -57,7 +55,7 @@
         @compositionend="onCompositionEnd"
         :true-value="item.trueValue"
         :false-value="item.falseValue"
-        :checked="item.checked || checked"
+        :checked="item.checked ?? checked"
         :accept="item.accept"
         :autocomplete="item.autocomplete"
         :disabled="item.disabled || processing" />
@@ -248,6 +246,18 @@ const runFn = (e: Event, item: FormElements) => {
   // 去除空白
   if (typeof value.value === 'string') value.value = value.value.trim();
 };
+
+watch(
+  () => props.item.checked,
+  (val) => {
+    value.value = val;
+    // console.log(`watch checked ${props.item.name}`, {
+    //   'item.checked': val,
+    //   checked: checked?.value,
+    //   value: value.value,
+    // });
+  }
+);
 </script>
 
 <style lang="scss" scoped></style>

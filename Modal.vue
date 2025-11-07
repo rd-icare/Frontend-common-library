@@ -367,6 +367,7 @@ onUnmounted(() => {
     background-color: var(--background-mask);
   }
   > .content {
+    overflow: hidden;
     pointer-events: auto;
     position: relative;
     width: 100%;

@@ -69,7 +69,11 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 /** 激活 index */
-const activeIndex = ref<number>(0);
+/** 當前激活的 index */
+const activeIndex = defineModel<number>({
+  type: Number,
+  default: 0,
+});
 
 // const emit = defineEmits<{
 //   (e: 'clickFn', item: ClickItem): void;
@@ -108,7 +112,7 @@ const activeIndex = ref<number>(0);
     background-color: var(--surface);
     /* transition: var(--transition-fast); */
     &:first-child {
-      margin-left: 8px;
+      margin-left: 12px;
     }
     &:not(:last-child) {
       margin-right: 6px;
@@ -132,6 +136,13 @@ const activeIndex = ref<number>(0);
       z-index: 1;
       :deep(span) {
         font-size: 16px;
+      }
+    }
+  }
+  &:has(+ .tab-content) {
+    > .item {
+      &:first-child {
+        margin-left: 0px;
       }
     }
   }

@@ -19,6 +19,7 @@ withDefaults(defineProps<Props>(), {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  padding: 12px;
   border: var(--border-1);
   border-top: none;
   border-radius: 0 0 var(--border-radius-1) var(--border-radius-1);

@@ -1,45 +1,47 @@
 <template>
   <div class="tab-box">
-    <div
-      v-for="(item, index) in data"
-      :key="item.text"
-      :class="[
-        'item whitespace-nowrap',
-        {
-          active: item.id
-            ? item.id.toString().trim() == routeParamsId.toString().trim()
-            : item.subPath === routeSubPath,
-          '!pr-24': item.id,
-        },
-      ]"
-      :title="item.text"
-      @click="
-        clickFn({
-          type: 'router',
-          text: item.text,
-          subPath: item.subPath,
-          id: item.id,
-          paginName: item.paginName,
-          index,
-        })
-      ">
-      <Text class="pointer-events-none" :text="item.text" />
-      <Button
-        v-if="item.id"
-        class="close-btn icon-style no-border"
-        icon="close"
-        :title="$t('Util.close_index')"
-        @click.stop="
+    <TransitionGroup name="tab">
+      <div
+        v-for="(item, index) in data"
+        :key="item.text"
+        :class="[
+          'item whitespace-nowrap',
+          {
+            active: item.id
+              ? item.id.toString().trim() == routeParamsId.toString().trim()
+              : item.subPath === routeSubPath,
+            '!pr-24': item.id,
+          },
+        ]"
+        :title="item.text"
+        @click="
           clickFn({
-            type: 'close',
+            type: 'router',
             text: item.text,
             subPath: item.subPath,
             id: item.id,
             paginName: item.paginName,
             index,
           })
-        " />
-    </div>
+        ">
+        <Text class="pointer-events-none" :text="item.text" />
+        <Button
+          v-if="item.id"
+          class="close-btn icon-style no-border"
+          icon="close"
+          :title="$t('Util.close_index')"
+          @click.stop="
+            clickFn({
+              type: 'close',
+              text: item.text,
+              subPath: item.subPath,
+              id: item.id,
+              paginName: item.paginName,
+              index,
+            })
+          " />
+      </div>
+    </TransitionGroup>
   </div>
 </template>
 

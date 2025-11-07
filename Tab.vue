@@ -58,7 +58,7 @@ interface Props {
   data?: TabDataItem[];
   /** 返回點擊事件 */
   clickFn?: (item: TabClickFn) => void;
-  /** 是否使用激活 index */
+  /** 是否使用激活索引 */
   useActiveIndex?: boolean;
 }
 
@@ -68,9 +68,8 @@ const props = withDefaults(defineProps<Props>(), {
   useActiveIndex: false,
 });
 
-/** 激活 index */
-/** 當前激活的 index */
-const activeIndex = defineModel<number>({
+/** 當前激活索引 */
+const activeIndex = defineModel<number>('activeIndex', {
   type: Number,
   default: 0,
 });
@@ -106,7 +105,7 @@ const activeIndex = defineModel<number>({
     align-items: center;
     margin-top: 0px;
     margin-bottom: -1px;
-    padding: 0 12px 1px 12px;
+    padding: 0 12px 2px 12px;
     border: var(--border-1);
     border-radius: var(--border-radius-2) var(--border-radius-2) 0 0;
     background-color: var(--surface);
@@ -141,6 +140,7 @@ const activeIndex = defineModel<number>({
   }
   &:has(+ .tab-content) {
     > .item {
+      border-radius: var(--border-radius-1) var(--border-radius-1) 0 0;
       &:first-child {
         margin-left: 0px;
       }

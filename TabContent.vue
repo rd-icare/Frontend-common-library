@@ -1,17 +1,13 @@
 <template>
-  <div class="tab-content" :style="{ 'min-height': `${minHeight}px` }">
+  <div class="tab-content">
     <slot />
   </div>
 </template>
 
 <script setup lang="ts">
-interface Props {
-  minHeight?: number;
-}
+interface Props {}
 
-withDefaults(defineProps<Props>(), {
-  minHeight: 400,
-});
+withDefaults(defineProps<Props>(), {});
 </script>
 
 <style lang="scss" scoped>

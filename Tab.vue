@@ -9,20 +9,21 @@
           {
             active: item.id
               ? item.id.toString().trim() == routeParamsId.toString().trim()
-              : item.subPath === routeSubPath,
+              : item.subPath === routeSubPath || (useActiveIndex && activeIndex === index),
             '!pr-24': item.id,
           },
         ]"
         :title="item.text"
         @click="
           clickFn({
-            type: 'router',
+            type: 'tab',
             text: item.text,
             subPath: item.subPath,
             id: item.id,
             paginName: item.paginName,
             index,
-          })
+          }),
+            (activeIndex = index)
         ">
         <Text class="pointer-events-none" :text="item.text" />
         <Button
@@ -57,12 +58,18 @@ interface Props {
   data?: TabDataItem[];
   /** 返回點擊事件 */
   clickFn?: (item: TabClickFn) => void;
+  /** 是否使用激活 index */
+  useActiveIndex?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   data: () => [],
   clickFn: () => {},
+  useActiveIndex: false,
 });
+
+/** 激活 index */
+const activeIndex = ref<number>(0);
 
 // const emit = defineEmits<{
 //   (e: 'clickFn', item: ClickItem): void;
@@ -133,6 +140,11 @@ const props = withDefaults(defineProps<Props>(), {
     > .item {
       flex: 0 0 100px;
       justify-content: center;
+    }
+  }
+  &.adaptive-style {
+    > .item {
+      flex: 0 0 auto;
     }
   }
 }

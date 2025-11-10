@@ -40,6 +40,14 @@
 <script setup lang="ts">
 import { useField } from 'vee-validate';
 
+/**
+ * - \t 製表符 水平 → 等於 Tab 鍵
+ * - \v 製表符 垂直
+ * - \f 換頁
+ * - \n 換行符
+ * - \r 回車
+ */
+
 const props = withDefaults(defineProps<FormElementProps>(), {
   item: () => ({
     type: 'textarea',

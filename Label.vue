@@ -9,6 +9,9 @@
     <label :class="[item.labelClass]">
       {{ item.label }}
     </label>
+    <div class="element">
+      <div class="input-element"></div>
+    </div>
   </div>
 </template>
 
@@ -22,4 +25,8 @@ const props = withDefaults(defineProps<FormElementProps>(), {
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.input-element {
+  height: calc(var(--box-height) - var(--form-content-gap));
+}
+</style>

@@ -28,6 +28,7 @@
         @blur="handleBlur($event, true)"
         :rows="item.rows"
         :cols="item.cols"
+        :wrap="item.textareaWrap"
         :disabled="item.disabled"></textarea>
       <div v-if="item.hideError !== true && errorMessage && meta.touched" class="error">
         {{ errorMessage }}

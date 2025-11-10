@@ -26,7 +26,13 @@ const props = withDefaults(defineProps<FormElementProps>(), {
 </script>
 
 <style lang="scss" scoped>
-.input-element {
-  height: calc(var(--box-height) - var(--form-content-gap));
+.input {
+  gap: 0px !important;
+  margin-right: calc(var(--form-content-gap) / 2);
+  > .element {
+    > .input-element {
+      height: calc(var(--box-height) - var(--form-content-gap));
+    }
+  }
 }
 </style>

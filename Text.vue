@@ -44,10 +44,16 @@ withDefaults(defineProps<Props>(), {
   grid-auto-flow: column; // 子元素強制橫向排
   align-items: center;
   gap: 4px;
+  line-height: 1;
   .value {
     overflow: hidden;
     text-overflow: ellipsis;
     word-break: break-all;
+  }
+  &.title-style {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1;
   }
   &.icon-style {
     justify-content: flex-start;

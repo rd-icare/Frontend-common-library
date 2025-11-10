@@ -249,8 +249,8 @@ const runFn = (e: Event, item: FormElements) => {
 
 watch(
   () => props.item.checked,
-  (val) => {
-    value.value = val;
+  (val, oldVal, onCleanup) => {
+    value.value = val; // 因不是透過 click 觸發，如果 item.checked 值有變化，就將值設定給 value
     // console.log(`watch checked ${props.item.name}`, {
     //   'item.checked': val,
     //   checked: checked?.value,

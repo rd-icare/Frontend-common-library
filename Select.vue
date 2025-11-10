@@ -90,8 +90,13 @@ const { value, errorMessage, handleChange, handleBlur, validate, resetField } = 
 // 監聽外部傳入的值
 watch(
   () => props.item.value,
-  (newValue) => {
-    if (newValue === undefined) resetField();
+  (val, oldVal, onCleanup) => {
+    value.value = val; // 因不是透過 click 觸發，如果 item.value 值有變化，就將值設定給 value
+    // console.log(`watch Select value ${props.item.name}`, {
+    //   'item.value': val,
+    //   value: value.value,
+    // });
+    if (val === undefined) resetField();
   }
 );
 </script>

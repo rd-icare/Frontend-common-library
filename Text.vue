@@ -44,6 +44,7 @@ withDefaults(defineProps<Props>(), {
   grid-auto-flow: column; // 子元素強制橫向排
   align-items: center;
   gap: 4px;
+  line-height: 1;
   .value {
     overflow: hidden;
     text-overflow: ellipsis;

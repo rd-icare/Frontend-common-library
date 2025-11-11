@@ -65,7 +65,8 @@ withDefaults(defineProps<Props>(), {
       text-decoration: underline;
     }
   }
-  &.round-style {
+  &.round-style,
+  &.input-style {
     min-height: var(--box-height);
     display: flex;
     align-items: center;
@@ -92,6 +93,15 @@ withDefaults(defineProps<Props>(), {
     &.color-blue {
       @include blue-style;
     }
+    // 灰色主題
+    &.color-gray {
+      @include gray-style;
+    }
+  }
+  &.input-style {
+    width: 100%;
+    justify-content: flex-start;
+    line-height: 1.25;
   }
 }
 </style>

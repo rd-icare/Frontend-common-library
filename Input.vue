@@ -39,6 +39,7 @@
           invalid: errorMessage,
         }"
         :placeholder="item.placeholder"
+        :title="item.title"
         :value="
           item.type !== 'file'
             ? (modelValue && item.dayjsFormat ? dayjs(modelValue).format(item.dayjsFormat) : modelValue) ??

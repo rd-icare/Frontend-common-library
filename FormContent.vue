@@ -69,4 +69,16 @@ const componentMap: Record<string, any> = {
     }
   }
 }
+fieldset {
+  &.vertical-scroll {
+    flex-grow: 1;
+    > .input-box {
+      overflow-y: auto;
+      height: 0px;
+      flex-grow: 1;
+      flex-wrap: nowrap;
+      flex-direction: column;
+    }
+  }
+}
 </style>

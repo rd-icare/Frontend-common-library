@@ -102,6 +102,7 @@
               active: value,
               invalid: errorMessage,
               disabled: item.disabled,
+              'disabled-label': item.disabledLabelEvent,
             },
           ]"
           :for="vueId ?? item.id ?? item.name">
@@ -127,7 +128,7 @@
             class="delete-button icon-style color-red"
             icon="delete"
             :title="$t('Util.delete')"
-            @click.prevent="value = null" />
+            @click.prevent="(value = null), fn.click?.($event, value, item, 'delete')" />
           <CurrentLoading :show="processing" />
         </label>
         <template v-else>

@@ -50,6 +50,13 @@ withDefaults(defineProps<Props>(), {
     text-overflow: ellipsis;
     word-break: break-all;
   }
+  &:has(.v-html, .value),
+  & + :deep(.icon) {
+    span {
+      position: relative;
+      top: 1px;
+    }
+  }
   &.title-style {
     font-size: 18px;
     font-weight: bold;

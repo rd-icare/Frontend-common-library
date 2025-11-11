@@ -47,8 +47,8 @@
               value
             : ''
         "
-        @input="!isComposing && eventName === 'input' ? (runFn($event, item), fn.input?.($event, value, item)) : ''"
-        @change="eventName === 'change' ? (runFn($event, item), fn.change?.($event, value, item)) : ''"
+        @input="!isComposing && eventName === 'input' ? runFn($event, item) : ''"
+        @change="eventName === 'change' ? runFn($event, item) : ''"
         @blur="handleBlur($event, true)"
         :minlength="item.minlength"
         :maxlength="item.maxlength"
@@ -66,7 +66,7 @@
         :placeholder="item.placeholder || '年/月/日'"
         :value="value"
         @update:value="(val: string | null) => (value = val)"
-        @change="runFn($event, item), fn.change?.($event, value, item)"
+        @change="runFn($event, item)"
         :="item.dateAttr"
         :disabled="item.disabled"
         :input-class="{ invalid: errorMessage }" />
@@ -77,7 +77,7 @@
         :placeholder="item.placeholder || '年/月/日'"
         :value="value"
         @update:value="(val: string | null) => (value = val)"
-        @change="runFn($event, item), fn.change?.($event, value, item)"
+        @change="runFn($event, item)"
         :="item.dateAttr"
         :disabled="item.disabled"
         :input-class="{ invalid: errorMessage }" />
@@ -234,18 +234,35 @@ function onCompositionEnd(e: CompositionEvent) {
   props.fn.input && props.fn.input(e, value.value, props.item);
 }
 
-const runFn = (e: Event, item: FormElements) => {
+const runFn = async (e: Event, item: FormElements) => {
   // console.log('runFn', e, item);
 
   // 圖片壓縮
   if (item.type === 'file' && item.imageCompressor) {
-    return onFileChange(e, item, previewUrl, processing);
+    const res = await onFileChange(e, item, previewUrl, processing);
+    // console.log('imageCompressor');
+    value.value = res;
   }
-
-  handleChange(e, !!errorMessage);
 
   // 去除空白
   if (typeof value.value === 'string') value.value = value.value.trim();
+
+  if (item.type !== 'file') {
+    // 更新 vee-validate value
+    handleChange(e, !!errorMessage);
+  }
+
+  nextTick(() => {
+    // console.log('nextTick');
+    if (props.eventName === 'input') {
+      props.fn.input && props.fn.input(e, value.value, props.item);
+      return;
+    }
+    if (props.eventName === 'change') {
+      props.fn.change && props.fn.change(e, value.value, props.item);
+      return;
+    }
+  });
 };
 
 watch(

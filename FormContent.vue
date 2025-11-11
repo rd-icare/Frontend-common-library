@@ -1,5 +1,6 @@
 <template>
   <fieldset class="form-fieldset" :class="[fieldsetClass]" :disabled="readonly">
+    <slot name="top" />
     <div
       class="input-box"
       v-bind="attrs"
@@ -78,6 +79,22 @@ fieldset {
       flex-grow: 1;
       flex-wrap: nowrap;
       flex-direction: column;
+    }
+  }
+  &.file-fill-style {
+    flex-grow: 1;
+    gap: 8px;
+    > .input-box {
+      flex-grow: 1;
+      flex-direction: column;
+      > :deep(.file) {
+        > .element {
+          height: 100%;
+          > .file-box {
+            flex-grow: 1;
+          }
+        }
+      }
     }
   }
 }

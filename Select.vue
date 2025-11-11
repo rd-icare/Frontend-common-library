@@ -20,14 +20,8 @@
         class="custom-select"
         :class="{ invalid: errorMessage, 'is-value': value }"
         :value="item.value ?? value"
-        @input="
-          eventName === 'input' ? (handleChange($event, !!errorMessage), fn.input && fn.input($event, value, item)) : ''
-        "
-        @change="
-          eventName === 'change'
-            ? (handleChange($event, !!errorMessage), fn.change && fn.change($event, value, item))
-            : ''
-        "
+        @input="eventName === 'input' ? runFn($event, item) : ''"
+        @change="eventName === 'change' ? runFn($event, item) : ''"
         @blur="handleBlur($event, true)"
         :autocomplete="item.autocomplete"
         :disabled="item.disabled">
@@ -86,6 +80,25 @@ const { value, errorMessage, handleChange, handleBlur, validate, resetField } = 
   undefined,
   obj
 );
+
+const runFn = async (e: Event, item: FormElements) => {
+  // console.log('runFn', e, item);
+
+  // 更新 vee-validate value
+  handleChange(e, !!errorMessage);
+
+  nextTick(() => {
+    // console.log('nextTick');
+    if (props.eventName === 'input') {
+      props.fn.input && props.fn.input(e, value.value, props.item);
+      return;
+    }
+    if (props.eventName === 'change') {
+      props.fn.change && props.fn.change(e, value.value, props.item);
+      return;
+    }
+  });
+};
 
 // 監聽外部傳入的值
 watch(

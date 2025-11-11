@@ -5,6 +5,7 @@
       <div v-else-if="item.subComponentIcon || item.subComponentText">
         <Text typeStyle="icon-style" :icon="item.subComponentIcon" :text="item.subComponentText" />
       </div>
+      
       <!-- 離開頁面事項 -->
       <div v-else class="flex flex-col items-center gap-12">
         <div class="flex items-center">

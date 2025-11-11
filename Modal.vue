@@ -66,9 +66,16 @@
           v-model:tableItem="tableItem">
           <template #bottom>
             <div class="bottom">
-              <Button :text="$t('Util.cancel')" @click="(modalOpen = false), onConfirm(false)" />
+              <Button
+                :class="cancelBtnClass"
+                :text="cancelBtnText || $t('Util.cancel')"
+                @click="(modalOpen = false), onConfirm(false)" />
               <Button v-if="id !== 'confirm-modal'" class="c-primary" type="submit" :text="$t('Util.submit')" />
-              <Button v-else :text="confirmBtnText || $t('Util.leave')" @click="(modalOpen = false), onConfirm(true)" />
+              <Button
+                v-else
+                :class="confirmBtnClass"
+                :text="confirmBtnText || $t('Util.leave')"
+                @click="(modalOpen = false), onConfirm(true)" />
               <Button
                 v-if="id === 'confirm-modal' && showSaveBtn"
                 class="c-primary"
@@ -125,7 +132,7 @@ const props = withDefaults(defineProps<ModalProps>(), {
   subComponentIcon: '',
   subComponentText: '',
   transitionName: 'fade',
-  showSaveBtn: true,
+  showSaveBtn: false,
   onOpen: () => {},
   onOpenComplete: () => {},
   onClose: () => {},

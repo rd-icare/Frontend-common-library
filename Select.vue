@@ -87,17 +87,14 @@ const runFn = async (e: Event, item: FormElements) => {
   // 更新 vee-validate value
   handleChange(e, !!errorMessage);
 
-  nextTick(() => {
-    // console.log('nextTick');
-    if (props.eventName === 'input') {
-      props.fn.input && props.fn.input(e, value.value, props.item);
-      return;
-    }
-    if (props.eventName === 'change') {
-      props.fn.change && props.fn.change(e, value.value, props.item);
-      return;
-    }
-  });
+  if (props.eventName === 'input') {
+    props.fn.input && props.fn.input(e, value.value, props.item);
+    return;
+  }
+  if (props.eventName === 'change') {
+    props.fn.change && props.fn.change(e, value.value, props.item);
+    return;
+  }
 };
 
 // 監聽外部傳入的值

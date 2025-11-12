@@ -34,7 +34,7 @@
           width: maxWidth && draggable ? `${maxWidth}px` : '',
           maxWidth: maxWidth && !draggable ? `${maxWidth}px` : '',
         }">
-        <div v-if="showTop && !optionsMode" class="top" v-drag-move="draggable ? '.content' : false">
+        <div v-if="showTop" class="top" v-drag-move="draggable ? '.content' : false">
           <Text
             v-if="subTitle || subTitleType[type]"
             class="sub-title whitespace-nowrap pr-32"
@@ -233,7 +233,7 @@ function blur(e: FocusEvent) {
 
   const target = e.relatedTarget as HTMLElement | null;
 
-  console.log('blur modal', { id: props.id, className: target?.className, modals: modals.value });
+  // console.log('blur modal', { id: props.id, className: target?.className, modals: modals.value });
 
   // 如果是選項模式 → 不處理
   if (target?.className.includes('options-mode')) return;
@@ -295,13 +295,13 @@ onMounted(async () => {
     modalOpen,
   };
 
-  console.log('add modals', modals.value);
+  // console.log('add modals', modals.value);
 });
 
 onUnmounted(() => {
   // 從 modals 集中管理移除
   delete modals.value[props.id];
-  console.log('delete modals', modals.value);
+  // console.log('delete modals', modals.value);
 });
 </script>
 

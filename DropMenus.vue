@@ -14,6 +14,7 @@
                 optionsMode: true,
                 direction: 'leftTop',
                 optionsModeId,
+                showTop: false,
                 itemHeight: itemHeight,
               },
             })

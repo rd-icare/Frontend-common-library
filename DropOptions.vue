@@ -48,6 +48,7 @@ function selectClick() {
       maxHeight: 480,
       optionsMode: true,
       direction: 'bottomRight',
+      showTop: false,
       tableItem: tableItem.value,
     },
   });
@@ -75,7 +76,7 @@ async function handleModal({ key, payload }: { key: string; payload: ModalProps 
   function onClose() {
     selectState.value = false;
   }
-  
+
   // 關閉完成
   function onCloseComplete() {
     props.modalOnCloseComplete();

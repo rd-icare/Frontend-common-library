@@ -102,7 +102,7 @@ import type { Directive } from 'vue';
 const { locale, t, ct } = useI18nGlobal();
 
 const storeIndex = indexStore();
-const { modals } = storeToRefs(storeIndex);
+const { veeformModalRef, modals } = storeToRefs(storeIndex);
 const {} = storeIndex;
 
 const props = withDefaults(defineProps<ModalProps>(), {
@@ -239,6 +239,11 @@ function blur(e: FocusEvent) {
   //   e: e,
   //   modals: modals.value,
   // });
+
+  // 是否編輯表單元素
+  if (veeformModalRef.value?.meta.dirty) {
+    return;
+  }
 
   // 如果鄰近彈出視窗的 id 有當前 id 的字串 → 不處理
   const targetModal = relatedTarget?.closest(`#${props.id}`);

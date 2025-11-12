@@ -240,14 +240,14 @@ function blur(e: FocusEvent) {
   //   modals: modals.value,
   // });
 
-  // 如果鄰近有當前 id 的彈出視窗 → 不處理
+  // 如果鄰近彈出視窗的 id 有當前 id 的字串 → 不處理
   const targetModal = relatedTarget?.closest(`#${props.id}`);
   if (targetModal) return;
 
-  // 如果是選項模式 → 不處理
+  // 如果 className 有選項模式的字串 → 不處理
   if (relatedTarget?.className.includes('options-mode')) return;
 
-  // 如果是自身 ID → 不處理
+  // 如果 className 有自身 ID 的字串 → 不處理
   if (relatedTarget?.className.includes(props.id)) return;
 
   // 關閉所有彈出視窗

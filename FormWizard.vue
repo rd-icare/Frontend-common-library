@@ -128,8 +128,9 @@ form {
   flex-direction: column;
   :deep(.form-fieldset) {
     border: none;
-    display: flex;
-    flex-direction: column;
+    /* display: flex;
+    flex-direction: column; */
+    display: contents;
     &:has(.table-box) {
       flex-grow: 1;
     }

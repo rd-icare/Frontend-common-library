@@ -233,17 +233,12 @@ function blur(e: FocusEvent) {
   const target = e.target as HTMLElement | null;
   const relatedTarget = e.relatedTarget as HTMLElement | null;
 
-  console.log('blur modal', {
-    id: props.id,
-    className: relatedTarget?.className,
-    e: e,
-    modals: modals.value,
-  });
-
-  // 如果是按鈕 → 不處理
-  if (target?.tagName === 'BUTTON') {
-    if (target?.closest(`#${props.id}`)) return;
-  }
+  // console.log('blur modal', {
+  //   id: props.id,
+  //   className: relatedTarget?.className,
+  //   e: e,
+  //   modals: modals.value,
+  // });
 
   // 如果鄰近有當前 id 的彈出視窗 → 不處理
   const targetModal = relatedTarget?.closest(`#${props.id}`);

@@ -1,48 +1,50 @@
 <template>
-  <div class="tab-box">
-    <TransitionGroup name="tab">
-      <div
-        v-for="(item, index) in data"
-        :key="item.text"
-        :class="[
-          'item whitespace-nowrap',
-          {
-            active: item.id
-              ? item.id.toString().trim() == routeParamsId.toString().trim()
-              : item.subPath === routeSubPath || (useActiveIndex && activeIndex === index),
-            '!pr-24': item.id,
-          },
-        ]"
-        :title="item.text"
-        @click="
-          clickFn({
-            type: 'tab',
-            text: item.text,
-            subPath: item.subPath,
-            id: item.id,
-            paginName: item.paginName,
-            index,
-          }),
-            (activeIndex = index)
-        ">
-        <Text class="pointer-events-none" :text="item.text" />
-        <Button
-          v-if="item.id"
-          class="close-btn icon-style no-border"
-          icon="close"
-          :title="$t('Util.close_index')"
-          @click.stop="
+  <div class="tab-box" :class="{ 'z-1': useBackground }">
+    <div class="items" :class="{ 'bg-white': useBackground }">
+      <TransitionGroup name="tab">
+        <div
+          v-for="(item, index) in data"
+          :key="item.text"
+          :class="[
+            'item whitespace-nowrap',
+            {
+              active: item.id
+                ? item.id.toString().trim() == routeParamsId.toString().trim()
+                : item.subPath === routeSubPath || (useActiveIndex && activeIndex === index),
+              '!pr-24': item.id,
+            },
+          ]"
+          :title="item.text"
+          @click="
             clickFn({
-              type: 'close',
+              type: 'tab',
               text: item.text,
               subPath: item.subPath,
               id: item.id,
               paginName: item.paginName,
               index,
-            })
-          " />
-      </div>
-    </TransitionGroup>
+            }),
+              (activeIndex = index)
+          ">
+          <Text class="pointer-events-none" :text="item.text" />
+          <Button
+            v-if="item.id"
+            class="close-btn icon-style no-border"
+            icon="close"
+            :title="$t('Util.close_index')"
+            @click.stop="
+              clickFn({
+                type: 'close',
+                text: item.text,
+                subPath: item.subPath,
+                id: item.id,
+                paginName: item.paginName,
+                index,
+              })
+            " />
+        </div>
+      </TransitionGroup>
+    </div>
   </div>
 </template>
 
@@ -60,12 +62,15 @@ interface Props {
   clickFn?: (item: TabClickFn) => void;
   /** 是否使用激活索引 */
   useActiveIndex?: boolean;
+  /** .items 是否使用背景色 */
+  useBackground?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   data: () => [],
   clickFn: () => {},
   useActiveIndex: false,
+  useBackground: false,
 });
 
 /** 當前激活索引 */
@@ -92,12 +97,17 @@ const activeIndex = defineModel<number>('activeIndex', {
 
 <style lang="scss" scoped>
 .tab-box {
+  pointer-events: none;
   position: relative;
   flex: 0 0 36px;
   display: flex;
   border-bottom: var(--border-1);
-  > .item {
+  > .items {
+    display: flex;
+  }
+  .item {
     /* cursor: pointer; */
+    pointer-events: auto;
     position: relative;
     top: 0px;
     flex: 0 0 140px;
@@ -139,7 +149,7 @@ const activeIndex = defineModel<number>('activeIndex', {
     }
   }
   &:has(+ .tab-content) {
-    > .item {
+    .item {
       border-radius: var(--border-radius-1) var(--border-radius-1) 0 0;
       &:first-child {
         margin-left: 0px;
@@ -148,13 +158,13 @@ const activeIndex = defineModel<number>('activeIndex', {
   }
   &.small-style {
     /* flex: 0 0 var(--box-height); */
-    > .item {
+    .item {
       flex: 0 0 100px;
       justify-content: center;
     }
   }
   &.adaptive-style {
-    > .item {
+    .item {
       flex: 0 0 auto;
     }
   }

@@ -127,20 +127,20 @@ button {
         height: 100%;
       }
     }
-    // 副色主題
-    &.color-secondary {
+    // 副色模式
+    &.color-secondary-mode {
       @include blue-style;
     }
-    // 紅色主題
-    &.color-red {
+    // 紅色模式
+    &.color-red-mode {
       @include red-style;
     }
-    // 綠色主題
-    &.color-green {
+    // 綠色模式
+    &.color-green-mode {
       @include green-style;
     }
-    // 藍色主題
-    &.color-blue {
+    // 藍色模式
+    &.color-blue-mode {
       @include blue-style;
     }
     // 圖標風格 hover

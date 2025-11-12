@@ -125,7 +125,7 @@
           </div>
           <Button
             v-show="value"
-            class="delete-button icon-style color-red"
+            class="delete-button icon-style color-red-mode"
             icon="delete"
             :title="$t('Util.delete')"
             @click.prevent="(value = null), fn.click?.($event, value, item, 'delete')" />

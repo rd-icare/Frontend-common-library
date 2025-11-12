@@ -80,6 +80,11 @@ button {
     &:focus {
       outline: none;
     }
+    &.hover {
+      &:hover {
+        color: var(--color-primary);
+      }
+    }
     // 主色
     &.c-primary {
       border: 1px solid var(--color-primary);

@@ -232,10 +232,18 @@ function blur(e: FocusEvent) {
 
   const target = e.relatedTarget as HTMLElement | null;
 
-  // console.log('blur modal', { id: props.id, className: target?.className, modals: modals.value });
+  console.log('blur modal', {
+    id: props.id,
+    className: target?.className,
+    target: target,
+    modals: modals.value,
+  });
 
   // 如果是選項模式 → 不處理
   if (target?.className.includes('options-mode')) return;
+
+  // 如果是 form-frame-style-2 modal → 不處理
+  if (target?.className.includes('form-frame-style-2 modal')) return;
 
   // 如果是自身 ID → 不處理
   if (target?.className.includes(props.id)) return;

@@ -6,9 +6,10 @@
       minWidth: item.minWidth ? item.minWidth + 'px' : '',
       ...item.style,
     }">
-    <label :class="[item.labelClass]">
+    <label v-if="!item.useHtmlLabel && item.label" :class="[item.labelClass]">
       {{ item.label }}
     </label>
+    <label v-if="item.useHtmlLabel && item.label" :class="['flex items-center', item.labelClass]" v-html="item.label" />
     <div class="element">
       <div class="input-element"></div>
     </div>

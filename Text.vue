@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 interface Props {
-  /** 使用 v-html */
+  /** 使用 v-html 渲染 */
   useHtml?: boolean;
   /** 類型風格 */
   typeStyle?: string;

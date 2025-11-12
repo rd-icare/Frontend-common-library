@@ -240,7 +240,7 @@ function blur(e: FocusEvent) {
 
   // 如果鄰近有當前 id 的彈出視窗 → 不處理
   const targetModal = target?.closest(`#${props.id}`);
-  console.log('targetModal', targetModal);
+  // console.log('targetModal', targetModal);
   if (targetModal) return;
 
   // 如果是選項模式 → 不處理

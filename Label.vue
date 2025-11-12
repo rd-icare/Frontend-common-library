@@ -6,10 +6,15 @@
       minWidth: item.minWidth ? item.minWidth + 'px' : '',
       ...item.style,
     }">
-    <label v-if="!item.useHtmlLabel && item.label" :class="[item.labelClass]">
+    <input type="text" :id="vueId" style="display: none" />
+    <label v-if="!item.useHtmlLabel && item.label" :class="[item.labelClass]" :for="vueId">
       {{ item.label }}
     </label>
-    <label v-if="item.useHtmlLabel && item.label" :class="['flex items-center', item.labelClass]" v-html="item.label" />
+    <label
+      v-if="item.useHtmlLabel && item.label"
+      :class="['flex items-center', item.labelClass]"
+      :for="vueId"
+      v-html="item.label" />
     <div class="element">
       <div class="input-element"></div>
     </div>
@@ -24,6 +29,8 @@ const props = withDefaults(defineProps<FormElementProps>(), {
     label: '',
   }),
 });
+
+const vueId = useId();
 </script>
 
 <style lang="scss" scoped>

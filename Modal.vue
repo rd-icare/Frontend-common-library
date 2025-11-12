@@ -233,6 +233,8 @@ function blur(e: FocusEvent) {
 
   const target = e.relatedTarget as HTMLElement | null;
 
+  console.log('blur modal', { id: props.id, className: target?.className, modals: modals.value });
+
   // 如果是選項模式 → 不處理
   if (target?.className.includes('options-mode')) return;
 
@@ -293,13 +295,13 @@ onMounted(async () => {
     modalOpen,
   };
 
-  // console.log('add modals', modals.value);
+  console.log('add modals', modals.value);
 });
 
 onUnmounted(() => {
   // 從 modals 集中管理移除
   delete modals.value[props.id];
-  // console.log('delete modals', modals.value);
+  console.log('delete modals', modals.value);
 });
 </script>
 

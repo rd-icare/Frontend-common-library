@@ -148,6 +148,10 @@ button {
     &.color-blue-mode {
       @include blue-style;
     }
+    // 灰色模式
+    &.color-gray-mode {
+      @include gray-style;
+    }
     // 圖標風格 hover
     &.icon-style-hover {
       &:hover {

@@ -5,7 +5,7 @@
       <div v-else-if="item.subComponentIcon || item.subComponentText">
         <Text typeStyle="icon-style" :icon="item.subComponentIcon" :text="item.subComponentText" />
       </div>
-      
+
       <!-- 離開頁面事項 -->
       <div v-else class="flex flex-col items-center gap-12">
         <div class="flex items-center">
@@ -17,7 +17,9 @@
         <Text text="離開前是否儲存本頁資料所做變更？" />
       </div>
     </div>
-    <slot name="bottom" />
+    <div class="bottom">
+      <slot name="button" />
+    </div>
   </div>
 </template>
 

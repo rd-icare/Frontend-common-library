@@ -2,8 +2,8 @@
   <form ref="scrollRef" @submit="onSubmit" @keypress.enter="(e) => handleEnter(e, useEnter)" novalidate>
     <!-- 插槽 表單內容 -->
     <slot name="content" :values="values" :errors="errors" :handleReset="handleReset" />
-    <!-- 插槽 表單底部 -->
-    <slot name="bottom" :handleReset="handleReset" :resetForm="resetForm" />
+    <!-- 插槽 表單按鈕 -->
+    <slot name="button" :handleReset="handleReset" :resetForm="resetForm" />
     <slot />
     <FormValues v-if="$global.isTest" :values="values" :errors="errors" :meta="meta" />
   </form>

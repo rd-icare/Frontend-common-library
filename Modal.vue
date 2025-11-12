@@ -64,24 +64,23 @@
           v-model:modalOpen="modalOpen"
           v-model:modalLoading="loading"
           v-model:tableItem="tableItem">
-          <template #bottom>
-            <div class="bottom">
-              <Button
-                :class="cancelBtnClass"
-                :text="cancelBtnText || $t('Util.cancel')"
-                @click="(modalOpen = false), onConfirm(false)" />
-              <Button v-if="id !== 'confirm-modal'" class="c-primary" type="submit" :text="$t('Util.submit')" />
-              <Button
-                v-else
-                :class="confirmBtnClass"
-                :text="confirmBtnText || $t('Util.leave')"
-                @click="(modalOpen = false), onConfirm(true)" />
-              <Button
-                v-if="id === 'confirm-modal' && showSaveBtn"
-                class="c-primary"
-                :text="$t('Util.save')"
-                @click="(modalOpen = false), onSave(true)" />
-            </div>
+          <template #button>
+            <!-- <div class="bottom"></div> -->
+            <Button
+              :class="cancelBtnClass"
+              :text="cancelBtnText || $t('Util.cancel')"
+              @click="(modalOpen = false), onConfirm(false)" />
+            <Button v-if="id !== 'confirm-modal'" class="c-primary" type="submit" :text="$t('Util.submit')" />
+            <Button
+              v-else
+              :class="confirmBtnClass"
+              :text="confirmBtnText || $t('Util.leave')"
+              @click="(modalOpen = false), onConfirm(true)" />
+            <Button
+              v-if="id === 'confirm-modal' && showSaveBtn"
+              class="c-primary"
+              :text="$t('Util.save')"
+              @click="(modalOpen = false), onSave(true)" />
           </template>
           <template #loading>
             <CurrentLoading :show="loading" />

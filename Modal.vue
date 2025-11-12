@@ -130,7 +130,7 @@ const props = withDefaults(defineProps<ModalProps>(), {
   subComponent: () => {},
   subComponentIcon: '',
   subComponentText: '',
-  transitionName: 'fade',
+  transitionName: 'modal',
   showSaveBtn: false,
   onOpen: () => {},
   onOpenComplete: () => {},
@@ -235,15 +235,19 @@ function blur(e: FocusEvent) {
   console.log('blur modal', {
     id: props.id,
     className: target?.className,
-    target: target,
     modals: modals.value,
   });
+
+  // 如果鄰近有當前 id 的彈出視窗 → 不處理
+  const targetModal = target?.closest(`#${props.id}`);
+  console.log('targetModal', targetModal);
+  if (targetModal) return;
 
   // 如果是選項模式 → 不處理
   if (target?.className.includes('options-mode')) return;
 
   // 如果是 form-frame-style-2 modal → 不處理
-  if (target?.className.includes('form-frame-style-2 modal')) return;
+  // if (target?.className.includes('form-frame-style-2 modal')) return;
 
   // 如果是自身 ID → 不處理
   if (target?.className.includes(props.id)) return;

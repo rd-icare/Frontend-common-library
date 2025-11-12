@@ -418,6 +418,11 @@ onUnmounted(() => {
         height: v-bind(mainHeight);
         min-height: v-bind(mainMinHeight);
         max-height: v-bind(mainMaxHeight);
+
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 12px;
       }
     }
     :is(.bottom) {

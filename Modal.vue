@@ -230,27 +230,30 @@ function blur(e: FocusEvent) {
   // 如果分頁不在前景 → 不處理
   if (document.hidden || !document.hasFocus()) return;
 
-  const target = e.relatedTarget as HTMLElement | null;
+  const target = e.target as HTMLElement | null;
+  const relatedTarget = e.relatedTarget as HTMLElement | null;
 
   console.log('blur modal', {
     id: props.id,
-    className: target?.className,
+    className: relatedTarget?.className,
+    e: e,
     modals: modals.value,
   });
 
+  // 如果是按鈕 → 不處理
+  if (target?.tagName === 'BUTTON') {
+    if (target?.closest(`#${props.id}`)) return;
+  }
+
   // 如果鄰近有當前 id 的彈出視窗 → 不處理
-  const targetModal = target?.closest(`#${props.id}`);
-  // console.log('targetModal', targetModal);
+  const targetModal = relatedTarget?.closest(`#${props.id}`);
   if (targetModal) return;
 
   // 如果是選項模式 → 不處理
-  if (target?.className.includes('options-mode')) return;
-
-  // 如果是 form-frame-style-2 modal → 不處理
-  // if (target?.className.includes('form-frame-style-2 modal')) return;
+  if (relatedTarget?.className.includes('options-mode')) return;
 
   // 如果是自身 ID → 不處理
-  if (target?.className.includes(props.id)) return;
+  if (relatedTarget?.className.includes(props.id)) return;
 
   // 關閉所有彈出視窗
   Object.keys(modals.value || {}).forEach((key, index) => {

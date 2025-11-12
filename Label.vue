@@ -6,7 +6,6 @@
       minWidth: item.minWidth ? item.minWidth + 'px' : '',
       ...item.style,
     }">
-    <input type="text" :id="vueId" style="display: none" />
     <label v-if="!item.useHtmlLabel && item.label" :class="[item.labelClass]" :for="vueId">
       {{ item.label }}
     </label>
@@ -16,6 +15,7 @@
       :for="vueId"
       v-html="item.label" />
     <div class="element">
+      <input type="text" :id="vueId" style="display: none" />
       <div class="input-element"></div>
     </div>
   </div>

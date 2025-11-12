@@ -46,10 +46,7 @@ function handleClick() {
 <style lang="scss" scoped>
 .center {
   > .modal-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 12px;
+    align-items: center !important;
   }
   :deep(.bottom) {
     justify-content: center !important;

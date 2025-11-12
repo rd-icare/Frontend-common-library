@@ -67,7 +67,7 @@ onMounted(() => {
     //   if (item.hidden === undefined) item.hidden = false;
     // });
   }
-  
+
   // console.log(checkedValue.value);
 
   // 初始化後馬上同步一次
@@ -80,7 +80,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 .center {
   > .modal-main {
-    padding: 12px 24px 12px 10px;
+    padding: 12px 24px 12px 10px !important;
     > .input-box {
       flex-direction: column;
       > div {

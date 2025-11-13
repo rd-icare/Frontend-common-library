@@ -105,15 +105,17 @@ onMounted(() => {
 });
 
 onBeforeRouteLeave(async (to, from, next) => {
-  console.log('onBeforeRouteLeave', { to, from });
+  // console.log('onBeforeRouteLeave', { to, from });
   // console.log('onBeforeRouteLeave', props.tabKey);
+
   const newId = to.params.id;
   const oldId = from.params.id;
   // console.log('上一個 id:', oldId);
   // console.log('目前 id:', newId);
 
   const item = paginOpenedData.value[routePath.value].some((item) => item.id == oldId);
-  // 當前 id 不在分頁資料中
+
+  // 如果當前 id 不在分頁資料中 或 不是目前子路徑 與 上一個 id 等於目前 id 與 目前分頁不是列表
   if (!item || (item && from.meta.subPath !== to.meta.subPath && oldId === newId && to.meta.subPath !== 'list')) {
     // console.log('移除 tab-active');
     sessionStorage.removeItem(`tab-active-${routeParamsId.value}-${routeSubPath.value}-${props.tabKey}`);

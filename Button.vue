@@ -7,10 +7,10 @@
     :title="icon === 'arrow_back' ? '返回上頁' : title"
     @click="typeStyle === 'select-style' && clickFn()"
     v-debounce-click:[timeout]>
-    <span v-if="icon" class="icon-left">{{ icon }}</span>
+    <span v-if="icon" class="icon-left" :class="[iconSize]">{{ icon }}</span>
     <div v-if="text">{{ text }}</div>
     <span v-if="typeStyle === 'select-style'">{{ selectState ? 'arrow_drop_up' : 'arrow_drop_down' }}</span>
-    <span v-else-if="iconR" class="icon-right">{{ iconR }}</span>
+    <span v-else-if="iconR" class="icon-right" :class="[iconRSize]">{{ iconR }}</span>
   </button>
 </template>
 
@@ -26,10 +26,14 @@ interface Props {
   title?: string;
   /** 左圖標 */
   icon?: string;
+  /** 左圖標大小 */
+  iconSize?: string;
   /** 文字 */
   text?: string;
   /** 右圖標 */
   iconR?: string;
+  /** 右圖標大小 */
+  iconRSize?: string;
   /** 防止連點時間，單位毫秒 */
   timeout?: number;
 }

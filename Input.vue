@@ -3,6 +3,7 @@
     class="input"
     :class="[
       item.class,
+      item.directionMode,
       {
         password: item.type === 'password' || item.class === 'font-password',
         file: item.type === 'file',
@@ -14,6 +15,9 @@
     ]"
     :style="{
       minWidth: item.minWidth ? item.minWidth + 'px' : '',
+      maxWidth: item.maxWidth ? item.maxWidth + 'px' : '',
+      minHeight: item.minHeight ? item.minHeight + 'px' : '',
+      maxHeight: item.maxHeight ? item.maxHeight + 'px' : '',
       ...item.style,
     }">
     <label

@@ -55,10 +55,12 @@
 
 <script setup lang="ts">
 const storeIndex = indexStore();
-const { routePath, routeSubPath, routeTypeSideMenu, routeParamsId } = storeToRefs(storeIndex);
+const { paginOpenedData, routePath, routeSubPath, routeTypeSideMenu, routeParamsId } = storeToRefs(storeIndex);
 const {} = storeIndex;
 
 interface Props {
+  /** tabKey 用於會話存儲 */
+  tabKey?: string;
   /** 資料 */
   data?: TabDataItem[];
   /** 返回點擊事件 */
@@ -72,6 +74,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  tabKey: () => Date.now().toString(),
   data: () => [],
   clickFn: () => {},
   useActiveIndex: false,
@@ -92,12 +95,30 @@ const activeIndex = defineModel<number>('activeIndex', {
 //   emit('clickFn', item);
 // }
 
-// watch(
-//   () => props.data,
-//   () => {
-//     console.log('Tab data', props.data);
-//   }
-// );
+watch(activeIndex, (val) => {
+  sessionStorage.setItem(`tab-active-${routeParamsId.value}-${routeSubPath.value}-${props.tabKey}`, String(val));
+});
+
+onMounted(() => {
+  const saved = sessionStorage.getItem(`tab-active-${routeParamsId.value}-${routeSubPath.value}-${props.tabKey}`);
+  if (saved !== null) activeIndex.value = Number(saved);
+});
+
+onBeforeRouteLeave(async (to, from, next) => {
+  // console.log('onBeforeRouteLeave', props.tabKey);
+  const newId = to.params.id;
+  const oldId = from.params.id;
+  // console.log('上一個 id:', oldId);
+  // console.log('目前 id:', newId);
+
+  const item = paginOpenedData.value[routePath.value].some((item) => item.id == oldId);
+  if (item === false) {
+    // console.log('移除 tab-active');
+    sessionStorage.removeItem(`tab-active-${routeParamsId.value}-${routeSubPath.value}-${props.tabKey}`);
+  }
+
+  next();
+});
 </script>
 
 <style lang="scss" scoped>

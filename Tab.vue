@@ -118,6 +118,7 @@ const activeIndex = defineModel<number>('activeIndex', {
     padding: 0 12px 2px 12px;
     border: var(--border-1);
     border-radius: var(--border-radius-2) var(--border-radius-2) 0 0;
+    color: var(--placeholder-text);
     background-color: var(--surface);
     /* transition: var(--transition-fast); */
     &:first-child {
@@ -131,6 +132,7 @@ const activeIndex = defineModel<number>('activeIndex', {
       cursor: default;
       font-weight: bold;
       border-bottom: 1px solid var(--white);
+      color: var(--main-text);
       background-color: var(--white);
     }
     > .text {

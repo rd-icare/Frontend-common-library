@@ -105,6 +105,7 @@ onMounted(() => {
 });
 
 onBeforeRouteLeave(async (to, from, next) => {
+  console.log('onBeforeRouteLeave', { to, from });
   // console.log('onBeforeRouteLeave', props.tabKey);
   const newId = to.params.id;
   const oldId = from.params.id;
@@ -112,7 +113,8 @@ onBeforeRouteLeave(async (to, from, next) => {
   // console.log('目前 id:', newId);
 
   const item = paginOpenedData.value[routePath.value].some((item) => item.id == oldId);
-  if (item === false) {
+  // 當前 id 不在分頁資料中
+  if (!item || (item && from.meta.subPath !== to.meta.subPath && oldId === newId && to.meta.subPath !== 'list')) {
     // console.log('移除 tab-active');
     sessionStorage.removeItem(`tab-active-${routeParamsId.value}-${routeSubPath.value}-${props.tabKey}`);
   }

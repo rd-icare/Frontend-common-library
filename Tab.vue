@@ -1,6 +1,6 @@
 <template>
   <div class="tab-box">
-    <div class="top" :class="{ 'z-1': useBackground }">
+    <div class="top" :class="[topClass, { 'z-1': useBackground }]">
       <div class="items" :class="{ 'bg-white': useBackground }">
         <TransitionGroup name="tab">
           <div
@@ -67,6 +67,8 @@ interface Props {
   useActiveIndex?: boolean;
   /** .items 是否使用背景色 */
   useBackground?: boolean;
+  /** .top 頂部樣式 */
+  topClass?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {

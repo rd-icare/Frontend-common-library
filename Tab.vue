@@ -164,8 +164,14 @@ const activeIndex = defineModel<number>('activeIndex', {
     }
   }
   &.adaptive-style {
+    flex: 0 0 calc(var(--box-height) - 4px);
     .item {
       flex: 0 0 auto;
+      color: var(--placeholder-text);
+      &.active {
+        font-weight: normal;
+        color: var(--main-text);
+      }
     }
   }
 }

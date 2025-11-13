@@ -1,7 +1,7 @@
 <template>
   <div
     class="textarea"
-    :class="[item.class]"
+    :class="[item.class, item.directionMode]"
     :style="{
       minWidth: item.minWidth ? item.minWidth + 'px' : '',
       ...item.style,
@@ -24,7 +24,7 @@
         :cols="item.cols"
         :wrap="item.textareaWrap"
         :disabled="item.disabled"></textarea>
-      <div v-if="item.hideError !== true && errorMessage && meta.touched" class="error">
+      <div v-if="!item.hideError && errorMessage" class="error">
         {{ errorMessage }}
       </div>
     </div>
@@ -57,9 +57,20 @@ const props = withDefaults(defineProps<FormElementProps>(), {
 
 const vueId = useId();
 
-const { value, errorMessage, handleChange, handleBlur, meta, validate } = useField(() => props.item.name, undefined, {
-  // 這裡若要雙向綁定可以加上 syncVModel: true
-});
+// vee-validate useField
+const obj: Record<string, unknown> = {
+  initialValue: props.item.value,
+};
+
+if (props.item.controlled !== undefined) {
+  obj.controlled = false;
+}
+
+const { value, errorMessage, handleChange, handleBlur, meta, validate } = useField(
+  () => props.item.name,
+  undefined,
+  obj
+);
 
 const runFn = async (e: Event, item: FormElements) => {
   // console.log('runFn', e, item);

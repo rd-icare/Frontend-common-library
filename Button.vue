@@ -77,6 +77,11 @@ button {
     border-radius: var(--border-radius-1);
     background-color: var(--white);
     transition: var(--transition-fast);
+    > div {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
     &:focus {
       outline: none;
     }

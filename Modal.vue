@@ -224,7 +224,7 @@ function focus(e: any) {
 }
 
 /** 失焦 */
-function blur(e: FocusEvent) {
+async function blur(e: FocusEvent) {
   // console.log(`${props.id} blur`, e);
 
   // 如果分頁不在前景 → 不處理
@@ -240,11 +240,6 @@ function blur(e: FocusEvent) {
   //   modals: modals.value,
   // });
 
-  // 是否編輯表單元素
-  if (veeformModalRef.value?.meta.dirty) {
-    return;
-  }
-
   // 如果鄰近彈出視窗的 id 有當前 id 的字串 → 不處理
   const targetModal = relatedTarget?.closest(`#${props.id}`);
   if (targetModal) return;
@@ -254,6 +249,23 @@ function blur(e: FocusEvent) {
 
   // 如果 className 有自身 ID 的字串 → 不處理
   if (relatedTarget?.className.includes(props.id)) return;
+
+  // 檢查表單元素是否被編輯
+  if (veeformModalRef.value?.meta.dirty) {
+    // 檢查 modals 內的 id 是否有 confirm-modal
+    if (Object.keys(modals.value || {}).some((key) => modals.value[key].id === 'confirm-modal')) return;
+
+    const bool = await createConfirm({
+      subComponentText: '尚未送出表單，是否離開？',
+      confirmBtnClass: 'c-primary',
+    });
+
+    if (!bool) {
+      // focus 到當前彈出視窗
+      target?.focus();
+      return;
+    }
+  }
 
   // 關閉所有彈出視窗
   Object.keys(modals.value || {}).forEach((key, index) => {

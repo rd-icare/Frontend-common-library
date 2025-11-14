@@ -43,7 +43,7 @@ defineOptions({ inheritAttrs: false });
 const attrs = useAttrs();
 
 const storeIndex = indexStore();
-const { routeSubPath, routeParamsId } = storeToRefs(storeIndex);
+const { isModalOpen, routeSubPath, routeParamsId } = storeToRefs(storeIndex);
 
 const props = withDefaults(defineProps<FormContentProps>(), {
   formContent: () => [],
@@ -74,24 +74,26 @@ onMounted(async () => {
   if (props.verticalScroll) {
     getScrollPosition({ getKey, nodeRef: inputBoxRef });
   }
-});
 
-onBeforeRouteUpdate(async (to, from, next) => {
-  if (props.verticalScroll) {
-    setScrollPosition({ getKey, nodeRef: inputBoxRef });
-    delSessionStorage({ getKey, from, to });
-  }
+  if (isModalOpen.value) return;
 
-  next();
-});
+  onBeforeRouteUpdate(async (to, from, next) => {
+    if (props.verticalScroll) {
+      setScrollPosition({ getKey, nodeRef: inputBoxRef });
+      delSessionStorage({ getKey, from, to });
+    }
 
-onBeforeRouteLeave(async (to, from, next) => {
-  if (props.verticalScroll) {
-    setScrollPosition({ getKey, nodeRef: inputBoxRef });
-    delSessionStorage({ getKey, from, to });
-  }
-  
-  next();
+    next();
+  });
+
+  onBeforeRouteLeave(async (to, from, next) => {
+    if (props.verticalScroll) {
+      setScrollPosition({ getKey, nodeRef: inputBoxRef });
+      delSessionStorage({ getKey, from, to });
+    }
+
+    next();
+  });
 });
 </script>
 

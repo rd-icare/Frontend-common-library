@@ -55,7 +55,7 @@
 
 <script setup lang="ts">
 const storeIndex = indexStore();
-const { routeSubPath, routeParamsId } = storeToRefs(storeIndex);
+const { isModalOpen, routeSubPath, routeParamsId } = storeToRefs(storeIndex);
 
 interface Props {
   /** tabKey */
@@ -108,22 +108,24 @@ onMounted(() => {
   // 會話存儲取得激活索引
   const saved = sessionStorage.getItem(getKey());
   if (saved !== null) activeIndex.value = Number(saved);
-});
 
-onBeforeRouteUpdate(async (to, from, next) => {
-  // console.log('onBeforeRouteLeave', { from, to, tabKey: props.tabKey });
+  if (isModalOpen.value) return;
 
-  delSessionStorage({ getKey, from, to });
+  onBeforeRouteUpdate(async (to, from, next) => {
+    // console.log('onBeforeRouteLeave', { from, to, tabKey: props.tabKey });
 
-  next();
-});
+    delSessionStorage({ getKey, from, to });
 
-onBeforeRouteLeave(async (to, from, next) => {
-  // console.log('onBeforeRouteLeave', { from, to, tabKey: props.tabKey });
+    next();
+  });
 
-  delSessionStorage({ getKey, from, to });
+  onBeforeRouteLeave(async (to, from, next) => {
+    // console.log('onBeforeRouteLeave', { from, to, tabKey: props.tabKey });
 
-  next();
+    delSessionStorage({ getKey, from, to });
+
+    next();
+  });
 });
 </script>
 

@@ -47,7 +47,7 @@ import { useField } from 'vee-validate';
  */
 
 const storeIndex = indexStore();
-const { routeSubPath, routeParamsId } = storeToRefs(storeIndex);
+const { isModalOpen, routeSubPath, routeParamsId } = storeToRefs(storeIndex);
 
 const props = withDefaults(defineProps<FormElementProps>(), {
   item: () => ({
@@ -103,27 +103,29 @@ function getKey() {
 
 onMounted(async () => {
   getScrollPosition({ getKey, nodeRef: textareaRef });
-});
 
-onBeforeRouteUpdate(async (to, from, next) => {
-  // console.log('onBeforeRouteUpdate', { from, to });
-  // console.log('textarea Leave', {
-  //   name: props.item.name,
-  //   key: getKey(),
-  //   scrollTop: textareaRef.value?.scrollTop,
-  // });
-  setScrollPosition({ getKey, nodeRef: textareaRef });
-  delSessionStorage({ getKey, from, to });
+  if (isModalOpen.value) return;
 
-  next();
-});
+  onBeforeRouteUpdate(async (to, from, next) => {
+    // console.log('onBeforeRouteUpdate', { from, to });
+    // console.log('textarea Leave', {
+    //   name: props.item.name,
+    //   key: getKey(),
+    //   scrollTop: textareaRef.value?.scrollTop,
+    // });
+    setScrollPosition({ getKey, nodeRef: textareaRef });
+    delSessionStorage({ getKey, from, to });
 
-onBeforeRouteLeave(async (to, from, next) => {
-  // console.log('onBeforeRouteLeave', { from, to });
-  setScrollPosition({ getKey, nodeRef: textareaRef });
-  delSessionStorage({ getKey, from, to });
-  
-  next();
+    next();
+  });
+
+  onBeforeRouteLeave(async (to, from, next) => {
+    // console.log('onBeforeRouteLeave', { from, to });
+    setScrollPosition({ getKey, nodeRef: textareaRef });
+    delSessionStorage({ getKey, from, to });
+
+    next();
+  });
 });
 </script>
 

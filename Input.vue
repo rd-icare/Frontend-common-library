@@ -63,6 +63,7 @@
         :checked="item.checked ?? checked"
         :accept="item.accept"
         :autocomplete="item.autocomplete"
+        :multiple="item.multiple"
         :disabled="item.disabled || processing" />
       <DatePicker
         v-else-if="item.type === 'date' && item.yearType === 'initial'"
@@ -86,7 +87,7 @@
         :disabled="item.disabled"
         :input-class="{ invalid: errorMessage }" />
       <div
-        v-if="item.type === 'file'"
+        v-if="item.type === 'file' && !item.multiple"
         v-drag-upload="{ item, setErrors }"
         class="file-box gicons"
         :class="[
@@ -252,7 +253,7 @@ const runFn = async (e: Event, item: FormElements) => {
   // 去除空白
   if (typeof value.value === 'string') value.value = value.value.trim();
 
-  if (item.type !== 'file') {
+  if (!item.imageCompressor) {
     // 更新 vee-validate value
     handleChange(e, !!errorMessage);
   }

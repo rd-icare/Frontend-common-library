@@ -55,15 +55,16 @@ const {
   meta,
   handleReset,
   handleSubmit,
+  defineField,
   resetField,
   resetForm,
   setValues,
   setFieldValue,
   setErrors,
   setFieldError,
-  defineField,
-  submitForm,
   validate,
+  validateField,
+  controlledValues,
 } = useForm({
   name: props.name,
   initialValues: props.initialValues,
@@ -93,14 +94,15 @@ export interface _VeeFormExpose {
   errors: typeof errors;
   meta: typeof meta;
   handleReset: typeof handleReset;
+  defineField: typeof defineField;
   resetField: typeof resetField;
   resetForm: typeof resetForm;
   setValues: typeof setValues;
   setFieldValue: typeof setFieldValue;
   setErrors: typeof setErrors;
   setFieldError: typeof setFieldError;
-  defineField: typeof defineField;
   validate: typeof validate;
+  validateField: typeof validateField;
   onSubmit: typeof onSubmit;
   initialValues: typeof props.initialValues;
 }
@@ -119,6 +121,7 @@ defineExpose<_VeeFormExpose>({
   setFieldError,
   defineField,
   validate,
+  validateField,
   onSubmit,
   initialValues: props.initialValues,
 });

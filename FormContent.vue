@@ -79,16 +79,18 @@ onMounted(async () => {
 onBeforeRouteUpdate(async (to, from, next) => {
   if (props.verticalScroll) {
     setScrollPosition({ getKey, nodeRef: inputBoxRef });
-    delScrollPosition({ getKey, from, to });
+    delSessionStorage({ getKey, from, to });
   }
+
   next();
 });
 
 onBeforeRouteLeave(async (to, from, next) => {
   if (props.verticalScroll) {
     setScrollPosition({ getKey, nodeRef: inputBoxRef });
-    delScrollPosition({ getKey, from, to });
+    delSessionStorage({ getKey, from, to });
   }
+  
   next();
 });
 </script>

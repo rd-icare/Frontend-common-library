@@ -110,20 +110,18 @@ onMounted(() => {
   if (saved !== null) activeIndex.value = Number(saved);
 });
 
+onBeforeRouteUpdate(async (to, from, next) => {
+  // console.log('onBeforeRouteLeave', { from, to, tabKey: props.tabKey });
+
+  delSessionStorage({ getKey, from, to });
+
+  next();
+});
+
 onBeforeRouteLeave(async (to, from, next) => {
-  // console.log('onBeforeRouteLeave', { to, from });
-  // console.log('onBeforeRouteLeave', props.tabKey);
+  // console.log('onBeforeRouteLeave', { from, to, tabKey: props.tabKey });
 
-  const newId = to.params.id; // 目前 id
-  const oldId = from.params.id; // 上一個 id
-
-  // 上一個子路徑不等於目前子路徑 與 上一個id等於目前id 與 目前分頁不是列表
-  if (from.meta.subPath !== to.meta.subPath && oldId === newId && to.meta.subPath !== 'list') {
-    // console.log('刪除 tab-active');
-
-    // 會話存儲刪除激活索引
-    sessionStorage.removeItem(getKey());
-  }
+  delSessionStorage({ getKey, from, to });
 
   next();
 });

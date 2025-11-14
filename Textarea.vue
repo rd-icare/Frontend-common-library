@@ -113,14 +113,16 @@ onBeforeRouteUpdate(async (to, from, next) => {
   //   scrollTop: textareaRef.value?.scrollTop,
   // });
   setScrollPosition({ getKey, nodeRef: textareaRef });
-  delScrollPosition({ getKey, from, to });
+  delSessionStorage({ getKey, from, to });
+
   next();
 });
 
 onBeforeRouteLeave(async (to, from, next) => {
   // console.log('onBeforeRouteLeave', { from, to });
   setScrollPosition({ getKey, nodeRef: textareaRef });
-  delScrollPosition({ getKey, from, to });
+  delSessionStorage({ getKey, from, to });
+  
   next();
 });
 </script>

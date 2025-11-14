@@ -55,11 +55,10 @@
 
 <script setup lang="ts">
 const storeIndex = indexStore();
-const { paginOpenedData, routePath, routeSubPath, routeTypeSideMenu, routeParamsId } = storeToRefs(storeIndex);
-const {} = storeIndex;
+const { routeSubPath, routeParamsId } = storeToRefs(storeIndex);
 
 interface Props {
-  /** tabKey 用於會話存儲 */
+  /** tabKey */
   tabKey?: string;
   /** 資料 */
   data?: TabDataItem[];
@@ -74,14 +73,14 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  tabKey: () => Date.now().toString(),
+  tabKey: '',
   data: () => [],
   clickFn: () => {},
   useActiveIndex: false,
   useBackground: false,
 });
 
-/** 當前激活索引 */
+/** 激活索引 */
 const activeIndex = defineModel<number>('activeIndex', {
   type: Number,
   default: 0,
@@ -95,12 +94,19 @@ const activeIndex = defineModel<number>('activeIndex', {
 //   emit('clickFn', item);
 // }
 
+/** 取得 key */
+function getKey() {
+  return `tab-active-${routeParamsId.value}-${routeSubPath.value}-${props.tabKey}`;
+}
+
 watch(activeIndex, (val) => {
-  sessionStorage.setItem(`tab-active-${routeParamsId.value}-${routeSubPath.value}-${props.tabKey}`, String(val));
+  // 會話存儲設定激活索引
+  sessionStorage.setItem(getKey(), String(val));
 });
 
 onMounted(() => {
-  const saved = sessionStorage.getItem(`tab-active-${routeParamsId.value}-${routeSubPath.value}-${props.tabKey}`);
+  // 會話存儲取得激活索引
+  const saved = sessionStorage.getItem(getKey());
   if (saved !== null) activeIndex.value = Number(saved);
 });
 
@@ -108,17 +114,15 @@ onBeforeRouteLeave(async (to, from, next) => {
   // console.log('onBeforeRouteLeave', { to, from });
   // console.log('onBeforeRouteLeave', props.tabKey);
 
-  const newId = to.params.id;
-  const oldId = from.params.id;
-  // console.log('上一個 id:', oldId);
-  // console.log('目前 id:', newId);
+  const newId = to.params.id; // 目前 id
+  const oldId = from.params.id; // 上一個 id
 
-  const item = paginOpenedData.value[routePath.value].some((item) => item.id == oldId);
+  // 上一個子路徑不等於目前子路徑 與 上一個id等於目前id 與 目前分頁不是列表
+  if (from.meta.subPath !== to.meta.subPath && oldId === newId && to.meta.subPath !== 'list') {
+    // console.log('刪除 tab-active');
 
-  // 如果當前 id 不在分頁資料中 或 不是目前子路徑 與 上一個 id 等於目前 id 與 目前分頁不是列表
-  if (!item || (item && from.meta.subPath !== to.meta.subPath && oldId === newId && to.meta.subPath !== 'list')) {
-    // console.log('移除 tab-active');
-    sessionStorage.removeItem(`tab-active-${routeParamsId.value}-${routeSubPath.value}-${props.tabKey}`);
+    // 會話存儲刪除激活索引
+    sessionStorage.removeItem(getKey());
   }
 
   next();

@@ -1,11 +1,11 @@
 <template>
-  <fieldset class="form-fieldset" :class="[fieldsetClass]" :disabled="readonly">
+  <fieldset class="form-fieldset" :class="[fieldsetClass, { 'vertical-scroll': verticalScroll }]" :disabled="readonly">
     <slot name="top" />
     <div
+      ref="inputBoxRef"
       class="input-box"
       v-bind="attrs"
       :class="{
-        'no-placeholder': noPlaceholder,
         'horizontal-mode': directionMode === 'horizontal',
         'vertical-mode': directionMode === 'vertical',
         'adaptive-width': adaptiveWidth,
@@ -42,11 +42,18 @@ defineOptions({ inheritAttrs: false });
 
 const attrs = useAttrs();
 
-withDefaults(defineProps<FormContentProps>(), {
+const storeIndex = indexStore();
+const { routeSubPath, routeParamsId } = storeToRefs(storeIndex);
+
+const props = withDefaults(defineProps<FormContentProps>(), {
   formContent: () => [],
   optionContent: () => ({}),
   adaptiveWidth: true,
+  inputBoxKey: '',
+  verticalScroll: false,
 });
+
+const inputBoxRef = ref<HTMLElement | null>(null);
 
 /**
  * type → 元件對應表
@@ -57,6 +64,33 @@ const componentMap: Record<string, any> = {
   label: Label,
   none: InputNone,
 };
+
+/** 取得 key */
+function getKey() {
+  return `input-box-scroll-${routeParamsId.value}-${routeSubPath.value}-${props.inputBoxKey}`;
+}
+
+onMounted(async () => {
+  if (props.verticalScroll) {
+    getScrollPosition({ getKey, nodeRef: inputBoxRef });
+  }
+});
+
+onBeforeRouteUpdate(async (to, from, next) => {
+  if (props.verticalScroll) {
+    setScrollPosition({ getKey, nodeRef: inputBoxRef });
+    delScrollPosition({ getKey, from, to });
+  }
+  next();
+});
+
+onBeforeRouteLeave(async (to, from, next) => {
+  if (props.verticalScroll) {
+    setScrollPosition({ getKey, nodeRef: inputBoxRef });
+    delScrollPosition({ getKey, from, to });
+  }
+  next();
+});
 </script>
 
 <style lang="scss" scoped>

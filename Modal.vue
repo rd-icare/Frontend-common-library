@@ -325,7 +325,7 @@ onMounted(async () => {
 });
 
 onUnmounted(() => {
-  // 從 modals 集中管理移除
+  // 從 modals 集中管理刪除
   delete modals.value[props.id];
   // console.log('delete modals', modals.value);
 });

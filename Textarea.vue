@@ -15,6 +15,7 @@
     </label>
     <div class="element">
       <textarea
+        ref="textareaRef"
         :id="vueId ?? item.id ?? item.name"
         :name="item.name"
         :class="{ invalid: errorMessage }"
@@ -45,6 +46,9 @@ import { useField } from 'vee-validate';
  * - \r 回車
  */
 
+const storeIndex = indexStore();
+const { routeSubPath, routeParamsId } = storeToRefs(storeIndex);
+
 const props = withDefaults(defineProps<FormElementProps>(), {
   item: () => ({
     type: 'textarea',
@@ -59,6 +63,7 @@ const props = withDefaults(defineProps<FormElementProps>(), {
 });
 
 const vueId = useId();
+const textareaRef = ref<HTMLTextAreaElement | null>(null);
 
 // vee-validate useField
 const obj: Record<string, unknown> = {
@@ -90,6 +95,34 @@ const runFn = async (e: Event, item: FormElements) => {
     return;
   }
 };
+
+/** 取得 key */
+function getKey() {
+  return `textarea-scroll-${routeParamsId.value}-${routeSubPath.value}-${props.item.name}`;
+}
+
+onMounted(async () => {
+  getScrollPosition({ getKey, nodeRef: textareaRef });
+});
+
+onBeforeRouteUpdate(async (to, from, next) => {
+  // console.log('onBeforeRouteUpdate', { from, to });
+  // console.log('textarea Leave', {
+  //   name: props.item.name,
+  //   key: getKey(),
+  //   scrollTop: textareaRef.value?.scrollTop,
+  // });
+  setScrollPosition({ getKey, nodeRef: textareaRef });
+  delScrollPosition({ getKey, from, to });
+  next();
+});
+
+onBeforeRouteLeave(async (to, from, next) => {
+  // console.log('onBeforeRouteLeave', { from, to });
+  setScrollPosition({ getKey, nodeRef: textareaRef });
+  delScrollPosition({ getKey, from, to });
+  next();
+});
 </script>
 
 <style lang="scss" scoped></style>

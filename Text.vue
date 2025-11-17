@@ -1,5 +1,5 @@
 <template>
-  <div class="text gicons" :class="typeStyle" :title="`${title}`">
+  <div class="text gicons" :class="typeStyle" :title="`${title}`" v-debounce-click:[timeout]>
     <span v-if="icon">{{ icon }}</span>
     <div v-if="!useHtml && text" class="value">
       {{ text }}
@@ -26,6 +26,8 @@ interface Props {
   text?: string | number | object;
   /** 右圖標 */
   iconR?: string;
+  /** 防止連點時間，單位毫秒 */
+  timeout?: number;
 }
 
 withDefaults(defineProps<Props>(), {
@@ -33,6 +35,7 @@ withDefaults(defineProps<Props>(), {
   icon: '',
   text: '',
   iconR: '',
+  timeout: 300,
 });
 </script>
 
@@ -57,14 +60,17 @@ withDefaults(defineProps<Props>(), {
       top: 1px;
     }
   }
+  // 標題風格
   &.title-style {
     font-size: 18px;
     font-weight: bold;
     line-height: 1;
   }
+  // 圖標風格
   &.icon-style {
     justify-content: flex-start;
   }
+  // 連結風格
   &.link-style {
     cursor: pointer;
     color: var(--color-secondary);
@@ -72,6 +78,7 @@ withDefaults(defineProps<Props>(), {
       text-decoration: underline;
     }
   }
+  // 圓角風格 & 輸入框風格
   &.round-style,
   &.input-style {
     min-height: var(--box-height);
@@ -105,6 +112,7 @@ withDefaults(defineProps<Props>(), {
       @include gray-style;
     }
   }
+  // 輸入框風格
   &.input-style {
     width: 100%;
     justify-content: flex-start;

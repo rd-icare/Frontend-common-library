@@ -219,6 +219,10 @@ onMounted(() => {
         &:last-child {
           flex: auto;
         }
+        :deep(.text) {
+          position: relative;
+          top: 1px;
+        }
       }
     }
   }

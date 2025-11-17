@@ -106,7 +106,7 @@
           </div>
           <div class="text">/ {{ storeParams.totalPage }} 頁</div>
         </div>
-        <div class="input-box">
+        <div v-if="!hideShowNum" class="input-box">
           <Select
             :item="{
               type: 'select',
@@ -151,6 +151,8 @@ interface Props {
   hidePageNum?: boolean;
   /** 隱藏頁碼數選項 */
   hidePageSelectNum?: boolean;
+  /** 隱藏每頁顯示筆數選項 */
+  hideShowNum?: boolean;
   /** .table-main 最小高度 */
   minHeight?: number;
 }
@@ -167,6 +169,7 @@ const props = withDefaults(defineProps<Props>(), {
   hideControl: false,
   hidePageNum: false,
   hidePageSelectNum: false,
+  hideShowNum: false,
 });
 
 const emit = defineEmits(['afterEnter', 'afterLeave']);

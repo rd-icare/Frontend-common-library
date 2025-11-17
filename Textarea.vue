@@ -12,6 +12,7 @@
     <label v-if="item.label && item.hideLabel !== true" :for="vueId ?? item.id ?? item.name" :class="[item.labelClass]">
       {{ item.label }}
       <div v-if="item.need" class="form-required"></div>
+      <component v-if="item.labelComponent" :is="item.labelComponent" class="ms-auto" :item="item" />
     </label>
     <div class="element">
       <textarea

@@ -107,6 +107,10 @@ withDefaults(defineProps<Props>(), {
     &.color-blue-mode {
       @include blue-style;
     }
+    // 棕色模式
+    &.color-brown-mode {
+      @include brown-style;
+    }
     // 灰色模式
     &.color-gray-mode {
       @include gray-style;

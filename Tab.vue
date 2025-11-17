@@ -131,7 +131,6 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .tab-box {
-  overflow: hidden;
   position: relative;
   display: flex;
   flex-direction: column;

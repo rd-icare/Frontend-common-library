@@ -99,6 +99,14 @@ withDefaults(defineProps<Props>(), {
     &.color-red-mode {
       @include red-style;
     }
+    // 橘色模式
+    &.color-orange-mode {
+      @include orange-style;
+    }
+    // 棕色模式
+    &.color-brown-mode {
+      @include brown-style;
+    }
     // 綠色模式
     &.color-green-mode {
       @include green-style;
@@ -106,10 +114,6 @@ withDefaults(defineProps<Props>(), {
     // 藍色模式
     &.color-blue-mode {
       @include blue-style;
-    }
-    // 棕色模式
-    &.color-brown-mode {
-      @include brown-style;
     }
     // 灰色模式
     &.color-gray-mode {

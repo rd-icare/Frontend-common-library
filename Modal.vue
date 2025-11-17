@@ -30,16 +30,19 @@
       <div v-if="backdrop && !draggable && !optionsMode" class="backdrop" @click="modalOpen = backdropDisabled"></div>
       <div
         class="content"
-        :style="{
-          width: maxWidth && draggable ? `${maxWidth}px` : '',
-          maxWidth: maxWidth && !draggable ? `${maxWidth}px` : '',
-        }">
+        :class="[type ? `${type}-style` : '']"
+        :style="[
+          {
+            width: maxWidth && draggable ? `${maxWidth}px` : '',
+            maxWidth: maxWidth && !draggable ? `${maxWidth}px` : '',
+          },
+        ]">
         <div v-if="showTop" class="top" v-drag-move="draggable ? '.content' : false">
           <Text
             v-if="subTitle || subTitleType[type]"
             class="sub-title whitespace-nowrap pr-32"
             :text="subTitle || subTitleType[type]" />
-          <Text v-if="title" class="title font-small-1 font-bold whitespace-nowrap" :text="title" />
+          <Text v-if="title" class="title font-small-1 whitespace-nowrap" :text="title" />
           <Button
             class="close-btn icon-style no-border"
             icon="close"
@@ -70,7 +73,14 @@
               :class="cancelBtnClass"
               :text="cancelBtnText || $t('Util.cancel')"
               @click="(modalOpen = false), onConfirm(false)" />
-            <Button v-if="id !== 'confirm-modal'" class="c-primary" type="submit" :text="$t('Util.submit')" />
+            <Button
+              v-if="id !== 'confirm-modal'"
+              :class="{
+                'c-green': type === 'add',
+                'c-orange': type === 'edit',
+              }"
+              type="submit"
+              :text="$t('Util.submit')" />
             <Button
               v-else
               :class="confirmBtnClass"
@@ -78,7 +88,9 @@
               @click="(modalOpen = false), onConfirm(true)" />
             <Button
               v-if="id === 'confirm-modal' && showSaveBtn"
-              class="c-primary"
+              :class="{
+                'c-red': type === 'warn',
+              }"
               :text="$t('Util.save')"
               @click="(modalOpen = false), onSave(true)" />
           </template>
@@ -156,6 +168,7 @@ const subTitleType = ref<Record<string, string>>({
   add: t('Util.add'),
   edit: t('Util.edit'),
   delete: t('Util.delete'),
+  warn: t('Util.warn'),
 });
 
 /** 彈出視窗 main 的高度 */
@@ -407,7 +420,7 @@ onUnmounted(() => {
     pointer-events: auto;
     position: relative;
     width: 100%;
-    background-color: var(--white);
+    background-color: transparent;
     border: var(--border-1);
     border-radius: var(--border-radius-1);
     box-shadow: var(--box-shadow-2);
@@ -439,6 +452,7 @@ onUnmounted(() => {
       position: relative;
       display: flex;
       flex-direction: column;
+      background-color: var(--white);
       .modal-main {
         flex-grow: 1;
         overflow: auto;
@@ -462,7 +476,44 @@ onUnmounted(() => {
       padding: 0 12px;
       border-radius: 0 0 var(--border-radius-1) var(--border-radius-1);
       border-top: var(--border-2);
-      background-color: transparent;
+      background-color: var(--white);
+    }
+    &.view-style,
+    &.add-style,
+    &.edit-style,
+    &.delete-style,
+    &.warn-style {
+      border: var(--border-5);
+      > .top {
+        border-bottom: var(--border-5);
+        color: var(--white);
+      }
+    }
+    &.view-style {
+      > .top {
+        background-color: var(--color-blue);
+      }
+    }
+    &.add-style {
+      > .top {
+        background-color: var(--color-green);
+      }
+    }
+    &.edit-style {
+      > .top {
+        background-color: var(--color-orange);
+      }
+      :deep(.form-frame-style-2) {
+        &.is-focused {
+          border: 1px solid var(--color-orange-border);
+          background-color: var(--color-orange-focus);
+        }
+      }
+    }
+    &.warn-style {
+      > .top {
+        background-color: var(--color-red);
+      }
     }
   }
 }

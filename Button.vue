@@ -94,23 +94,52 @@ button {
         color: var(--color-primary);
       }
     }
-    // 主色
-    &.c-primary {
-      border: 1px solid var(--color-primary);
+    &.c-primary,
+    &.c-secondary,
+    &.c-red,
+    &.c-orange,
+    &.c-brown,
+    &.c-green,
+    &.c-blue {
       color: var(--white);
-      background-color: var(--color-primary);
       &:hover {
         filter: brightness(1.1);
       }
     }
+    // 主色
+    &.c-primary {
+      border: 1px solid var(--color-primary);
+      background-color: var(--color-primary);
+    }
     // 副色
     &.c-secondary {
       border: 1px solid var(--color-secondary);
-      color: var(--white);
       background-color: var(--color-secondary);
-      &:hover {
-        filter: brightness(1.1);
-      }
+    }
+    // 紅色
+    &.c-red {
+      border: 1px solid var(--color-red);
+      background-color: var(--color-red);
+    }
+    // 橘色
+    &.c-orange {
+      border: 1px solid var(--color-orange);
+      background-color: var(--color-orange);
+    }
+    // 棕色
+    &.c-brown {
+      border: 1px solid var(--color-brown);
+      background-color: var(--color-brown);
+    }
+    // 綠色
+    &.c-green {
+      border: 1px solid var(--color-green);
+      background-color: var(--color-green);
+    }
+    // 藍色
+    &.c-blue {
+      border: 1px solid var(--color-blue);
+      background-color: var(--color-blue);
     }
     // 無邊框
     &.no-border {
@@ -149,6 +178,14 @@ button {
     &.color-red-mode {
       @include red-style;
     }
+    // 橘色模式
+    &.color-orange-mode {
+      @include orange-style;
+    }
+    // 棕色模式
+    &.color-brown-mode {
+      @include brown-style;
+    }
     // 綠色模式
     &.color-green-mode {
       @include green-style;
@@ -156,10 +193,6 @@ button {
     // 藍色模式
     &.color-blue-mode {
       @include blue-style;
-    }
-    // 棕色模式
-    &.color-brown-mode {
-      @include brown-style;
     }
     // 灰色模式
     &.color-gray-mode {

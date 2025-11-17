@@ -113,7 +113,7 @@ async function handleModal({ key, payload }: { key: string; payload: ModalProps 
     flex: 0 0 calc(v-bind(itemHeight) * 1px);
     display: flex;
     align-items: center;
-    border: 1px solid transparent;
+    border: var(--border-5);
     border-bottom: var(--border-2);
     transition: var(--transition-fast);
     &:last-child {

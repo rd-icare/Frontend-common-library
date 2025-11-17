@@ -152,6 +152,7 @@ const loading = ref<boolean>(props.modalLoading);
 
 /** 副標題類型文字顯示 */
 const subTitleType = ref<Record<string, string>>({
+  view: t('Util.view'),
   add: t('Util.add'),
   edit: t('Util.edit'),
   delete: t('Util.delete'),

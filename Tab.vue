@@ -1,6 +1,6 @@
 <template>
   <div class="tab-box">
-    <div class="top" :class="[topClass, { 'z-1': useBackground }]">
+    <div class="tab-box-top" :class="[topClass, { 'z-1': useBackground }]">
       <div class="items" :class="{ 'bg-white': useBackground }">
         <TransitionGroup name="tab">
           <div
@@ -134,7 +134,7 @@ onMounted(() => {
   position: relative;
   display: flex;
   flex-direction: column;
-  > .top {
+  > .tab-box-top {
     pointer-events: none;
     position: relative;
     flex: 0 0 36px;
@@ -153,7 +153,7 @@ onMounted(() => {
       align-items: center;
       margin-top: 0px;
       margin-bottom: -1px;
-      padding: 0 12px 2px 12px;
+      padding: 0 12px;
       border: var(--border-1);
       border-radius: var(--border-radius-2) var(--border-radius-2) 0 0;
       color: var(--placeholder-text);
@@ -198,7 +198,7 @@ onMounted(() => {
     }
   }
   &.small-style {
-    > .top {
+    > .tab-box-top {
       /* flex: 0 0 var(--box-height); */
       .item {
         flex: 0 0 100px;
@@ -207,8 +207,7 @@ onMounted(() => {
     }
   }
   &.adaptive-style {
-    > .top {
-      flex: 0 0 calc(var(--box-height) - 4px);
+    > .tab-box-top {
       .item {
         flex: 0 0 auto;
         color: var(--placeholder-text);
@@ -218,10 +217,6 @@ onMounted(() => {
         }
         &:last-child {
           flex: auto;
-        }
-        :deep(.text) {
-          position: relative;
-          top: 1px;
         }
       }
     }

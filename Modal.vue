@@ -483,23 +483,26 @@ onUnmounted(() => {
     &.edit-style,
     &.delete-style,
     &.warn-style {
-      border: var(--border-5);
+      border: none;
       > .top {
         border-bottom: var(--border-5);
         color: var(--white);
       }
     }
     &.view-style {
+      border: 1px solid var(--color-blue-border);
       > .top {
         background-color: var(--color-blue);
       }
     }
     &.add-style {
+      border: 1px solid var(--color-green-border);
       > .top {
         background-color: var(--color-green);
       }
     }
     &.edit-style {
+      border: 1px solid var(--color-orange-border);
       > .top {
         background-color: var(--color-orange);
       }
@@ -511,6 +514,7 @@ onUnmounted(() => {
       }
     }
     &.warn-style {
+      border: 1px solid var(--color-red-border);
       > .top {
         background-color: var(--color-red);
       }

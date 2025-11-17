@@ -120,7 +120,7 @@ withDefaults(defineProps<Props>(), {
   &.input-style {
     width: 100%;
     justify-content: flex-start;
-    line-height: 1.25;
+    line-height: 1.3;
   }
 }
 </style>

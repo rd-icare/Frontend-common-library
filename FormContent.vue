@@ -62,8 +62,6 @@ const componentMap: Record<string, any> = {
   select: Select,
   textarea: Textarea,
   label: Label,
-  array: None,
-  object: None,
 };
 
 /** 取得 key */

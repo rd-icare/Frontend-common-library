@@ -9,7 +9,7 @@
         file: item.type === 'file',
         checkbox: item.type === 'checkbox',
         radio: item.type === 'radio',
-        hidden: ['hidden'].includes(item.type),
+        hidden: ['hidden', 'array', 'object'].includes(item.type),
         checked: item.checked ?? checked,
       },
     ]"

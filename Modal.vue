@@ -89,7 +89,7 @@
             <Button
               v-if="id === 'confirm-modal' && showSaveBtn"
               :class="{
-                'c-red': type === 'warn',
+                'c-red': type === 'danger',
               }"
               :text="$t('Util.save')"
               @click="(modalOpen = false), onSave(true)" />
@@ -168,7 +168,8 @@ const subTitleType = ref<Record<string, string>>({
   add: t('Util.add'),
   edit: t('Util.edit'),
   delete: t('Util.delete'),
-  warn: t('Util.warn'),
+  warning: t('Util.warning'),
+  danger: t('Util.danger'),
 });
 
 /** 彈出視窗 main 的高度 */
@@ -482,7 +483,7 @@ onUnmounted(() => {
     &.add-style,
     &.edit-style,
     &.delete-style,
-    &.warn-style {
+    &.danger-style {
       border: none;
       > .top {
         border-bottom: var(--border-5);
@@ -513,7 +514,7 @@ onUnmounted(() => {
         }
       }
     }
-    &.warn-style {
+    &.danger-style {
       border: 1px solid var(--color-red-border);
       > .top {
         background-color: var(--color-red);

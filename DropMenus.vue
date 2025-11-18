@@ -135,7 +135,8 @@ async function handleModal({ key, payload }: { key: string; payload: ModalProps 
       padding: 0 16px 0 8px;
     }
     &.active {
-      @include active-style;
+      /* @include active-style; */
+      background-color: var(--surface);
     }
   }
 }

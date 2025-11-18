@@ -8,7 +8,6 @@ import Icon from './Icon.vue';
 import IconEye from './IconEye.vue';
 import Img from './Img.vue';
 import Input from './Input.vue';
-import InputNone from './InputNone.vue';
 import Modal from './Modal.vue';
 import NoData from './NoData.vue';
 import Select from './Select.vue';
@@ -30,7 +29,6 @@ export {
   IconEye,
   Img,
   Input,
-  InputNone,
   Modal,
   NoData,
   Select,

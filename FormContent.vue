@@ -35,7 +35,7 @@ import Select from './Select.vue';
 import Textarea from './Textarea.vue';
 import Input from './Input.vue';
 import Label from './Label.vue';
-import InputNone from './InputNone.vue';
+import None from './None.vue';
 
 // 阻止自動繼承屬性到 root (fieldset)
 defineOptions({ inheritAttrs: false });
@@ -62,7 +62,8 @@ const componentMap: Record<string, any> = {
   select: Select,
   textarea: Textarea,
   label: Label,
-  none: InputNone,
+  array: None,
+  object: None,
 };
 
 /** 取得 key */

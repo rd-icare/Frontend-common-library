@@ -13,6 +13,7 @@
         'table-main',
         {
           'thead-sticky-style': isTheadSticky,
+          'height-auto': isHeightAuto,
           'editable-style': isEditable,
           'no-page-style': hidePageBox,
           'no-data-style': !data?.length,
@@ -133,6 +134,8 @@ interface Props {
   showScroll?: boolean;
   /** 是否為表頭位置黏住  */
   isTheadSticky?: boolean;
+  /** 是否高度自動 for thead-sticky-style */
+  isHeightAuto?: boolean;
   /** 是否為可編輯模式 */
   isEditable?: boolean;
   /** body-box 滾動動畫 */
@@ -162,6 +165,7 @@ const props = withDefaults(defineProps<Props>(), {
   idSubStr: 'one',
   showScroll: true,
   isTheadSticky: true,
+  isHeightAuto: false,
   isEditable: false,
   isTransition: '',
   getDatas: async () => {},

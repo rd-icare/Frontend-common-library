@@ -86,7 +86,7 @@ withDefaults(defineProps<Props>(), {
     align-items: center;
     justify-content: center;
     gap: 2px;
-    padding: 4px 12px;
+    padding: 0px 12px;
     border-radius: var(--border-radius-1);
     .value {
       word-break: break-word;

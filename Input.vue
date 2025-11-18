@@ -24,7 +24,14 @@
       v-if="['checkbox', 'radio'].includes(item.type ?? '') && item.hideShape"
       class="icon-box gicons"
       :for="vueId">
-      <span>{{
+      <span v-if="item.useRadioIcon">{{
+        item.disabled
+          ? 'radio_button_unchecked'
+          : item.checked ?? checked
+          ? 'radio_button_checked'
+          : 'radio_button_unchecked'
+      }}</span>
+      <span v-else>{{
         item.disabled ? 'indeterminate_check_box' : item.checked ?? checked ? 'check_box' : 'check_box_outline_blank'
       }}</span>
     </label>
@@ -279,6 +286,14 @@ watch(
     // });
   }
 );
+
+// onMounted(() => {
+//   console.log(`Input.vue mounted: ${props.item.name}`, {
+//     item: props.item,
+//     value: value.value,
+//     checked: checked?.value,
+//   });
+// });
 </script>
 
 <style lang="scss" scoped></style>

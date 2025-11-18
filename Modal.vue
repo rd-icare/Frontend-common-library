@@ -47,7 +47,7 @@
             class="close-btn icon-style no-border"
             icon="close"
             :title="$t('Util.close')"
-            @click="(modalOpen = false), onConfirm(false)" />
+            @click="closeFn({ confirm: false })" />
         </div>
         <!-- 插槽 -->
         <!-- <template v-if="!component">
@@ -62,7 +62,7 @@
           v-Component
           class="center"
           :is="component"
-          :="{ item: props }"
+          :="{ item: props, closeFn }"
           @request-after-leave="requestAfterLeave"
           v-model:modalOpen="modalOpen"
           v-model:modalLoading="loading"
@@ -72,7 +72,7 @@
             <Button
               :class="cancelBtnClass"
               :text="cancelBtnText || $t('Util.cancel')"
-              @click="(modalOpen = false), onConfirm(false)" />
+              @click="closeFn({ confirm: false })" />
             <Button
               v-if="id !== 'confirm-modal'"
               :class="{
@@ -85,21 +85,21 @@
               v-else
               :class="confirmBtnClass"
               :text="confirmBtnText || $t('Util.leave')"
-              @click="(modalOpen = false), onConfirm(true)" />
+              @click="closeFn({ confirm: true })" />
             <Button
               v-if="id === 'confirm-modal' && showSaveBtn"
               :class="{
                 'c-red': type === 'danger',
               }"
               :text="$t('Util.save')"
-              @click="(modalOpen = false), onSave(true)" />
+              @click="closeFn({ save: true })" />
           </template>
           <template #loading>
             <CurrentLoading :show="loading" />
           </template>
         </component>
         <div v-if="showBottom" class="bottom">
-          <Button :text="$t('Util.close')" @click="modalOpen = false" />
+          <Button :text="$t('Util.close')" @click="closeFn()" />
         </div>
         <!-- <CurrentLoading :show="loading" /> -->
       </div>
@@ -169,7 +169,7 @@ const subTitleType = ref<Record<string, string>>({
   edit: t('Util.edit'),
   delete: t('Util.delete'),
   warning: t('Util.warning'),
-  danger: t('Util.danger'),
+  // danger: t('Util.danger'),
 });
 
 /** 彈出視窗 main 的高度 */
@@ -182,6 +182,26 @@ const itemHeight = ref(`${props.itemHeight * props.index}px` || '0px');
 
 /** 是否為中間彈出視窗 */
 const isCenterModal = props.backdrop && !props.draggable && !props.optionsMode;
+
+/** 關閉彈出視窗 */
+async function closeFn({ confirm, save }: { confirm?: boolean; save?: boolean } = {}) {
+  // 檢查表單元素是否被編輯
+  const bool = await checkVeeForm();
+
+  if (!bool) {
+    return;
+  }
+
+  modalOpen.value = false;
+
+  if (confirm !== undefined) {
+    props.onConfirm(confirm);
+  }
+
+  if (save !== undefined) {
+    props.onSave(save);
+  }
+}
 
 /** 開啟前 */
 function beforeEnter() {
@@ -265,21 +285,29 @@ async function blur(e: FocusEvent) {
   // 如果 className 有自身 ID 的字串 => 不處理
   if (relatedTarget?.className.includes(props.id)) return;
 
+  // if (veeformModalRef.value?.name === 'edit-form' && veeformModalRef.value?.meta.dirty) {
+  //   // 檢查 modals 內的 id 是否有 confirm-modal
+  //   if (Object.keys(modals.value || {}).some((key) => modals.value[key].id === 'confirm-modal')) return;
+
+  //   const bool = await createConfirm({
+  //     subComponentText: '尚未送出表單，是否離開？',
+  //     confirmBtnClass: 'c-primary',
+  //   });
+
+  //   if (!bool) {
+  //     // focus 到當前彈出視窗
+  //     target?.focus();
+  //     return;
+  //   }
+  // }
+
   // 檢查表單元素是否被編輯
-  if (veeformModalRef.value?.meta.dirty) {
-    // 檢查 modals 內的 id 是否有 confirm-modal
-    if (Object.keys(modals.value || {}).some((key) => modals.value[key].id === 'confirm-modal')) return;
+  const bool = await checkVeeForm();
 
-    const bool = await createConfirm({
-      subComponentText: '尚未送出表單，是否離開？',
-      confirmBtnClass: 'c-primary',
-    });
-
-    if (!bool) {
-      // focus 到當前彈出視窗
-      target?.focus();
-      return;
-    }
+  if (!bool) {
+    // focus 到當前彈出視窗
+    target?.focus();
+    return;
   }
 
   // 關閉所有彈出視窗
@@ -288,6 +316,28 @@ async function blur(e: FocusEvent) {
       modals.value[key].modalOpen = false;
     }
   });
+}
+
+/** 檢查表單元素是否被編輯 */
+async function checkVeeForm() {
+  // console.log('checkVeeForm', {
+  //   id: props.id,
+  //   veeformModalRef: veeformModalRef.value,
+  // });
+
+  if (props.id === 'confirm-modal') return true;
+
+  if (veeformModalRef.value?.name === 'edit-form' && veeformModalRef.value?.meta.dirty) {
+    // 檢查 modals 內的 id 是否有 confirm-modal
+    if (Object.keys(modals.value || {}).some((key) => modals.value[key].id === 'confirm-modal')) return;
+
+    return await createConfirm({
+      subComponentText: '尚未送出，是否離開？',
+      confirmBtnClass: 'c-primary',
+    });
+  }
+
+  return true;
 }
 
 /** 分享變量與方法，在 useModalManager.ts 內 return 也要同步  */

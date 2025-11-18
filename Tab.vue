@@ -168,7 +168,7 @@ onMounted(() => {
       &.active {
         /* pointer-events: none; */
         cursor: default;
-        font-weight: bold;
+        font-weight: var(--font-bold);
         border-bottom: 1px solid var(--white);
         color: var(--main-text);
         background-color: var(--white);

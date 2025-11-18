@@ -63,7 +63,7 @@ withDefaults(defineProps<Props>(), {
   // 標題風格
   &.title-style {
     font-size: 18px;
-    font-weight: bold;
+    font-weight: var(--font-bold);
     line-height: 1;
   }
   // 圖標風格

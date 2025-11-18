@@ -38,7 +38,7 @@ const tableItem = defineModel<TableItem[]>('tableItem', {
   default: () => [],
 });
 
-/* 根據勾選同步更新 tableItem → hidden 狀態 */
+/* 根據勾選同步更新 tableItem => hidden 狀態 */
 watch(checkedValue, async (newVal, oldVal) => {
   // console.log(newVal);
   await updateTableItem({
@@ -48,7 +48,7 @@ watch(checkedValue, async (newVal, oldVal) => {
   });
 });
 
-/* 初始化時同步 checkedValue 與 tableItem → hidden 狀態 */
+/* 初始化時同步 checkedValue 與 tableItem => hidden 狀態 */
 onMounted(() => {
   // 先嘗試取出使用者的記錄
   const saved = sessionStorage.getItem(String(props.item.id));

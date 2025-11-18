@@ -242,7 +242,7 @@ function focus(e: any) {
 async function blur(e: FocusEvent) {
   // console.log(`${props.id} blur`, e);
 
-  // 如果分頁不在前景 → 不處理
+  // 如果分頁不在前景 => 不處理
   if (document.hidden || !document.hasFocus()) return;
 
   const target = e.target as HTMLElement | null;
@@ -255,14 +255,14 @@ async function blur(e: FocusEvent) {
   //   modals: modals.value,
   // });
 
-  // 如果鄰近彈出視窗的 id 有當前 id 的字串 → 不處理
+  // 如果鄰近彈出視窗的 id 有當前 id 的字串 => 不處理
   const targetModal = relatedTarget?.closest(`#${props.id}`);
   if (targetModal) return;
 
-  // 如果 className 有選項模式的字串 → 不處理
+  // 如果 className 有選項模式的字串 => 不處理
   if (relatedTarget?.className.includes('options-mode')) return;
 
-  // 如果 className 有自身 ID 的字串 → 不處理
+  // 如果 className 有自身 ID 的字串 => 不處理
   if (relatedTarget?.className.includes(props.id)) return;
 
   // 檢查表單元素是否被編輯

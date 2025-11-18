@@ -56,7 +56,7 @@ const props = withDefaults(defineProps<FormContentProps>(), {
 const inputBoxRef = ref<HTMLElement | null>(null);
 
 /**
- * type → 元件對應表
+ * type => 元件對應表
  */
 const componentMap: Record<string, any> = {
   select: Select,

@@ -11,11 +11,11 @@
         ...style,
       }">
       <div v-if="theadFormContent" class="thead-form-content">
-        <Text class="font-bold" :class="{ 'pr-16': sortable }" :title="label" :text="label" />
+        <Text class="font-[600]" :class="{ 'pr-16': sortable }" :title="label" :text="label" />
         <FormContent :formContent="[{ name, ...theadFormContent }]" :fn />
       </div>
       <component v-else-if="theadComponent" :is="theadComponent" :name :item :index />
-      <Text v-else class="font-bold" :class="{ 'pr-16': sortable }" :title="label" :text="label" />
+      <Text v-else class="font-[600]" :class="{ 'pr-16': sortable }" :title="label" :text="label" />
       <!-- 排序箭頭 -->
       <SortArrow
         v-if="sortable ?? true"

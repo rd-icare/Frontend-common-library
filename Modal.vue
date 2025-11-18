@@ -42,7 +42,7 @@
             v-if="subTitle || subTitleType[type]"
             class="sub-title whitespace-nowrap pr-32"
             :text="subTitle || subTitleType[type]" />
-          <Text v-if="title" class="title font-small-1 whitespace-nowrap" :text="title" />
+          <Text v-if="title" class="title font-small-1 font-[600] whitespace-nowrap" :text="title" />
           <Button
             class="close-btn icon-style no-border"
             icon="close"

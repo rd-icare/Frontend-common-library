@@ -308,6 +308,9 @@ async function blur(e: FocusEvent) {
     // focus 到當前彈出視窗
     target?.focus();
     return;
+  } else {
+    await hideOptionsModal();
+    veeformModalRef.value?.resetForm();
   }
 
   // 關閉所有彈出視窗

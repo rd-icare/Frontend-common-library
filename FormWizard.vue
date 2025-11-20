@@ -5,7 +5,6 @@
     <!-- 插槽 表單按鈕 -->
     <slot name="button" :handleReset="handleReset" :resetForm="resetForm" />
     <slot />
-    <FormValues v-if="$global.isTest" :values="values" :errors="errors" :meta="meta" />
   </form>
 </template>
 

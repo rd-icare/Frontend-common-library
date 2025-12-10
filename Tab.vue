@@ -11,8 +11,9 @@
               {
                 active: item.id
                   ? item.id.toString().trim() == routeParamsId.toString().trim()
-                  : item.subPath === routeSubPath || (useActiveIndex && activeIndex === index),
-                '!pr-24': item.id,
+                  : item.subPath === routeSubPath ||
+                    (useActiveIndex && activeIndex === index),
+                '!pr-6': item.id,
               },
             ]"
             :title="item.text"
@@ -26,7 +27,8 @@
                 index,
               }),
                 (activeIndex = index)
-            ">
+            "
+          >
             <Text class="pointer-events-none" :text="item.text" />
             <Button
               v-if="item.id"
@@ -42,7 +44,8 @@
                   paginName: item.paginName,
                   index,
                 })
-              " />
+              "
+            />
           </div>
         </TransitionGroup>
       </div>

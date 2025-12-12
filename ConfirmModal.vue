@@ -3,16 +3,23 @@
     <div class="modal-main">
       <component v-if="item.subComponent" :is="item.subComponent" />
       <div v-else-if="item.subComponentIcon || item.subComponentText">
-        <Text typeStyle="icon-style" :icon="item.subComponentIcon" :text="item.subComponentText" />
+        <Text
+          typeStyle="icon-style"
+          :icon="item.subComponentIcon"
+          :text="item.subComponentText"
+        />
       </div>
 
       <!-- 離開頁面事項 -->
-      <div v-else class="flex flex-col items-center gap-12">
+      <div v-else class="flex flex-col items-center gap-3">
         <div class="flex items-center">
           <div class="shrink-0">變更內容：</div>
           <Text
             typeStyle="round-style color-secondary-mode"
-            :text="`${typeSideMenu} / ${subPath}${customPaginName ? ` / ${customPaginName}` : ''}`" />
+            :text="`${typeSideMenu} / ${subPath}${
+              customPaginName ? ` / ${customPaginName}` : ''
+            }`"
+          />
         </div>
         <Text text="離開前是否儲存本頁資料所做變更？" />
       </div>
@@ -37,7 +44,8 @@ const modalOpen = defineModel<boolean>('modalOpen', {
   default: true,
 });
 
-const { path, typeSideMenu, subPath, customPaginName } = props.item?.breadcrumbs ?? {};
+const { path, typeSideMenu, subPath, customPaginName } =
+  props.item?.breadcrumbs ?? {};
 
 /** 處理點擊事件 */
 function handleClick() {

@@ -2,20 +2,50 @@
   <!-- thead 表頭 -->
   <template v-if="divType === 'thead'">
     <div
-      v-for="({ name, label, minWidth, style, hidden, sortable, theadComponent, theadFormContent }, idx) in tableItem"
+      v-for="(
+        {
+          name,
+          label,
+          minWidth,
+          style,
+          hidden,
+          sortable,
+          theadComponent,
+          theadFormContent,
+        },
+        idx
+      ) in tableItem"
       :key="`thead-${name || idx}`"
       v-show="!hidden || name === 'sn'"
       :class="['th', `column-${idx + 1}`]"
       :style="{
         minWidth: minWidth ? minWidth + 'px' : '',
         ...style,
-      }">
+      }"
+    >
       <div v-if="theadFormContent" class="thead-form-content">
-        <Text class="font-[600]" :class="{ 'pr-16': sortable }" :title="label" :text="label" />
+        <Text
+          class="font-[600]"
+          :class="{ 'pr-4': sortable }"
+          :title="label"
+          :text="label"
+        />
         <FormContent :formContent="[{ name, ...theadFormContent }]" :fn />
       </div>
-      <component v-else-if="theadComponent" :is="theadComponent" :name :item :index />
-      <Text v-else class="font-[600]" :class="{ 'pr-16': sortable }" :title="label" :text="label" />
+      <component
+        v-else-if="theadComponent"
+        :is="theadComponent"
+        :name
+        :item
+        :index
+      />
+      <Text
+        v-else
+        class="font-[600]"
+        :class="{ 'pr-4': sortable }"
+        :title="label"
+        :text="label"
+      />
       <!-- 排序箭頭 -->
       <SortArrow
         v-if="sortable ?? true"
@@ -25,25 +55,30 @@
         :sortState="idx === activeIndex ? currSortState : false"
         :title="label"
         @toggle="handleSort"
-        @click="activeIndex = idx" />
+        @click="activeIndex = idx"
+      />
     </div>
   </template>
   <!-- tbody 表身 -->
   <template v-else-if="divType === 'tbody'">
     <div
-      v-for="({ name, minWidth, style, hidden, dayjsFormat, component }, idx) in tableItem"
+      v-for="(
+        { name, minWidth, style, hidden, dayjsFormat, component }, idx
+      ) in tableItem"
       :key="`tbody-${name || idx}`"
       v-show="!hidden || name === 'sn'"
       :class="['td', `column-${idx + 1}`]"
       :style="{
         minWidth: minWidth ? minWidth + 'px' : '',
         ...style,
-      }">
+      }"
+    >
       <component v-if="component" :is="component" :name :item :index :slotCtx />
       <Text
         v-else
         :title="valueFormat(name, dayjsFormat, item[name])"
-        :text="valueFormat(name, dayjsFormat, item[name])" />
+        :text="valueFormat(name, dayjsFormat, item[name])"
+      />
     </div>
   </template>
 </template>

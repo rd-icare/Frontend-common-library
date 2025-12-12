@@ -1,11 +1,12 @@
 <template>
-  <div class="relative flex justify-end mb-4" :class="`modal-${modalKey}`">
+  <div class="relative flex justify-end mb-1" :class="`modal-${modalKey}`">
     <Button
       :class="modalKey"
       :typeStyle="'select-style'"
       :text="text"
       @clickFn="selectClick"
-      v-model:selectState="selectState" />
+      v-model:selectState="selectState"
+    />
   </div>
 </template>
 
@@ -55,7 +56,13 @@ function selectClick() {
 }
 
 /** 處理彈出視窗 */
-async function handleModal({ key, payload }: { key: string; payload: ModalProps }) {
+async function handleModal({
+  key,
+  payload,
+}: {
+  key: string;
+  payload: ModalProps;
+}) {
   // 當前啟用 => 關閉
   if (modals.value[key]) {
     modals.value[key].close();

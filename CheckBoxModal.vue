@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="modal-main">
-      <div class="input-box !gap-4">
+      <div class="input-box !gap-1">
         <template v-for="(item, index) in tableItem" :key="item.name">
           <Input
             v-if="item.isFieldSetting !== false"
@@ -13,7 +13,8 @@
               modelValue: item.name,
               controlled: false,
             }"
-            v-model:modelValue="checkedValue" />
+            v-model:modelValue="checkedValue"
+          />
         </template>
       </div>
     </div>
